@@ -1,4 +1,4 @@
-package com.app.menex.security;
+package com.app.menex.security.config;
 
 import com.app.menex.user.User;
 import lombok.RequiredArgsConstructor;
