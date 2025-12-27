@@ -34,7 +34,6 @@ public class Menu {
 
     @OneToMany(mappedBy = "menu", fetch = FetchType.LAZY,
     cascade = CascadeType.ALL, orphanRemoval = true)
-    @OrderBy("position ASC")
     private List<Category> categories = new ArrayList<>();
 
     public void addCategory(Category category) {
@@ -48,13 +47,17 @@ public class Menu {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) return true;
+        if (!(o instanceof Menu)) return false;
         Menu menu = (Menu) o;
-        return Objects.equals(id, menu.id);
+
+        // If ID is null, fallback to object identity
+        if (id == null || menu.id == null) return false;
+        return id.equals(menu.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return id != null ? id.hashCode() : System.identityHashCode(this);
     }
 }

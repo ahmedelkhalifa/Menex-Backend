@@ -1,0 +1,12 @@
+package com.app.menex.restaurant.mappers;
+
+import com.app.menex.restaurant.dtos.ThemeDto;
+import com.app.menex.theme.Theme;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface ThemeMapper {
+
+    ThemeDto toDto(Theme theme);
+}

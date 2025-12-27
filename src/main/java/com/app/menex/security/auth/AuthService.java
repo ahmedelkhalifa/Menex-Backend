@@ -24,7 +24,7 @@ public class AuthService {
 
     public LoginResponse login(String email, String password) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(email, password)
+                new UsernamePasswordAuthenticationToken(email.toLowerCase(), password)
         );
         AppUserDetails userDetails = (AppUserDetails) authentication.getPrincipal();
         String token = jwtService.generateToken(userDetails.getUsername());
@@ -36,7 +36,7 @@ public class AuthService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid role"));
         LoginResponse response = LoginResponse.builder()
                 .token(token)
-                .email(userDetails.getUsername())
+                .email(userDetails.getUsername().toLowerCase())
                 .role(role)
                 .build();
         return response;

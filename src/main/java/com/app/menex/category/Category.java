@@ -25,15 +25,12 @@ public class Category {
     @Column(nullable = false)
     private String name;
 
-    private Integer position;
-
     @ManyToOne
     @JoinColumn(name = "menu_id", nullable = false)
     private Menu menu;
 
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY,
     cascade = CascadeType.ALL, orphanRemoval = true)
-    @OrderBy("position ASC")
     private List<MenuItem>  menuItems = new ArrayList<>();
 
     public void addMenuItem(MenuItem menuItem) {

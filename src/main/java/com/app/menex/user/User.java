@@ -31,7 +31,8 @@ public class User {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY,
+    cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Restaurant> restaurants = new HashSet<>();
 
     @PrePersist
