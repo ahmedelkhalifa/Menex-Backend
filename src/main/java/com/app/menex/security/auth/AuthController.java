@@ -1,14 +1,14 @@
 package com.app.menex.security.auth;
 
+import com.app.menex.user.User;
+import com.app.menex.user.dtos.UserDto;
+import com.app.menex.user.mappers.UserMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthService authService;
+    private final UserMapper userMapper;
 
    @PostMapping("/login")
    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
@@ -25,10 +26,18 @@ public class AuthController {
 
    @PostMapping("/register")
    @PreAuthorize("hasRole('SUPER_ADMIN')")
-    public ResponseEntity<RegisterResponse> register(@Valid @RequestBody RegisterRequest request) {
-        RegisterResponse response = authService.register(request.getEmail(),
+    public ResponseEntity<UserDto> register(@Valid @RequestBody RegisterRequest request) {
+        User createdUser = authService.register(
+                request.getFirstname(),
+                request.getLastname(),
+                request.getEmail(),
                 request.getPassword(),
                 request.getRole());
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return new ResponseEntity<>(userMapper.toDto(createdUser), HttpStatus.CREATED);
+   }
+
+   @GetMapping("/validate")
+   public String  validate() {
+       return "valid";
    }
 }

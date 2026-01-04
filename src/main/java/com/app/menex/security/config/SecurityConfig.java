@@ -42,7 +42,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(configurationSource ->
                 {
                     CorsConfiguration corsConfiguration = new CorsConfiguration();
-                    corsConfiguration.addAllowedOrigin("http://localhost:5137");
+                    corsConfiguration.addAllowedOrigin("http://localhost:5173");
                     corsConfiguration.addAllowedHeader("*");
                     corsConfiguration.addAllowedMethod("*");
                     corsConfiguration.setAllowCredentials(true);
@@ -86,6 +86,8 @@ public class SecurityConfig {
                         .email("admin@menex.my")
                         .password(passwordEncoder().encode("admin123"))
                         .role(Role.SUPER_ADMIN)
+                        .firstName("admin")
+                        .lastName("admin")
                         .build();
                 userRepository.save(admin);
             }

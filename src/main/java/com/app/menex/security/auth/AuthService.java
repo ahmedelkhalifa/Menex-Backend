@@ -5,6 +5,7 @@ import com.app.menex.security.config.AppUserDetails;
 import com.app.menex.security.jwt.JwtService;
 import com.app.menex.user.User;
 import com.app.menex.user.UserRepository;
+import com.app.menex.user.dtos.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -42,23 +43,17 @@ public class AuthService {
         return response;
     }
 
-    public RegisterResponse register(String email, String password, Role role) {
+    public User register(String firstname, String lastname, String email, String password, Role role) {
         User user = userRepository.findByEmail(email).orElseGet(() -> {
             User newUser = User.builder()
-                    .email(email)
+                    .firstName(firstname.toLowerCase())
+                    .lastName(lastname.toLowerCase())
+                    .email(email.toLowerCase())
                     .password(passwordEncoder.encode(password))
                     .role(role)
                     .build();
             return userRepository.save(newUser);
         });
-        String token = jwtService.generateToken(user.getEmail());
-        RegisterResponse response = RegisterResponse.builder()
-                .email(user.getEmail())
-                .id(user.getId())
-                .role(user.getRole())
-                .createdAt(user.getCreatedAt())
-                .token(token)
-                .build();
-        return response;
+        return user;
     }
 }
