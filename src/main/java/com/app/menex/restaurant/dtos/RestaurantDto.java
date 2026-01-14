@@ -20,5 +20,7 @@ public class RestaurantDto {
     private String phone;
     private String ownerEmail;
     private Integer menusCount;
+    private Integer categoriesCount;
+    private Integer menuItemsCount;
     private ThemeDto theme;
 }

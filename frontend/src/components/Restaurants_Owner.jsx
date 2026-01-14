@@ -26,6 +26,8 @@ const Restaurants_Owner = () => {
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
   const fonts = ["poppins", "roboto", "montaserrat", "open sans", "oswald"];
   const theme = useTheme();
+  const [openUpdate, setOpenUpdate] = useState(false);
+  const [openDetails, setOpenDetails] = useState(false);
 
   const SkeletonRow = () => (
         <TableRow>
@@ -83,6 +85,92 @@ const Restaurants_Owner = () => {
     }
   }
 
+  async function handleUpdate(e) {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const formData = new FormData(); 
+      formData.append("name", name);
+      formData.append("address", address);
+      formData.append("phone", phone);
+      formData.append("primaryColor", main);
+      formData.append("secondaryColor", secondary);
+      formData.append("textPrimary", textMain);
+      formData.append("textSecondary", textSecondary);
+      formData.append("font", font);
+      if (logo) formData.append("logo", logo);
+      const response = await api.put(`/restaurant/${selectedRestaurant.id}`, formData,{
+        headers: {
+          "Content-Type": "mutlipart/form-data"
+        }
+      });
+      setRestaurants(prev => prev.map(
+        r => r.id === selectedRestaurant.id ? response.data : r
+      ));
+      Swal.fire({
+        title: "Done!",
+        text: "Your restaurant was updated successfully",
+        icon: "success",
+        showCloseButton: true,
+        background: theme.palette.background.default,
+        color: theme.palette.text.primary
+      });
+    } catch (error) {
+      console.error(error);
+      const message = error.response?.data?.message || "Some error has occurred, try again";
+      Swal.fire({
+        title: "Oops!",
+        text: message,
+        icon: "error",
+        showCloseButton: true,
+        background: theme.palette.background.default,
+        color: theme.palette.text.primary
+      });
+    } finally {
+      setLoading(false);
+      setOpenUpdate(false);
+    }
+  }
+
+  async function handleDelete(id) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!\nAll menus and menu items associated will be deleted.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: theme.palette.error.main,
+      confirmButtonText: 'Yes, delete it!',
+      background: theme.palette.background.default,
+      color: theme.palette.text.primary
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await api.delete(`/restaurant/${id}`);
+          setRestaurants(prev => prev.filter(r => r.id !== id));
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your restaurant has been deleted.",
+            icon: "success",
+            showCloseButton: true,
+            background: theme.palette.background.default,
+            color: theme.palette.text.primary
+          });
+        } catch (error) {
+          console.error(error);
+          const message = error.response?.data?.message || "Some error has occurred, try again";
+          Swal.fire({
+            title: "Oops!",
+            text: message,
+            icon: "error",
+            showCloseButton: true,
+            background: theme.palette.background.default,
+            color: theme.palette.text.primary
+          });
+        }
+      }
+    });
+  }
+
   function handleLogoChange(e) {
     const file = e.target.files[0];
     if (!file) return;
@@ -97,6 +185,7 @@ const Restaurants_Owner = () => {
 
   function handleCloseCreate() {
     setOpenCreate(false);
+    setSelectedRestaurant(null);
     setName("");
     setAddress("");
     setPhone("");
@@ -108,6 +197,21 @@ const Restaurants_Owner = () => {
     setLogo(null);
     setExceedSize(false);
   };
+
+  function handleCloseUpdate() {
+    setOpenUpdate(false);
+    setSelectedRestaurant(null);
+    setName("");
+    setAddress("");
+    setPhone("");
+    setMain("#ffffff");
+    setSecondary("#333333");
+    setTextMain("#000000");
+    setTextSecondary("#777777");
+    setFont("");
+    setLogo(null);
+    setExceedSize(false);
+  }
 
   useEffect(() => {
     async function loadRestaurants() {
@@ -204,17 +308,33 @@ const Restaurants_Owner = () => {
                         <TableCell sx={{fontWeight: 500, bgcolor: "background.default", color: "text.secondary"}}
                         align='center'>
                           <Tooltip title="Details">
-                            <IconButton onClick={() => setSelectedRestaurant(r)}>
+                            <IconButton onClick={() => {
+                              setSelectedRestaurant(r);
+                              setOpenDetails(true);
+                            }}>
                               <Info sx={{color: "text.secondary"}}/>
                             </IconButton>
                           </Tooltip>
                           <Tooltip title="Edit">
-                            <IconButton>
+                            <IconButton onClick={() => {
+                              setSelectedRestaurant(r);
+                              setOpenUpdate(true);
+                              setName(r.name);
+                              setAddress(r.address);
+                              setPhone(r.phone);
+                              setMain(r.theme.primaryColor);
+                              setSecondary(r.theme.secondaryColor);
+                              setTextMain(r.theme.textPrimary);
+                              setTextSecondary(r.theme.textSecondary);
+                              setFont(r.theme.font);
+                            }}>
                               <Edit sx={{color: "primary.dark"}}/>
                             </IconButton>
                           </Tooltip>
                           <Tooltip title="Delete">
-                            <IconButton>
+                            <IconButton onClick={() => {
+                              handleDelete(r.id);
+                            }}>
                               <Delete sx={{color: "error.main"}}/>
                             </IconButton>
                           </Tooltip>
@@ -369,8 +489,141 @@ const Restaurants_Owner = () => {
             </Box> 
           </Modal>
           <Modal
-          open={Boolean(selectedRestaurant)}
-          onClose={() => setSelectedRestaurant(null)}>
+          open={openUpdate}
+          onClose={handleCloseUpdate}>
+            <Box
+            sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: "100vh"
+          }} onClick={handleCloseUpdate}>
+              <Card
+              sx={{
+                p: 5,
+                width: {xs: '80vw', md: '1000px'},
+                maxHeight: '88vh',
+                overflowY: 'auto'
+              }} onClick={(e) => e.stopPropagation()}>
+                <Typography variant='h4' fontWeight={600} color='primary.main' textAlign={'center'}>
+                  Update Restaurant
+                </Typography>
+                <Box mt={3}>
+                  <form action="#" onSubmit={handleUpdate}>
+                    <Box textAlign={'center'}>
+                      <Stack direction={{xs: 'column', md: 'row'}} gap={{xs: 1, md: 2}}
+                      divider={
+                        <Divider flexItem sx={{borderWidth: 0.5, borderColor: "divider"}}/>
+                      } justifyContent={'space-between'} alignItems={'flex-start'}>
+                          <Box flex={1} p={3} px={{xs: 0, md: 3}}>
+                            <Typography variant='h5' textAlign={'center'}>
+                              Main info
+                            </Typography>
+                            <FormControl fullWidth sx={{mt: 2}}>
+                              <InputLabel htmlFor='name'>Name</InputLabel>
+                              <OutlinedInput id="name"
+                              label="Name" fullWidth
+                              autoComplete='off'
+                              value={name}
+                              onChange={(e) => setName(e.target.value)}
+                              required/>
+                            </FormControl>
+                            <FormControl fullWidth sx={{mt: 2}}>
+                              <InputLabel htmlFor='address'>Address</InputLabel>
+                              <OutlinedInput id="address"
+                              label="Address" fullWidth type='address'
+                              autoComplete='off'
+                              value={address}
+                              onChange={(e) => setAddress(e.target.value)}
+                              required/>
+                            </FormControl>
+                            <FormControl fullWidth sx={{mt: 2}}>
+                              <InputLabel htmlFor='phone'>Phone</InputLabel>
+                              <OutlinedInput id="phone"
+                              label="Phone" fullWidth type='tel'
+                              value={phone}
+                              autoComplete='off'
+                              onChange={(e) => setPhone(e.target.value)}
+                              inputProps={{ pattern: "[0-9+ ]*" }}
+                              required/>
+                            </FormControl>
+                            <Button variant='contained' fullWidth sx={{mt: 2, bgcolor: "secondary.main", color: "background.default"}} component="label">
+                              {logo ? logo.name : "Upload Logo (optional)"}
+                              <input type="file"
+                              hidden
+                              accept='image/*'
+                              onChange={handleLogoChange} />
+                            </Button>
+                            {exceedSize && <Alert icon={<Warning fontSize='inherit'/>} severity='error' sx={{width: '100%', mt: 2}}>
+                              Maximum size for a logo is 2MB.</Alert>}
+                          </Box>
+                          <Box flex={1} p={3} px={{xs: 0, md: 3}} sx={{width: '100%'}}>
+                            <Typography variant='h5' textAlign={'center'}>
+                              Theme
+                            </Typography>
+                            <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
+                              <InputLabel htmlFor='primary'>Primary color</InputLabel>
+                              <OutlinedInput
+                              label="Primary color"
+                              value={main}
+                              id='primary' type='color'
+                              onChange={(e) => setMain(e.target.value)}/>
+                            </FormControl>
+                            <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
+                              <InputLabel htmlFor='secondary'>Secondary color</InputLabel>
+                              <OutlinedInput
+                              label="Secondary color"
+                              value={secondary}
+                              id='secondary' type='color'
+                              onChange={(e) => setSecondary(e.target.value)}/>
+                            </FormControl>
+                            <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
+                              <InputLabel htmlFor='textPrimary'>Text primary</InputLabel>
+                              <OutlinedInput
+                              label="Text primary"
+                              value={textMain}
+                              id='textPrimary' type='color'
+                              onChange={(e) => setTextMain(e.target.value)}/>
+                            </FormControl>
+                            <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
+                              <InputLabel htmlFor='textSecondary'>Text secondary</InputLabel>
+                              <OutlinedInput
+                              label="Text secondary"
+                              value={textSecondary}
+                              id='textSecondary' type='color'
+                              onChange={(e) => setTextSecondary(e.target.value)}/>
+                            </FormControl>
+                            <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
+                              <Autocomplete
+                                disablePortal
+                                options={fonts}
+                                sx={{ width: "100%", flex:1 }}
+                                value={selectedRestaurant?.theme.font}
+                                onChange={(event, newValue) => {
+                                  setFont(newValue);
+                                }}
+                                renderInput={(params) => <TextField {...params} label="Font" />}
+                              />
+                            </FormControl>
+                          </Box>
+                      </Stack>
+                      <Button variant='contained' sx={{mt: 3, width: '50%'}} type='submit'
+                      startIcon={loading && <CircularProgress size={20}
+                      sx={{color: "background.default"}}/>}>
+                        {loading ? "Updating your restaurant..." : "Update"}
+                      </Button>
+                    </Box>
+                  </form>
+                </Box>
+              </Card>
+            </Box> 
+          </Modal>
+          <Modal
+          open={openDetails}
+          onClose={() => {
+            handleCloseUpdate();
+            setOpenDetails(false);
+          }}>
             <Box sx={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: {xs: 300, md: 800}, bgcolor: 'background.paper', boxShadow: 24, p: 4,
             maxHeight: '80vh', overflowY: 'auto', borderRadius: 2}}
             onClose={() => setSelectedRestaurant(null)}>
@@ -414,6 +667,32 @@ const Restaurants_Owner = () => {
                 </Box>
                 <Box flex={1}>
                   <Typography variant='h6' fontWeight={600} mb={1} textAlign={'center'}>
+                    Menus info:
+                  </Typography>
+                  <FormControl fullWidth sx={{mb: 2}}>
+                    <InputLabel htmlFor='menusCount'>Menus count</InputLabel>
+                    <OutlinedInput readOnly
+                    label="Menus count"
+                    value={selectedRestaurant?.menusCount}
+                    id='menusCount'/>
+                  </FormControl>
+                  <FormControl fullWidth sx={{mb: 2}}>
+                    <InputLabel htmlFor='categoriesCount'>Categories count</InputLabel>
+                    <OutlinedInput readOnly
+                    label="Categories count"
+                    value={selectedRestaurant?.categoriesCount}
+                    id='categoriesCount'/>
+                  </FormControl>
+                  <FormControl fullWidth sx={{mb: 2}}>
+                    <InputLabel htmlFor='itemsCount'>Menu items count</InputLabel>
+                    <OutlinedInput readOnly
+                    label="Menu items count"
+                    value={selectedRestaurant?.menuItemsCount}
+                    id='itemsCount'/>
+                  </FormControl>
+                </Box>
+                <Box flex={1}>
+                  <Typography variant='h6' fontWeight={600} mb={1} textAlign={'center'}>
                     Theme info:
                   </Typography>
                   <FormControl fullWidth sx={{mb: 2}}>
@@ -436,7 +715,7 @@ const Restaurants_Owner = () => {
                     <InputLabel htmlFor='textPrimary'>Text primary</InputLabel>
                     <OutlinedInput readOnly
                     label="Text primary"
-                    value={selectedRestaurant?.themetextPrimary}
+                    value={selectedRestaurant?.theme.textPrimary}
                     id='textPrimary' type='color'
                     disabled/>
                   </FormControl>

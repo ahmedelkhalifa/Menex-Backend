@@ -59,16 +59,28 @@ public class RestaurantController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RestaurantDto> updateRestaurant(@Valid @RequestBody CreateRestaurantRequest request
-    , @PathVariable Long id) {
-        Restaurant restaurant = restaurantService.updateRestaurant(id, request.getRestaurantName(),
-                request.getPrimaryColor(), request.getSecondaryColor(), request.getFont());
-        RestaurantDto restaurantDto = restaurantMapper.toDto(restaurant);
+    public ResponseEntity<RestaurantDto> updateRestaurant(
+            @RequestParam String name,
+            @RequestParam String address,
+            @RequestParam String phone,
+            @RequestParam String primaryColor,
+            @RequestParam String secondaryColor,
+            @RequestParam String textPrimary,
+            @RequestParam String textSecondary,
+            @RequestParam String font,
+            @RequestParam(required = false) MultipartFile logo,
+            @PathVariable Long id
+    ) throws IOException {
+        Restaurant updatedRestaurant = restaurantService.updateRestaurant(
+                name, address, phone, primaryColor, secondaryColor, textPrimary,
+                textSecondary, font, logo, id
+        );
+        RestaurantDto restaurantDto = restaurantMapper.toDto(updatedRestaurant);
         return new ResponseEntity<>(restaurantDto, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteRestaurant(@PathVariable Long id) throws AccessDeniedException {
+    public ResponseEntity deleteRestaurant(@PathVariable Long id) throws IOException {
         restaurantService.deleteRestaurant(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

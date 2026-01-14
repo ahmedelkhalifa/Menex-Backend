@@ -15,7 +15,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.*;
+import java.util.Comparator;
 import java.util.Set;
 
 @Service
@@ -91,40 +93,81 @@ public class RestaurantService {
     }
 
     @Transactional
-    @Modifying
-    public Restaurant updateRestaurant(Long id, String name, String primaryColor, String secondaryColor, String font) {
+    public Restaurant updateRestaurant(String name,
+                                       String address,
+                                       String phone,
+                                       String primaryColor,
+                                       String secondaryColor,
+                                       String textPrimary,
+                                       String textSecondary,
+                                       String font,
+                                       MultipartFile logo,
+                                       Long id) throws IOException {
 
-        Slugify slugify = new Slugify();
-        String baseSlug = slugify.slugify(name.toLowerCase());
-        String slug = baseSlug;
-        int counter = 1;
-        while (restaurantRepository.existsBySlug(slug)) {
-            slug = baseSlug + "-" + counter++;
-        }
+
+
 
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Restuarnat with the name: " + name + " not found")
         );
+        Slugify slugify = new Slugify();
+        String baseSlug = slugify.slugify(name.toLowerCase());
+        String slug = baseSlug;
+        if (!restaurant.getName().equals(name)) {
+            int counter = 1;
+            while (restaurantRepository.existsBySlug(slug)) {
+                slug = baseSlug + "-" + counter++;
+            }
+        }
+        Theme theme = restaurant.getTheme();
+        theme.setPrimaryColor(primaryColor);
+        theme.setSecondaryColor(secondaryColor);
+        theme.setTextPrimary(textPrimary);
+        theme.setTextSecondary(textSecondary);
+        theme.setFont(font);
         restaurant.setName(name);
         restaurant.setSlug(slug);
-        restaurant.setTheme(Theme.builder()
-                .primaryColor(primaryColor)
-                .secondaryColor(secondaryColor)
-                .font(font)
-                .build());
+        restaurant.setTheme(theme);
+        restaurant.setAddress(address);
+        restaurant.setPhone(phone);
+
+        Path restaurantDir = Paths.get(uploadDir , id.toString());
+        Files.createDirectories(restaurantDir);
+
+        if (logo != null && !logo.isEmpty()) {
+            String fileName = "logo." + StringUtils.getFilenameExtension(logo.getOriginalFilename());
+            Path logoPath = restaurantDir.resolve(fileName);
+            Files.copy(logo.getInputStream(), logoPath, StandardCopyOption.REPLACE_EXISTING);
+            restaurant.setLogoUrl(uploadDir + "/" + id + "/" + fileName);
+        }
         return restaurantRepository.save(restaurant);
     }
 
     @Transactional
-    public void deleteRestaurant(Long id) throws AccessDeniedException {
+    public void deleteRestaurant(Long id) throws IOException {
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Restaurant not found with id: " + id)
         );
         User user = userService.getCurrentUser();
         if (restaurant.getOwner().getId().equals(user.getId())) {
             restaurantRepository.deleteById(id);
+            Path restuarantPath = Paths.get(uploadDir , id.toString());
+            deleteDirectory(restuarantPath);
         } else {
             throw new AccessDeniedException("You are not the owner of the restaurant");
         }
+    }
+
+    private void deleteDirectory(Path path) throws IOException {
+        if (Files.notExists(path)) return;
+        Files.walk(path)
+                .sorted(Comparator.reverseOrder())
+                .forEach(p -> {
+                    try {
+                        Files.delete(p);
+                    } catch (IOException e) {
+                        throw new UncheckedIOException(e);
+                    }
+                });
     }
 }
