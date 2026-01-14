@@ -12,5 +12,7 @@ import lombok.NoArgsConstructor;
 public class ThemeDto {
     private String primaryColor;
     private String secondaryColor;
+    private String textPrimary;
+    private String textSecondary;
     private String font;
 }

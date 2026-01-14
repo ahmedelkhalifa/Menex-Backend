@@ -6,9 +6,12 @@ import com.app.menex.restaurant.mappers.RestaurantMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.nio.file.AccessDeniedException;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,11 +24,21 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
     private final RestaurantMapper restaurantMapper;
 
-    @PostMapping
-    public ResponseEntity<RestaurantDto> createRestaurant(@Valid @RequestBody CreateRestaurantRequest request) {
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<RestaurantDto> createRestaurant(
+            @RequestParam String name,
+            @RequestParam String address,
+            @RequestParam String phone,
+            @RequestParam String primaryColor,
+            @RequestParam String secondaryColor,
+            @RequestParam String textPrimary,
+            @RequestParam String textSecondary,
+            @RequestParam String font,
+            @RequestParam(required = false) MultipartFile logo
+            ) throws IOException {
         Restaurant createdRestaurant = restaurantService.createRestaurant(
-                request.getRestaurantName(),request.getPrimaryColor(),
-                request.getSecondaryColor(), request.getFont()
+                name, address, phone, primaryColor, secondaryColor, textPrimary,
+                textSecondary, font, logo
         );
         RestaurantDto restaurantDto = restaurantMapper.toDto(createdRestaurant);
         return new ResponseEntity<>(restaurantDto, HttpStatus.CREATED);

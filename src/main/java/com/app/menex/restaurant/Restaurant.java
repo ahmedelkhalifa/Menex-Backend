@@ -4,6 +4,7 @@ import com.app.menex.menu.Menu;
 import com.app.menex.theme.Theme;
 import com.app.menex.user.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.HashSet;
@@ -24,10 +25,23 @@ public class Restaurant {
     private Long id;
 
     @Column(nullable = false)
+    @NotBlank
     private String name;
 
     @Column(nullable = false,  unique = true)
+    @NotBlank
     private String slug;
+
+    @Column(nullable = false)
+    @NotBlank
+    private String address;
+
+    @Column(nullable = false)
+    @NotBlank
+    private String phone;
+
+    @Column(nullable = true)
+    private String logoUrl;
 
     @ManyToOne
     @JoinColumn(name = "owner_id", nullable = false)

@@ -18,5 +18,7 @@ public class Theme {
 
     private String primaryColor;
     private String secondaryColor;
+    private String textPrimary;
+    private String textSecondary;
     private String font;
 }

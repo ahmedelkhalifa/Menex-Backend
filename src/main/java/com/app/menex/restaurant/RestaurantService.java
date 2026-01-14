@@ -8,10 +8,14 @@ import com.github.slugify.Slugify;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.file.AccessDeniedException;
+import java.io.IOException;
+import java.nio.file.*;
 import java.util.Set;
 
 @Service
@@ -21,7 +25,19 @@ public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
     private final UserService userService;
 
-    public Restaurant createRestaurant(String name, String primaryColor, String secondaryColor, String font) {
+    @Value("${app.upload.dir}")
+    private String uploadDir;
+
+    @Transactional
+    public Restaurant createRestaurant(String name,
+                                       String address,
+                                       String phone,
+                                       String primaryColor,
+                                       String secondaryColor,
+                                       String textPrimary,
+                                       String textSecondary,
+                                       String font,
+                                       MultipartFile logo) throws IOException {
 
         User user = userService.getCurrentUser();
 
@@ -36,16 +52,31 @@ public class RestaurantService {
         Theme theme = Theme.builder()
                 .primaryColor(primaryColor)
                 .secondaryColor(secondaryColor)
+                .textPrimary(textPrimary)
+                .textSecondary(textSecondary)
                 .font(font)
                 .build();
 
         Restaurant restaurant = Restaurant.builder()
-                .name(name.toLowerCase())
+                .name(name.trim())
                 .slug(slug)
                 .owner(user)
                 .theme(theme)
+                .address(address)
+                .phone(phone)
                 .build();
-        return  restaurantRepository.save(restaurant);
+        restaurantRepository.saveAndFlush(restaurant);
+        Long id = restaurant.getId();
+        Path restaurantDir = Paths.get(uploadDir , id.toString());
+        Files.createDirectories(restaurantDir);
+
+        if (logo != null && !logo.isEmpty()) {
+            String fileName = "logo." + StringUtils.getFilenameExtension(logo.getOriginalFilename());
+            Path logoPath = restaurantDir.resolve(fileName);
+            Files.copy(logo.getInputStream(), logoPath, StandardCopyOption.REPLACE_EXISTING);
+            restaurant.setLogoUrl(uploadDir + "/" + id + "/" + fileName);
+        }
+        return restaurantRepository.save(restaurant);
     }
 
     public Restaurant getRestaurant(Long id) {

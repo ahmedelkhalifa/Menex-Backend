@@ -14,12 +14,15 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.Set;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE,
+uses = ThemeMapper.class)
 public interface RestaurantMapper {
 
     @Mapping(source = "owner", target = "ownerEmail", qualifiedByName = "getOwnerEmail")
     @Mapping(source = "menus", target = "menusCount", qualifiedByName = "getMenusCount")
     @Mapping(source = "theme", target = "theme")
+    @Mapping(source = "address", target = "address")
+    @Mapping(source = "phone", target = "phone")
     RestaurantDto toDto(Restaurant restaurant);
 
     @Named("getOwnerEmail")

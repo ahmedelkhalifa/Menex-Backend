@@ -6,6 +6,7 @@ import OwnerDashboard from "./components/OwnerDashboard"
 import RestaurantOwners from "./components/RestaurantOwners"
 import Admins from "./components/Admins"
 import RestaurantsAdmin from "./components/RestaurantsAdmin"
+import Restaurants_Owner from "./components/Restaurants_Owner"
 
 function App() {
 
@@ -37,6 +38,16 @@ function App() {
         <Route path="/admin-dashboard/restaurants" element={
           <ProtectedRoute allowedRole={"SUPER_ADMIN"}>
             <RestaurantsAdmin/>
+          </ProtectedRoute>
+        }/>
+        <Route path="/owner-dashboard" element={
+          <ProtectedRoute allowedRole={"RESTAURANT_OWNER"}>
+            <OwnerDashboard/>
+          </ProtectedRoute>
+        }/>
+        <Route path="/owner-dashboard/restaurants" element={
+          <ProtectedRoute allowedRole={"RESTAURANT_OWNER"}>
+            <Restaurants_Owner/>
           </ProtectedRoute>
         }/>
       </Routes>
