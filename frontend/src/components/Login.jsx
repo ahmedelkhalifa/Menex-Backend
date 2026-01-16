@@ -28,9 +28,10 @@ const Login = () => {
             }
         } catch (error) {
             console.error(error);
+            const message = error.response?.data?.message || "Can't login, try again";
             Swal.fire({
                 title: "Oops...",
-                text: "Can't Login, try again",
+                text: message,
                 icon: "error",
                 showCloseButton: true
             })

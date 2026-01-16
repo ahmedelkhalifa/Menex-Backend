@@ -87,4 +87,13 @@ public class UserService {
     public List<User> getAllAdmins() {
         return  userRepository.findAllByRole(Role.SUPER_ADMIN);
     }
+
+    public void updateLanguage(long userId, String language) throws AccessDeniedException {
+        User user = getCurrentUser();
+        if (user.getId().equals(userId)) {
+            user.setLanguage(language);
+        } else  {
+            throw new AccessDeniedException("You don't have access");
+        }
+    }
 }

@@ -1,4 +1,4 @@
-import { AdminPanelSettings, Category, Fastfood, Menu, MenuBook, Person, Restaurant, SpaceDashboard, SupervisorAccount } from '@mui/icons-material'
+import { AccountCircle, AdminPanelSettings, Category, Fastfood, Menu, MenuBook, Person, Restaurant, SpaceDashboard, SupervisorAccount } from '@mui/icons-material'
 import { Box, Button, Divider, Drawer, FormControlLabel, FormGroup, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, Stack, Switch, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -77,6 +77,16 @@ const Sidebar = ({view, subname}) => {
                             <AdminPanelSettings/>
                           </ListItemIcon>
                           <ListItemText primary="Admins"/>
+                        </ListItemButton>
+                      </ListItem>
+                      <ListItem disablePadding>
+                        <ListItemButton onClick={() => navigate("/admin-dashboard/profile")}
+                          sx={{color: "text.primary"}}
+                          selected={location.pathname === "/admin-dashboard/profile"}>
+                          <ListItemIcon>
+                            <AccountCircle/>
+                          </ListItemIcon>
+                          <ListItemText primary="Profile"/>
                         </ListItemButton>
                       </ListItem>
                       <FormGroup sx={{mt: 5}}>

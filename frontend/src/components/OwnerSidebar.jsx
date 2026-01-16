@@ -85,7 +85,7 @@ const OwnerSidebar = ({view, subname}) => {
                         onChange={handleChange}/>}
                         label="Dark mode"/>
                       </FormGroup>
-                      <Button variant='contained' sx={{mt: 20, bgcolor: 'error.main'}} onClick={handleLogout}>
+                      <Button variant='contained' sx={{mt: 20, bgcolor: 'error.main', color: '#FFFFFF'}} onClick={handleLogout}>
                         Logout
                       </Button>
                     </List>

@@ -1,5 +1,5 @@
-import {Category, Delete, Edit, Fastfood, Menu, MenuBook, Person, Restaurant, SentimentDissatisfied, SpaceDashboard, SupervisorAccount } from '@mui/icons-material'
-import { Autocomplete, Box, Button, Card, CircularProgress, Divider, Drawer, FormControl, IconButton, InputLabel, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Modal, OutlinedInput, Paper, Skeleton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useTheme } from '@mui/material'
+import {Category, Delete, DisabledByDefault, Edit, Fastfood, Menu, MenuBook, Person, PersonOff, Restaurant, SentimentDissatisfied, SpaceDashboard, SupervisorAccount } from '@mui/icons-material'
+import { Autocomplete, Box, Button, Card, CircularProgress, Divider, Drawer, FormControl, IconButton, InputLabel, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Modal, OutlinedInput, Paper, Skeleton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography, useTheme } from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import api from "../api"
@@ -163,6 +163,67 @@ const RestaurantOwners = () => {
       });
     }
   }
+
+  async function handleDisable(ownerId) {
+    try {
+      setLoading(true);
+      await api.put(`/auth/disable/${ownerId}`);
+      setOwners(prev => prev.map(
+        owner => owner.id === ownerId ? {...owner, enabled: false} : owner
+      ));
+      Swal.fire({
+        title: "Done!",
+        text: "Owner disabled successfully",
+        icon: "success",
+        showCloseButton: true,
+        background: theme.palette.background.default,
+        color: theme.palette.text.primary
+      });
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        title: "Oops...",
+        text: "Some error occurred",
+        icon: "error",
+        showCloseButton: true,
+        background: theme.palette.background.default,
+        color: theme.palette.text.primary
+      });
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleEnable(ownerId) {
+    try {
+      setLoading(true);
+      await api.put(`/auth/enable/${ownerId}`);
+      setOwners(prev => prev.map(
+        owner => owner.id === ownerId ? {...owner, enabled: true} : owner
+      ));
+      Swal.fire({
+        title: "Done!",
+        text: "Owner enabled successfully",
+        icon: "success",
+        showCloseButton: true,
+        background: theme.palette.background.default,
+        color: theme.palette.text.primary
+      });
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        title: "Oops...",
+        text: "Some error occurred",
+        icon: "error",
+        showCloseButton: true,
+        background: theme.palette.background.default,
+        color: theme.palette.text.primary
+      });
+    } finally {
+      setLoading(false);
+    }
+  }
+
 
   useEffect(() => {
     async function getOwners() {
@@ -352,6 +413,17 @@ const RestaurantOwners = () => {
                                       }}>
                                         <Delete sx={{color: "error.main"}}></Delete>
                                       </IconButton>
+                                      <Tooltip title={owner.enabled ? "Disable" : "Enable"}>
+                                      {owner.enabled ? (
+                                        <IconButton onClick={() =>handleDisable(owner.id)}>
+                                          <PersonOff sx={{color: "warning.main"}}></PersonOff>
+                                        </IconButton>
+                                        ) : (
+                                          <IconButton onClick={() => handleEnable(owner.id)}>
+                                          <Person sx={{color: "success.main"}}></Person>
+                                        </IconButton>
+                                        )}
+                                      </Tooltip>
                                     </TableCell>
                                   </TableRow>
                                 ))}

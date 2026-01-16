@@ -30,6 +30,13 @@ public class UserController {
         return new ResponseEntity<>(userDtos, HttpStatus.OK);
     }
 
+    @GetMapping("/users/profile")
+    public ResponseEntity<UserDto> getUserProfile() {
+        User user = userService.getCurrentUser();
+        UserDto userDto = userMapper.toDto(user);
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
+    }
+
     @PreAuthorize("hasRole('SUPER_ADMIN')")
     @GetMapping("users/owners")
     public ResponseEntity<List<UserDto>> getAllRestaurantOwners() {
@@ -49,9 +56,16 @@ public class UserController {
     @PutMapping("/users/{userId}")
     public ResponseEntity<UserDto> updateUser(@PathVariable Long userId, @Valid @RequestBody UpdateUserRequest request)
             throws AccessDeniedException {
+        System.out.println("I'm here");
         User updatedUser = userService.updateUser(userId, request.getFirstname(),
                 request.getLastname(), request.getEmail(), request.getRole());
         return ResponseEntity.ok(userMapper.toDto(updatedUser));
+    }
+
+    @PutMapping("/users/{userId}/updateLanguage")
+    public ResponseEntity updateLanguage(@PathVariable Long userId, @RequestParam String language) throws AccessDeniedException {
+        userService.updateLanguage(userId, language);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @DeleteMapping("/users/{userId}")

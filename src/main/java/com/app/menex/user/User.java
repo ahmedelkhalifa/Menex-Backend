@@ -34,6 +34,10 @@ public class User {
     private Role role;
     @Column(nullable = false)
     private LocalDateTime createdAt;
+    @Column(nullable = false)
+    private boolean enabled;
+    @Column(nullable = false)
+    private String language;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY,
     cascade = CascadeType.ALL, orphanRemoval = true)

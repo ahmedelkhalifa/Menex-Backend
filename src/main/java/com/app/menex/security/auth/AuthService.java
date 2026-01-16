@@ -5,12 +5,14 @@ import com.app.menex.security.config.AppUserDetails;
 import com.app.menex.security.jwt.JwtService;
 import com.app.menex.user.User;
 import com.app.menex.user.UserRepository;
+import com.app.menex.user.UserService;
 import com.app.menex.user.dtos.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final JwtService jwtService;
+    private final UserService userService;
 
     public LoginResponse login(String email, String password) {
         Authentication authentication = authenticationManager.authenticate(
@@ -51,9 +54,26 @@ public class AuthService {
                     .email(email.toLowerCase())
                     .password(passwordEncoder.encode(password))
                     .role(role)
+                    .language("en")
+                    .enabled(true)
                     .build();
             return userRepository.save(newUser);
         });
         return user;
+    }
+
+    public void disableUser(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new UsernameNotFoundException("User with id " + userId + " not found")
+        );
+        user.setEnabled(false);
+        userRepository.save(user);
+    }
+    public void enableUser(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new UsernameNotFoundException("User with id " + userId + " not found")
+        );
+        user.setEnabled(true);
+        userRepository.save(user);
     }
 }

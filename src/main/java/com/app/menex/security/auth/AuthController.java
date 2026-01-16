@@ -36,6 +36,20 @@ public class AuthController {
         return new ResponseEntity<>(userMapper.toDto(createdUser), HttpStatus.CREATED);
    }
 
+   @PreAuthorize("hasRole('SUPER_ADMIN')")
+   @PutMapping("/disable/{userId}")
+   public ResponseEntity disable(@PathVariable Long userId) {
+       authService.disableUser(userId);
+       return  new ResponseEntity<>(HttpStatus.OK);
+   }
+
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    @PutMapping("/enable/{userId}")
+    public ResponseEntity enable(@PathVariable Long userId) {
+        authService.enableUser(userId);
+        return  new ResponseEntity<>(HttpStatus.OK);
+    }
+
    @GetMapping("/validate")
    public String  validate() {
        return "valid";
