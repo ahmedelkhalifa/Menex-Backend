@@ -92,6 +92,7 @@ public class UserService {
         User user = getCurrentUser();
         if (user.getId().equals(userId)) {
             user.setLanguage(language);
+            userRepository.save(user);
         } else  {
             throw new AccessDeniedException("You don't have access");
         }

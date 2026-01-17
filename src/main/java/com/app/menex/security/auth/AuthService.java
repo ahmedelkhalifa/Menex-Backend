@@ -7,8 +7,10 @@ import com.app.menex.user.User;
 import com.app.menex.user.UserRepository;
 import com.app.menex.user.UserService;
 import com.app.menex.user.dtos.UserDto;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -74,6 +76,23 @@ public class AuthService {
                 () -> new UsernameNotFoundException("User with id " + userId + " not found")
         );
         user.setEnabled(true);
+        userRepository.save(user);
+    }
+
+    @Transactional
+    public void changePassword(String oldPassword, String newPassword) {
+        User user = userService.getCurrentUser();
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            throw new BadCredentialsException("Invalid old password");
+        }
+        if (newPassword.length() < 8) {
+            throw new IllegalArgumentException("Password must be at least 8 characters");
+        }
+
+        if (passwordEncoder.matches(newPassword, user.getPassword())) {
+            throw new IllegalArgumentException("New password must be different");
+        }
+        user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
     }
 }

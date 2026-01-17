@@ -1,7 +1,7 @@
-import { Avatar, Box, Button, Divider, Drawer, FormControl, Grid, IconButton, MenuItem, Paper, Select, Skeleton, Stack, TextField, Tooltip, Typography, useTheme} from '@mui/material'
+import { Alert, Avatar, Box, Button, CircularProgress, Divider, Drawer, FormControl, Grid, IconButton, MenuItem, Modal, Paper, Select, Skeleton, Stack, TextField, Tooltip, Typography, useTheme} from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import OwnerSidebar from './OwnerSidebar'
-import { Cancel, Edit, Menu, Save } from '@mui/icons-material';
+import { Cancel, Edit, LockReset, Menu, Save } from '@mui/icons-material';
 import { useThemeMode } from '../main';
 import api from '../api';
 import Swal from 'sweetalert2';
@@ -20,7 +20,8 @@ const Profile = () => {
         firstName: "",
         lastName: "",
         email: "",
-        role: ""
+        role: "",
+        language: "en"
     });
     const [fixedName, setFixedName] = useState({
         firstName: "",
@@ -29,8 +30,12 @@ const Profile = () => {
     const firstname = fixedName.firstName;
     const lastname = fixedName.lastName;
     const [editMode, setEditMode] = useState(false);
-    const [language, setLanguage] = useState("en");
     const [loading, setLoading] = useState(true);
+    const [openModal, setOpenModal] = useState(false);
+    const [oldPassword, setOldPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [confirmNewPassword, setConfirmNewPassword] = useState("");
+    
 
     async function handleUpdate() {
         try {
@@ -73,6 +78,74 @@ const Profile = () => {
         console.log("Updated user data:", user);
     };
 
+    async function handleLanguageChange(e) {
+        const language = e.target.value;
+        setUser({ ...user, language: language });
+        try {
+            const response = await api.put(`users/${user.id}/updateLanguage?language=${language}`);
+        } catch (error) {
+            console.error(error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Failed to update language preference.',
+                showCloseButton: true,
+                background: theme.palette.background.default,
+                color: theme.palette.text.primary
+            });
+        }
+    }
+
+    async function handleChangePassword(e) {
+        e.preventDefault();
+        try {
+            setLoading(true);
+            if (newPassword !== confirmNewPassword) {
+                setOpenModal(false);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'New passwords do not match.',
+                    showCloseButton: true,
+                    background: theme.palette.background.default,
+                    color: theme.palette.text.primary
+                });
+                return;
+            }
+            await api.put(`auth/change-password`, {
+                oldPassword: oldPassword,   
+                newPassword: newPassword
+            });
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Password changed successfully.',
+                showCloseButton: true,
+                background: theme.palette.background.default,
+                color: theme.palette.text.primary
+            });
+        } catch (error) {   
+            console.error(error);
+            const message = error.response?.data?.message || 'Failed to change password.';
+            Swal.fire({ 
+                icon: 'error',
+                title: 'Error',
+                text: message,
+                showCloseButton: true,
+                background: theme.palette.background.default,
+                color: theme.palette.text.primary
+            });
+        } finally {
+            setLoading(false);
+            setOpenModal(false);
+            setOldPassword("");
+            setNewPassword("");
+            setConfirmNewPassword("");
+        }
+    }
+
+
+
     useEffect(() => {
         async function getProfile() {
             try {
@@ -82,7 +155,8 @@ const Profile = () => {
                     firstName: response.data.firstName,
                     lastName: response.data.lastName,
                     email: response.data.email,
-                    role: localStorage.getItem("role")
+                    role: localStorage.getItem("role"),
+                    language: response.data.language
                 };
                 setUser(userData);
                 setFixedName(userData);
@@ -99,7 +173,17 @@ const Profile = () => {
             } finally {
                 setLoading(false);
             }
-        };
+        }
+        async function validateToken() {
+            try {
+            const response = await api.get("auth/validate");
+            console.log(response.data);
+            } catch (error) {
+            localStorage.clear();
+            window.location.href = "/login";
+            }
+        }
+        validateToken();
         getProfile();
     },[])
   return (
@@ -210,7 +294,7 @@ const Profile = () => {
                 <Divider sx={{borderWidth: 1, borderColor: 'divider', mb: 2}}></Divider>
                 <Grid container spacing={2}>
                     <Grid item size={{xs: 12, sm: 6}}>
-                        <Button variant='contained' sx={{bgcolor: 'primary.main', '&:hover': {bgcolor: 'primary.dark'}}} fullWidth>
+                        <Button variant='contained' sx={{bgcolor: 'primary.main', '&:hover': {bgcolor: 'primary.dark'}}} fullWidth onClick={() => setOpenModal(true)}>
                             Change Password
                         </Button>
                     </Grid>
@@ -223,6 +307,63 @@ const Profile = () => {
                 </>
                 )}  
             </Paper>
+            <Modal
+                open={openModal}
+                onClose={() => {setOpenModal(false); setOldPassword(""); setNewPassword(""); setConfirmNewPassword("");}}
+            >
+                <Box sx={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: {xs: '80%', md: '400px'}, bgcolor: 'background.paper', boxShadow: 24, p: 4,
+                    borderRadius: 2
+                }}>
+                    <Typography variant="h5" component="h2" fontWeight={600}>
+                        Change Password
+                    </Typography>
+                    <Typography color='text.secondary' sx={{mt: 1}}>
+                        please enter your old password and new password to change your password.
+                    </Typography>
+                    <form action="#" onSubmit={handleChangePassword}>
+                        <TextField
+                            label="Old Password"
+                            type="password"
+                            fullWidth
+                            sx={{mt: 2}}
+                            value={oldPassword}
+                            onChange={(e) => setOldPassword(e.target.value)}
+                            required
+                        />
+                        <TextField
+                            label="New Password"
+                            type="password"
+                            fullWidth
+                            sx={{mt: 2}}
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            required
+                        />
+                        <TextField
+                            label="Confirm New Password"
+                            type="password"
+                            fullWidth
+                            sx={{mt: 2}}
+                            value={confirmNewPassword}
+                            onChange={(e) => setConfirmNewPassword(e.target.value)}
+                            required
+                        />
+                        {(newPassword !== confirmNewPassword && confirmNewPassword !== "") && (
+                            <Alert severity="error" sx={{mt: 2}}>New password and confirm password do not match.</Alert>
+                        )}
+                        <Button
+                            variant="contained"
+                            sx={{mt: 2, bgcolor: 'primary.main', '&:hover': {bgcolor: 'primary.dark'}}}
+                            fullWidth
+                            type='submit'
+                            startIcon={loading ? <CircularProgress size={20} color="inherit"/> : <LockReset />}
+                            disabled={loading || newPassword !== confirmNewPassword || !oldPassword || !newPassword || !confirmNewPassword}
+                        >
+                            Change Password
+                        </Button>
+                    </form>
+                </Box>
+            </Modal>
             <Paper elevation={3} sx={{p: loading ? 0 : 3, bgcolor: 'background.paper', mt: 3}}>
                 {loading ? (
                     <Skeleton variant="rectangular" width="100%" height={"315px"} />
@@ -239,8 +380,8 @@ const Profile = () => {
                         </Typography>
                         <FormControl fullWidth sx={{mt: 1}}>
                             <Select
-                                value={language}
-                                onChange={(e) => setLanguage(e.target.value)}
+                                value={user.language}
+                                onChange={(e) => handleLanguageChange(e)}
                                 displayEmpty
                                 fullWidth
                             >

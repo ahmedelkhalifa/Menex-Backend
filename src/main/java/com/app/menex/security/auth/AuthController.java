@@ -50,6 +50,12 @@ public class AuthController {
         return  new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PutMapping("/change-password")
+    public ResponseEntity changePassword(@Valid @RequestBody ChangePasswordRequest request) {
+       authService.changePassword(request.getOldPassword(), request.getNewPassword());
+       return  new ResponseEntity<>(HttpStatus.OK);
+    }
+
    @GetMapping("/validate")
    public String  validate() {
        return "valid";
