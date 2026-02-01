@@ -44,6 +44,7 @@ public class AuthService {
                 .token(token)
                 .email(userDetails.getUsername().toLowerCase())
                 .role(role)
+                .language(userDetails.getLanguage())
                 .build();
         return response;
     }

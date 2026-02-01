@@ -57,7 +57,7 @@ public interface RestaurantMapper {
                     categories.addAll(menu.getCategories());
             }
             for (Category category : categories) {
-                if (!category.getMenuItems().isEmpty())
+                if (category.getMenuItems() != null)
                     items += category.getMenuItems().size();
             }
         }

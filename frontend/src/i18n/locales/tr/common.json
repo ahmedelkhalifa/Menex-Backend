@@ -1,0 +1,273 @@
+{
+    "ownerDashboard": {
+        "title": "Kontrol Paneli",
+        "description": "Genel durumun özeti.",
+        "stats": "Hızlı İstatistikler",
+        "statsDescription": "restoranlarınız ve menüleriniz hakkında bazı istatistikler.",
+        "restaurantsCountLabel": "Restoran Sayısı",
+        "menusCountLabel": "Menü Sayısı",
+        "categoriesCountLabel": "Kategori Sayısı",
+        "itemsCountLabel": "Ürün Sayısı",
+        "quickActions": "Hızlı İşlemler",
+        "createRestaurant": "Restoran Oluştur",
+        "viewRestaurants": "Restoranları Görüntüle",
+        "createMenu": "Menü Oluştur",
+        "viewMenus": "Menüleri Görüntüle"
+    },
+    "sidebar": {
+        "ownerDashboard": "Sahip Kontrol Paneli",
+        "adminDashboard": "Yönetici Kontrol Paneli",
+        "restaurantOwners": "Restoran Sahipleri",
+        "dashboard": "Kontrol Paneli",
+        "restaurants": "Restoranlar",
+        "menus": "Menüler Oluşturucu",
+        "profile": "Profil",
+        "logout": "Çıkış Yap",
+        "darkMode": "Karanlık Mod",
+        "admins": "Yöneticiler"
+    },
+    "restaurants": {
+        "title": "Restoranlarım",
+        "description": "Restoranlarınız üzerinde tüm işlemleri gerçekleştirin.",
+        "search": "Ara...",
+        "createButton": "Restoran Oluştur",
+        "noData": "Hiç restoran bulunamadı. Lütfen bir restoran oluşturun.",
+        "table": {
+            "name": "İsim",
+            "address": "Adres",
+            "actions": "İşlemler",
+            "edit": "Düzenle",
+            "delete": "Sil",
+            "slug": "Slug (URL yolu)",
+            "details": "Detaylar"
+        },
+        "create": {
+            "title": "Restoran Oluştur",
+            "update": "Restoran Güncelle",
+            "mainLabel": "Ana Bilgiler",
+            "nameLabel": "İsim",
+            "addressLabel": "Adres",
+            "phoneLabel": "Telefon",
+            "logoLabel": "Logo Yükle (İsteğe bağlı)",
+            "themeLabel": "Tema",
+            "primaryColorLabel": "Birincil Renk",
+            "secondaryColorLabel": "İkincil Renk",
+            "textPrimaryColorLabel": "Metin Birincil",
+            "textSecondaryColorLabel": "Metin İkincil",
+            "fontLabel": "Yazı Tipi",
+            "alert": "Bir logo için maksimum boyut 2MB'dir.",
+            "submitButton": "Oluştur",
+            "submitButtonLoading": "Restoranınız oluşturuluyor...",
+            "updateButton": "Güncelle",
+            "updateButtonLoading": "Restoranınız güncelleniyor...",
+            "updateSuccessMessage": "Restoran başarıyla güncellendi!",
+            "successTitle": "Tamam!",
+            "createSuccessMessage": "Restoran başarıyla oluşturuldu!"
+        },
+        "details": {
+            "title": "Restoran Detayları",
+            "mainInfo": "Ana Bilgiler",
+            "nameLabel": "İsim",
+            "slugLabel": "Slug",
+            "addressLabel": "Adres",
+            "phoneLabel": "Telefon",
+            "themeInfo": "Tema Bilgileri",
+            "primaryColorLabel": "Birincil Renk",
+            "secondaryColorLabel": "İkincil Renk",
+            "textPrimaryColorLabel": "Metin Birincil",
+            "textSecondaryColorLabel": "Metin İkincil",
+            "fontLabel": "Yazı Tipi",
+            "menusInfo": "Menüler Bilgisi",
+            "menusCountLabel": "Menü Sayısı",
+            "categoriesCountLabel": "Kategori Sayısı",
+            "itemsCountLabel": "Ürün Sayısı"
+        },
+        "errorAlert": {
+            "title": "Hata",
+            "message": "Restoran detayları alınırken bir hata oluştu. Lütfen tekrar deneyin.",
+            "updateErrorMessage": "Restoran güncellenirken bir hata oluştu. Lütfen tekrar deneyin.",
+            "createErrorMessage": "Restoran oluşturulurken bir hata oluştu. Lütfen tekrar deneyin."
+        },
+        "deleteAlert": {
+            "title": "Emin misin?",
+            "message": "Bunu geri alamayacaksınız!\nİlgili tüm menüler ve menü öğeleri silinecektir.",
+            "confirmButtonText": "Evet, sil!",
+            "cancelButtonText": "İptal",
+            "deletedTitle": "Silindi!",
+            "deletedMessage": "Restoran silindi.",
+            "errorTitle": "Hata",
+            "errorMessage": "Restoran silinirken bir hata oluştu. Lütfen tekrar deneyin."
+        }
+    },
+    "profile": {
+        "role": "Rol",
+        "superAdmin": "Süper Yönetici",
+        "restaurantOwner": "Restoran Sahibi",
+        "basicInfo": "Genel Bilgiler",
+        "firstnameLabel": "İsim",
+        "lastnameLabel": "Soyisim",
+        "emailLabel": "E-posta",
+        "editButton": "Profili Düzenle",
+        "updateButton": "Güncelle",
+        "cancel": "İptal",
+        "errorAlert": {
+            "title": "Hata",
+            "updateMessage": "Profil güncellenirken bir hata oluştu. Lütfen tekrar deneyin.",
+            "fetchMessage": "Profil bilgilerini almak için bir hata oluştu. Lütfen tekrar deneyin."
+        },
+        "successAlert": {
+            "title": "Başarılı",
+            "message": "Profiliniz başarıyla güncellendi!"
+        },
+        "security": {
+            "title": "Güvenlik",
+            "changePasswordTitle": "Şifre Değiştir",
+            "changePasswordDescription": "Şifrenizi değiştirmek için mevcut şifrenizi ve yeni bir şifre girin.",
+            "currentPasswordLabel": "Mevcut Şifre",
+            "newPasswordLabel": "Yeni Şifre",
+            "confirmNewPasswordLabel": "Yeni Şifreyi Onayla",
+            "changePasswordButton": "Şifreyi Değiştir",
+            "changePasswordButtonLoading": "Şifreniz değiştiriliyor...",
+            "passwordMismatchMessage": "Yeni şifre ve onaylama eşleşmiyor.",
+            "logout": "Çıkış Yap",
+            "errorAlert": {
+                "title": "Hata",
+                "message": "Şifre değiştirme sırasında bir hata oluştu. Lütfen tekrar deneyin."
+            },
+            "successAlert": {
+                "title": "Başarılı",
+                "message": "Şifreniz başarıyla değiştirildi!"
+            }
+        },
+        "preferences": {
+            "title": "Ayarlar",
+            "darkModeLabel": "Karanlık Mod",
+            "languageLabel": "Dil",
+            "darkMode": "Karanlık",
+            "lightMode": "Açık"
+        }
+    },
+    "menus": {
+        "title": "Menüler Oluşturucu",
+        "description": "Restoranlarınızın menülerini yönetin",
+        "currentRestaurantLabel": "Mevcut Restoran",
+        "selectRestaurantLabel": "Restoran Seç",
+        "noRestaurantsLabel": "Hiç Restoran Bulunamadı",
+        "noMenusLabel": "Hiç Menü Bulunamadı",
+        "noCategoriesLabel": "Hiç Kategori Bulunamadı",
+        "noItemsLabel": "Hiç Ürün Bulunamadı",
+        "previewQRLabel": "QR Görüntüle",
+        "menusLabel": "Menüler",
+        "categoriesLabel": "Kategoriler",
+        "itemsLabel": "Ürünler",
+        "createMenu": {
+            "title": "Menü Ekle",
+            "nameLabel": "Menü Adı",
+            "button": "Menü Ekle",
+            "buttonLoading": "Menü ekleniyor...",
+            "errorAlert": {
+                "title": "Hata",
+                "message": "Menü eklenirken bir hata oluştu. Lütfen tekrar deneyin."
+            },
+            "successAlert": {
+                "title": "Başarılı",
+                "message": "Menü başarıyla eklendi!"
+            }
+        },
+        "createCategory": {
+            "title": "Kategori Ekle",
+            "nameLabel": "Kategori Adı",
+            "button": "Kategori Ekle",
+            "buttonLoading": "Kategori ekleniyor..."
+        },
+        "createItem": {
+            "title": "Ürün Ekle",
+            "nameLabel": "Ürün Adı",
+            "priceLabel": "Fiyat",
+            "descriptionLabel": "Açıklama",
+            "uploadImageLabel": "Resim Yükle",
+            "recommendedSizeLabel": "(Önerilen Boyut 200x200)",
+            "button": "Ürün Ekle",
+            "buttonLoading": "Ürün ekleniyor...",
+            "exceededSize": "Bir resim için maksimum boyut 2MB'dir.",
+            "availableLabel": "Mevcut",
+            "unavailableLabel": "Mevcut Değil"
+        },
+        "menuOperationsLabel": "İşlemler",
+        "editMenu": {
+            "title": "Menü Güncelle",
+            "otherOpsLabel": "Diğer İşlemler",
+            "deleteButton": "Menüyü Sil",
+            "deleteButtonLoading": "Menü siliniyor...",
+            "nameLabel": "Menü Adı",
+            "updateButton": "Güncelle",
+            "updateButtonLoading": "Menü güncelleniyor...",
+            "activeLabel": "Aktif",
+            "inactiveLabel": "Pasif",
+            "disableButton": "Menüyü Pasifleştir",
+            "enableButton": "Menüyü Aktifleştir",
+            "deleteTitle": "Emin misin?",
+            "deleteMessage": "Bunu geri alamayacaksınız!\nİlgili tüm menü öğeleri silinecektir.",
+            "confirmDelete": "Evet, sil!",
+            "cancelDelete": "İptal"
+        },
+        "editCategory": {
+            "title": "Kategori Güncelle",
+            "nameLabel": "Kategori Adı",
+            "updateButton": "Güncelle",
+            "updateButtonLoading": "Kategori güncelleniyor...",
+            "deleteButton": "Kategoriyi Sil",
+            "deleteButtonLoading": "Kategori siliniyor...",
+            "deleteTitle": "Emin misin?",
+            "deleteMessage": "Bunu geri alamayacaksınız, ilgili tüm ürünler silinecektir.",
+            "confirmDelete": "Evet, sil!",
+            "cancelDelete": "İptal"
+        },
+        "editItem": {
+            "updateLabel": "Ürün Güncelle",
+            "nameLabel": "Ürün Adı",
+            "updateButton": "Güncelle",
+            "buttonLoading": "Güncelleniyor...",
+            "deleteButton": "Ürünü Sil",
+            "deleteButtonLoading": "Siliniyor...",
+            "deleteTitle": "Emin misin?",
+            "deleteMessage": "Bunu geri alamayacaksınız!",
+            "confirmDelete": "Evet, sil!",
+            "cancelDelete": "İptal"
+        },
+        "errorAlert": {
+            "title": "Hata",
+            "message": "bir hata oluştu",
+            "fetchMenusMessage": "Menüler alınırken bir hata oluştu. Lütfen tekrar deneyin.",
+            "fetchRestaurantsMessage": "Restoranları almak için bir hata oluştu.",
+            "fetchCategoriesMessage": "Kategorileri almak için bir hata oluştu.",
+            "fetchItemsMessage": "ürünler almak için bir hata oluştu.",
+            "updateErrorMessage": "Menü güncellenirken bir hata oluştu. Lütfen tekrar deneyin.",
+            "updateCategoryErrorMessage": "Kategori güncellenirken bir hata oluştu. Lütfen tekrar deneyin.",
+            "deleteErrorMessage": "Menü silinirken bir hata oluştu. Lütfen tekrar deneyin.",
+            "deleteCategoryErrorMessage": "Kategori silinirken bir hata oluştu. Lütfen tekrar deneyin.",
+            "updateItemErrorMessage": "Ürün güncellenirken bir hata oluştu. Lütfen tekrar deneyin.",
+            "deleteItemErrorMessage": "Ürün silinirken bir hata oluştu. Lütfen tekrar deneyin.",
+            "disableErrorMessage": "Menüyü pasifleştirmek için bir hata oluştu. Lütfen tekrar deneyin.",
+            "enableErrorMessage": "Menüyü aktifleştirmek için bir hata oluştu. Lütfen tekrar deneyin.",
+            "addCategoryErrorMessage": "Kategori eklenirken bir hata oluştu. Lütfen tekrar deneyin.",
+            "QRErrorMessage": "QR kodu oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.",
+            "noMenuSelected": "Menü seçilmedi",
+            "noCategorySelected": "Kategori seçilmedi",
+            "addItemErrorMessage": "Ürün eklenirken bir hata oluştu. Lütfen tekrar deneyin."
+        },
+        "successAlert": {
+            "title": "Başarılı",
+            "updateSuccessMessage": "Menü başarıyla güncellendi",
+            "updateCategorySuccessMessage": "Kategori başarıyla güncellendi",
+            "updateItemSuccessMessage": "Ürün başarıyla güncellendi",
+            "deleteSuccessMessage": "Menü başarıyla silindi",
+            "deleteCategorySuccessMessage": "Kategori başarıyla silindi",
+            "deleteItemMessage": "Ürün başarıyla silindi",
+            "disableSuccessMessage": "Menü başarıyla pasifleştirildi",
+            "enableSuccessMessage": "Menü başarıyla aktifleştirildi",
+            "addCategorySuccessMessage": "Kategori başarıyla eklendi",
+            "addItemSuccessMessage": "Ürün başarıyla eklendi"
+        }
+    }
+}

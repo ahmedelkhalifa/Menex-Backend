@@ -5,6 +5,7 @@ import OwnerSidebar from './OwnerSidebar'
 import { SketchPicker } from 'react-color'
 import api from '../api'
 import Swal from 'sweetalert2'
+import { useTranslation } from 'react-i18next'
 
 const Restaurants_Owner = () => {
   const [open, setOpen] = useState(false);
@@ -54,15 +55,15 @@ const Restaurants_Owner = () => {
       formData.append("textSecondary", textSecondary);
       formData.append("font", font);
       if (logo) formData.append("logo", logo);
-      const response = await api.post("/restaurant", formData,{
+      const response = await api.post("/restaurants", formData,{
         headers: {
           "Content-Type": "mutlipart/form-data"
         }
       });
       setRestaurants((r) => [...r, response.data]);
       Swal.fire({
-        title: "Done!",
-        text: "Your restaurant was created successfully",
+        title: t("restaurants.create.successTitle"),
+        text: t("restaurants.create.createSuccessMessage"),
         icon: "success",
         showCloseButton: true,
         background: theme.palette.background.default,
@@ -70,9 +71,9 @@ const Restaurants_Owner = () => {
       });
     } catch (error) {
       console.error(error);
-      const message = error.response?.data?.message || "Some error has occurred, try again";
+      const message = error.response?.data?.message || t("restaurants.errorAlert.createErrorMessage");
       Swal.fire({
-        title: "Oops!",
+        title: t("restaurants.errorAlert.title"),
         text: message,
         icon: "error",
         showCloseButton: true,
@@ -99,7 +100,7 @@ const Restaurants_Owner = () => {
       formData.append("textSecondary", textSecondary);
       formData.append("font", font);
       if (logo) formData.append("logo", logo);
-      const response = await api.put(`/restaurant/${selectedRestaurant.id}`, formData,{
+      const response = await api.put(`/restaurants/${selectedRestaurant.id}`, formData,{
         headers: {
           "Content-Type": "mutlipart/form-data"
         }
@@ -108,8 +109,8 @@ const Restaurants_Owner = () => {
         r => r.id === selectedRestaurant.id ? response.data : r
       ));
       Swal.fire({
-        title: "Done!",
-        text: "Your restaurant was updated successfully",
+        title: t("restaurants.create.successTitle"),
+        text: t("restaurants.create.updateSuccessMessage"),
         icon: "success",
         showCloseButton: true,
         background: theme.palette.background.default,
@@ -117,9 +118,9 @@ const Restaurants_Owner = () => {
       });
     } catch (error) {
       console.error(error);
-      const message = error.response?.data?.message || "Some error has occurred, try again";
+      const message = error.response?.data?.message || t("restaurants.errorAlert.updateErrorMessage");
       Swal.fire({
-        title: "Oops!",
+        title: t("restaurants.errorAlert.title"),
         text: message,
         icon: "error",
         showCloseButton: true,
@@ -134,22 +135,23 @@ const Restaurants_Owner = () => {
 
   async function handleDelete(id) {
     Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this!\nAll menus and menu items associated will be deleted.",
+      title: t('restaurants.deleteAlert.title'),
+      text: t('restaurants.deleteAlert.message'),
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: theme.palette.error.main,
-      confirmButtonText: 'Yes, delete it!',
+      confirmButtonText: t('restaurants.deleteAlert.confirmButtonText'),
+      cancelButtonText: t('restaurants.deleteAlert.cancelButtonText'),
       background: theme.palette.background.default,
       color: theme.palette.text.primary
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await api.delete(`/restaurant/${id}`);
+          await api.delete(`/restaurants/${id}`);
           setRestaurants(prev => prev.filter(r => r.id !== id));
           Swal.fire({
-            title: "Deleted!",
-            text: "Your restaurant has been deleted.",
+            title: t('restaurants.deleteAlert.deletedTitle'),
+            text: t('restaurants.deleteAlert.deletedMessage'),
             icon: "success",
             showCloseButton: true,
             background: theme.palette.background.default,
@@ -157,9 +159,9 @@ const Restaurants_Owner = () => {
           });
         } catch (error) {
           console.error(error);
-          const message = error.response?.data?.message || "Some error has occurred, try again";
+          const message = error.response?.data?.message || t('restaurants.deleteAlert.errorMessage');
           Swal.fire({
-            title: "Oops!",
+            title: t('restaurants.deleteAlert.errorTitle'),
             text: message,
             icon: "error",
             showCloseButton: true,
@@ -216,13 +218,13 @@ const Restaurants_Owner = () => {
   useEffect(() => {
     async function loadRestaurants() {
       try {
-        const response = await api.get("restaurant");
+        const response = await api.get("restaurants");
         setRestaurants(response.data);
       } catch(error) {
         console.error(error);
         Swal.fire({
-          title: "Oops...",
-          text: "an error occurred, can't retrieve data.",
+          title: t('restaurants.errorAlert.title'),
+          text: t('restaurants.errorAlert.message'),
           icon: "error",
           showCloseButton: true,
           background: theme.palette.background.default,
@@ -244,6 +246,8 @@ const Restaurants_Owner = () => {
     loadRestaurants();
   }, []);
 
+  const {t} = useTranslation();
+
   return (
     <>
     <Box>
@@ -260,24 +264,24 @@ const Restaurants_Owner = () => {
       </Box>
       <Box display={'flex'} bgcolor={"background.default"} gap={2}>
         <OwnerSidebar subname={"Restaurant Owner"}/>
-        <Box flex={4} p={5} mt={{xs: 8, md: 0}}>
+        <Box flex={5} p={5} mt={{xs: 8, md: 0}}>
           <Stack justifyContent={'space-between'} alignItems={'center'} direction={{xs: 'column', md:'row'}}>
             <Box>
               <Typography variant='h4' fontWeight={700} color='text.primary'>
-                My Reastaurants
+                {t('restaurants.title')}
               </Typography>
               <Typography variant='body1' color='text.secondary'>
-                Perform all operations on your restaurants.
+                {t('restaurants.description')}
               </Typography>
             </Box>
             <Button variant='contained' sx={{width: "300px", mt: {xs: 2, md: 0}}}
             onClick={() => setOpenCreate(true)}>
-              Create new restaurant
+              {t('restaurants.createButton')}
             </Button>
           </Stack>
           <Box mt={3}>
             <TextField
-            label="Search..."
+            label={t('restaurants.search')}
             fullWidth
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -290,9 +294,9 @@ const Restaurants_Owner = () => {
                   <TableHead>
                     <TableRow>
                       <TableCell sx={{fontWeight: 800, bgcolor: "primary.main", color: "background.paper"}}
-                      align='center'>name</TableCell>
-                      <TableCell sx={{fontWeight: 800, bgcolor: "primary.main", color: "background.paper", display: {xs: "none", md: "table-cell"}}} align='center'>slug (URL path)</TableCell>
-                      <TableCell align='center' sx={{fontWeight: 800, bgcolor: "primary.main", color: "background.paper"}}>actions</TableCell>
+                      align='center'>{t('restaurants.table.name')}</TableCell>
+                      <TableCell sx={{fontWeight: 800, bgcolor: "primary.main", color: "background.paper", display: {xs: "none", md: "table-cell"}}} align='center'>{t('restaurants.table.slug')}</TableCell>
+                      <TableCell align='center' sx={{fontWeight: 800, bgcolor: "primary.main", color: "background.paper"}}>{t('restaurants.table.actions')}</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -307,7 +311,7 @@ const Restaurants_Owner = () => {
                         align='center'>{r.slug}</TableCell>
                         <TableCell sx={{fontWeight: 500, bgcolor: "background.default", color: "text.secondary"}}
                         align='center'>
-                          <Tooltip title="Details">
+                          <Tooltip title={t('restaurants.table.details')}>
                             <IconButton onClick={() => {
                               setSelectedRestaurant(r);
                               setOpenDetails(true);
@@ -315,7 +319,7 @@ const Restaurants_Owner = () => {
                               <Info sx={{color: "text.secondary"}}/>
                             </IconButton>
                           </Tooltip>
-                          <Tooltip title="Edit">
+                          <Tooltip title={t('restaurants.table.edit')}>
                             <IconButton onClick={() => {
                               setSelectedRestaurant(r);
                               setOpenUpdate(true);
@@ -331,7 +335,7 @@ const Restaurants_Owner = () => {
                               <Edit sx={{color: "primary.dark"}}/>
                             </IconButton>
                           </Tooltip>
-                          <Tooltip title="Delete">
+                          <Tooltip title={t('restaurants.table.delete')}>
                             <IconButton onClick={() => {
                               handleDelete(r.id);
                             }}>
@@ -348,11 +352,11 @@ const Restaurants_Owner = () => {
             ) : (
               <>
                 <Typography variant='h5' color='text.secondary' mt={5} display={'flex'} alignItems={'center'} justifyContent={'center'}>
-                  <SentimentDissatisfied sx={{color: 'text.secondary', mr: 2, fontSize: "40px"}} /> No elements Found!
+                  <SentimentDissatisfied sx={{color: 'text.secondary', mr: 2, fontSize: "40px"}} /> {t('restaurants.noData')}
                 </Typography>
                 <Button variant='contained' sx={{display: 'flex', alignSelf: 'center', justifySelf: 'center', mt: 1, bgcolor: "secondary.main"}}
                 onClick={() => setOpenCreate(true)}>
-                  Create new restaurant
+                  {t('restaurants.createButton')}
                 </Button>
               </>
             )}
@@ -376,7 +380,7 @@ const Restaurants_Owner = () => {
                 overflowY: 'auto'
               }} onClick={(e) => e.stopPropagation()}>
                 <Typography variant='h4' fontWeight={600} color='primary.main' textAlign={'center'}>
-                  Create new Restaurant
+                  {t('restaurants.create.title')}
                 </Typography>
                 <Box mt={3}>
                   <form action="#" onSubmit={handleCreate}>
@@ -387,30 +391,30 @@ const Restaurants_Owner = () => {
                       } justifyContent={'space-between'} alignItems={'flex-start'}>
                           <Box flex={1} p={3} px={{xs: 0, md: 3}}>
                             <Typography variant='h5' textAlign={'center'}>
-                              Main info
+                              {t('restaurants.create.mainLabel')}
                             </Typography>
                             <FormControl fullWidth sx={{mt: 2}}>
-                              <InputLabel htmlFor='name'>Name</InputLabel>
+                              <InputLabel htmlFor='name'>{t('restaurants.create.nameLabel')}</InputLabel>
                               <OutlinedInput id="name"
-                              label="Name" fullWidth
+                              label={t('restaurants.create.nameLabel')} fullWidth
                               autoComplete='off'
                               value={name}
                               onChange={(e) => setName(e.target.value)}
                               required/>
                             </FormControl>
                             <FormControl fullWidth sx={{mt: 2}}>
-                              <InputLabel htmlFor='address'>Address</InputLabel>
+                              <InputLabel htmlFor='address'>{t('restaurants.create.addressLabel')}</InputLabel>
                               <OutlinedInput id="address"
-                              label="Address" fullWidth type='address'
+                              label={t('restaurants.create.addressLabel')} fullWidth type='address'
                               autoComplete='off'
                               value={address}
                               onChange={(e) => setAddress(e.target.value)}
                               required/>
                             </FormControl>
                             <FormControl fullWidth sx={{mt: 2}}>
-                              <InputLabel htmlFor='phone'>Phone</InputLabel>
+                              <InputLabel htmlFor='phone'>{t('restaurants.create.phoneLabel')}</InputLabel>
                               <OutlinedInput id="phone"
-                              label="Phone" fullWidth type='tel'
+                              label={t('restaurants.create.phoneLabel')} fullWidth type='tel'
                               value={phone}
                               autoComplete='off'
                               onChange={(e) => setPhone(e.target.value)}
@@ -418,47 +422,47 @@ const Restaurants_Owner = () => {
                               required/>
                             </FormControl>
                             <Button variant='contained' fullWidth sx={{mt: 2, bgcolor: "secondary.main", color: "background.default"}} component="label">
-                              {logo ? logo.name : "Upload Logo (optional)"}
+                              {logo ? logo.name : t('restaurants.create.logoLabel')}
                               <input type="file"
                               hidden
                               accept='image/*'
                               onChange={handleLogoChange} />
                             </Button>
                             {exceedSize && <Alert icon={<Warning fontSize='inherit'/>} severity='error' sx={{width: '100%', mt: 2}}>
-                              Maximum size for a logo is 2MB.</Alert>}
+                              {t('restaurants.create.alert')}</Alert>}
                           </Box>
                           <Box flex={1} p={3} px={{xs: 0, md: 3}} sx={{width: '100%'}}>
                             <Typography variant='h5' textAlign={'center'}>
-                              Theme
+                              {t('restaurants.create.themeLabel')}
                             </Typography>
                             <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
-                              <InputLabel htmlFor='primary'>Primary color</InputLabel>
+                              <InputLabel htmlFor='primary'>{t('restaurants.create.primaryColorLabel')}</InputLabel>
                               <OutlinedInput
-                              label="Primary color"
+                              label={t('restaurants.create.primaryColorLabel')}
                               value={main}
                               id='primary' type='color'
                               onChange={(e) => setMain(e.target.value)}/>
                             </FormControl>
                             <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
-                              <InputLabel htmlFor='secondary'>Secondary color</InputLabel>
+                              <InputLabel htmlFor='secondary'>{t('restaurants.create.secondaryColorLabel')}</InputLabel>
                               <OutlinedInput
-                              label="Secondary color"
+                              label={t('restaurants.create.secondaryColorLabel')}
                               value={secondary}
                               id='secondary' type='color'
                               onChange={(e) => setSecondary(e.target.value)}/>
                             </FormControl>
                             <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
-                              <InputLabel htmlFor='textPrimary'>Text primary</InputLabel>
+                              <InputLabel htmlFor='textPrimary'>{t('restaurants.create.textPrimaryColorLabel')}</InputLabel>
                               <OutlinedInput
-                              label="Text primary"
+                              label={t('restaurants.create.textPrimaryColorLabel')}
                               value={textMain}
                               id='textPrimary' type='color'
                               onChange={(e) => setTextMain(e.target.value)}/>
                             </FormControl>
                             <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
-                              <InputLabel htmlFor='textSecondary'>Text secondary</InputLabel>
+                              <InputLabel htmlFor='textSecondary'>{t('restaurants.create.textSecondaryColorLabel')}</InputLabel>
                               <OutlinedInput
-                              label="Text secondary"
+                              label={t('restaurants.create.textSecondaryColorLabel')}
                               value={textSecondary}
                               id='textSecondary' type='color'
                               onChange={(e) => setTextSecondary(e.target.value)}/>
@@ -472,7 +476,7 @@ const Restaurants_Owner = () => {
                                 onChange={(event, newValue) => {
                                   setFont(newValue);
                                 }}
-                                renderInput={(params) => <TextField {...params} label="Font" />}
+                                renderInput={(params) => <TextField {...params} label={t('restaurants.create.fontLabel')} />}
                               />
                             </FormControl>
                           </Box>
@@ -480,7 +484,7 @@ const Restaurants_Owner = () => {
                       <Button variant='contained' sx={{mt: 3, width: '50%'}} type='submit'
                       startIcon={loading && <CircularProgress size={20}
                       sx={{color: "background.default"}}/>}>
-                        {loading ? "Creating your restaurant..." : "Create"}
+                        {loading ? t('restaurants.create.submitButtonLoading') : t('restaurants.create.submitButton')}
                       </Button>
                     </Box>
                   </form>
@@ -506,7 +510,7 @@ const Restaurants_Owner = () => {
                 overflowY: 'auto'
               }} onClick={(e) => e.stopPropagation()}>
                 <Typography variant='h4' fontWeight={600} color='primary.main' textAlign={'center'}>
-                  Update Restaurant
+                  {t('restaurants.create.update')}
                 </Typography>
                 <Box mt={3}>
                   <form action="#" onSubmit={handleUpdate}>
@@ -517,30 +521,30 @@ const Restaurants_Owner = () => {
                       } justifyContent={'space-between'} alignItems={'flex-start'}>
                           <Box flex={1} p={3} px={{xs: 0, md: 3}}>
                             <Typography variant='h5' textAlign={'center'}>
-                              Main info
+                              {t('restaurants.create.mainLabel')}
                             </Typography>
                             <FormControl fullWidth sx={{mt: 2}}>
-                              <InputLabel htmlFor='name'>Name</InputLabel>
+                              <InputLabel htmlFor='name'>{t('restaurants.create.nameLabel')}</InputLabel>
                               <OutlinedInput id="name"
-                              label="Name" fullWidth
+                              label={t('restaurants.create.nameLabel')} fullWidth
                               autoComplete='off'
                               value={name}
                               onChange={(e) => setName(e.target.value)}
                               required/>
                             </FormControl>
                             <FormControl fullWidth sx={{mt: 2}}>
-                              <InputLabel htmlFor='address'>Address</InputLabel>
+                              <InputLabel htmlFor='address'>{t('restaurants.create.addressLabel')}</InputLabel>
                               <OutlinedInput id="address"
-                              label="Address" fullWidth type='address'
+                              label={t('restaurants.create.addressLabel')} fullWidth type='address'
                               autoComplete='off'
                               value={address}
                               onChange={(e) => setAddress(e.target.value)}
                               required/>
                             </FormControl>
                             <FormControl fullWidth sx={{mt: 2}}>
-                              <InputLabel htmlFor='phone'>Phone</InputLabel>
+                              <InputLabel htmlFor='phone'>{t('restaurants.create.phoneLabel')}</InputLabel>
                               <OutlinedInput id="phone"
-                              label="Phone" fullWidth type='tel'
+                              label={t('restaurants.create.phoneLabel')} fullWidth type='tel'
                               value={phone}
                               autoComplete='off'
                               onChange={(e) => setPhone(e.target.value)}
@@ -548,47 +552,47 @@ const Restaurants_Owner = () => {
                               required/>
                             </FormControl>
                             <Button variant='contained' fullWidth sx={{mt: 2, bgcolor: "secondary.main", color: "background.default"}} component="label">
-                              {logo ? logo.name : "Upload Logo (optional)"}
+                              {logo ? logo.name : t('restaurants.create.logoLabel')}
                               <input type="file"
                               hidden
                               accept='image/*'
                               onChange={handleLogoChange} />
                             </Button>
                             {exceedSize && <Alert icon={<Warning fontSize='inherit'/>} severity='error' sx={{width: '100%', mt: 2}}>
-                              Maximum size for a logo is 2MB.</Alert>}
+                              {t('restaurants.create.alert')}</Alert>}
                           </Box>
                           <Box flex={1} p={3} px={{xs: 0, md: 3}} sx={{width: '100%'}}>
                             <Typography variant='h5' textAlign={'center'}>
-                              Theme
+                              {t('restaurants.create.themeLabel')}
                             </Typography>
                             <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
-                              <InputLabel htmlFor='primary'>Primary color</InputLabel>
+                              <InputLabel htmlFor='primary'>{t('restaurants.create.primaryColorLabel')}</InputLabel>
                               <OutlinedInput
-                              label="Primary color"
+                              label={t('restaurants.create.primaryColorLabel')}
                               value={main}
                               id='primary' type='color'
                               onChange={(e) => setMain(e.target.value)}/>
                             </FormControl>
                             <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
-                              <InputLabel htmlFor='secondary'>Secondary color</InputLabel>
+                              <InputLabel htmlFor='secondary'>{t('restaurants.create.secondaryColorLabel')}</InputLabel>
                               <OutlinedInput
-                              label="Secondary color"
+                              label={t('restaurants.create.secondaryColorLabel')}
                               value={secondary}
                               id='secondary' type='color'
                               onChange={(e) => setSecondary(e.target.value)}/>
                             </FormControl>
                             <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
-                              <InputLabel htmlFor='textPrimary'>Text primary</InputLabel>
+                              <InputLabel htmlFor='textPrimary'>{t('restaurants.create.textPrimaryColorLabel')}</InputLabel>
                               <OutlinedInput
-                              label="Text primary"
+                              label={t('restaurants.create.textPrimaryColorLabel')}
                               value={textMain}
                               id='textPrimary' type='color'
                               onChange={(e) => setTextMain(e.target.value)}/>
                             </FormControl>
                             <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
-                              <InputLabel htmlFor='textSecondary'>Text secondary</InputLabel>
+                              <InputLabel htmlFor='textSecondary'>{t('restaurants.create.textSecondaryColorLabel')}</InputLabel>
                               <OutlinedInput
-                              label="Text secondary"
+                              label={t('restaurants.create.textSecondaryColorLabel')}
                               value={textSecondary}
                               id='textSecondary' type='color'
                               onChange={(e) => setTextSecondary(e.target.value)}/>
@@ -602,7 +606,7 @@ const Restaurants_Owner = () => {
                                 onChange={(event, newValue) => {
                                   setFont(newValue);
                                 }}
-                                renderInput={(params) => <TextField {...params} label="Font" />}
+                                renderInput={(params) => <TextField {...params} label={t('restaurants.create.fontLabel')} />}
                               />
                             </FormControl>
                           </Box>
@@ -610,7 +614,7 @@ const Restaurants_Owner = () => {
                       <Button variant='contained' sx={{mt: 3, width: '50%'}} type='submit'
                       startIcon={loading && <CircularProgress size={20}
                       sx={{color: "background.default"}}/>}>
-                        {loading ? "Updating your restaurant..." : "Update"}
+                        {loading ? t('restaurants.create.updateButtonLoading') : t('restaurants.create.updateButton')}
                       </Button>
                     </Box>
                   </form>
@@ -628,109 +632,109 @@ const Restaurants_Owner = () => {
             maxHeight: '80vh', overflowY: 'auto', borderRadius: 2}}
             onClose={() => setSelectedRestaurant(null)}>
               <Typography variant='h5' color='primary.main' fontWeight={600} textAlign={'center'}>
-                Restaurant Details
+                {t('restaurants.details.title')}
               </Typography>
               <Box mt={2} display={'flex'} flexDirection={{xs: 'column', md: 'row'}} gap={2}
               justifyContent={"space-around"} alignItems={'flex-start'}>
                 <Box flex={1}>
                   <Typography variant='h6' fontWeight={600} mb={1} textAlign={'center'}>
-                    Main info:
+                    {t('restaurants.details.mainInfo')}
                   </Typography>
                   <FormControl fullWidth sx={{mb: 2}}>
-                    <InputLabel htmlFor='name'>Name</InputLabel>
+                    <InputLabel htmlFor='name'>{t('restaurants.details.nameLabel')}</InputLabel>
                     <OutlinedInput readOnly
-                    label="Name"
+                    label={t('restaurants.details.nameLabel')}
                     value={selectedRestaurant?.name}
                     id='name'/>
                   </FormControl>
                   <FormControl fullWidth sx={{mb: 2}}>
-                    <InputLabel htmlFor='slug'>SlugName</InputLabel>
+                    <InputLabel htmlFor='slug'>{t('restaurants.details.slugLabel')}</InputLabel>
                     <OutlinedInput readOnly
-                    label="SlugName"
+                    label={t('restaurants.details.slugLabel')}
                     value={selectedRestaurant?.slug}
                     id='slug'/>
                   </FormControl>
                   <FormControl fullWidth sx={{mb: 2}}>
-                    <InputLabel htmlFor='address'>Address</InputLabel>
+                    <InputLabel htmlFor='address'>{t('restaurants.details.addressLabel')}</InputLabel>
                     <OutlinedInput readOnly
-                    label="Address"
+                    label={t('restaurants.details.addressLabel')}
                     value={selectedRestaurant?.address}
                     id='address'/>
                   </FormControl>
                   <FormControl fullWidth sx={{mb: 2}}>
-                    <InputLabel htmlFor='phone'>Phone</InputLabel>
+                    <InputLabel htmlFor='phone'>{t('restaurants.details.phoneLabel')}</InputLabel>
                     <OutlinedInput readOnly
-                    label="Phone"
+                    label={t('restaurants.details.phoneLabel')}
                     value={selectedRestaurant?.phone}
                     id='phone'/>
                   </FormControl>
                 </Box>
                 <Box flex={1}>
                   <Typography variant='h6' fontWeight={600} mb={1} textAlign={'center'}>
-                    Menus info:
+                    {t('restaurants.details.menusInfo')}
                   </Typography>
                   <FormControl fullWidth sx={{mb: 2}}>
-                    <InputLabel htmlFor='menusCount'>Menus count</InputLabel>
+                    <InputLabel htmlFor='menusCount'>{t('restaurants.details.menusCountLabel')}</InputLabel>
                     <OutlinedInput readOnly
-                    label="Menus count"
+                    label={t('restaurants.details.menusCountLabel')}
                     value={selectedRestaurant?.menusCount}
                     id='menusCount'/>
                   </FormControl>
                   <FormControl fullWidth sx={{mb: 2}}>
-                    <InputLabel htmlFor='categoriesCount'>Categories count</InputLabel>
+                    <InputLabel htmlFor='categoriesCount'>{t('restaurants.details.categoriesCountLabel')}</InputLabel>
                     <OutlinedInput readOnly
-                    label="Categories count"
+                    label={t('restaurants.details.categoriesCountLabel')}
                     value={selectedRestaurant?.categoriesCount}
                     id='categoriesCount'/>
                   </FormControl>
                   <FormControl fullWidth sx={{mb: 2}}>
-                    <InputLabel htmlFor='itemsCount'>Menu items count</InputLabel>
+                    <InputLabel htmlFor='itemsCount'>{t('restaurants.details.itemsCountLabel')}</InputLabel>
                     <OutlinedInput readOnly
-                    label="Menu items count"
+                    label={t('restaurants.details.itemsCountLabel')}
                     value={selectedRestaurant?.menuItemsCount}
                     id='itemsCount'/>
                   </FormControl>
                 </Box>
                 <Box flex={1}>
                   <Typography variant='h6' fontWeight={600} mb={1} textAlign={'center'}>
-                    Theme info:
+                    {t('restaurants.details.themeInfo')}
                   </Typography>
                   <FormControl fullWidth sx={{mb: 2}}>
-                    <InputLabel htmlFor='primaryColor'>Primary color</InputLabel>
+                    <InputLabel htmlFor='primaryColor'>{t('restaurants.details.primaryColorLabel')}</InputLabel>
                     <OutlinedInput readOnly
-                    label="Primary color"
+                    label={t('restaurants.details.primaryColorLabel')}
                     value={selectedRestaurant?.theme.primaryColor}
                     id='primaryColor' type='color'
                     disabled/>
                   </FormControl>
                   <FormControl fullWidth sx={{mb: 2}}>
-                    <InputLabel htmlFor='secondaryColor'>Secondary color</InputLabel>
+                    <InputLabel htmlFor='secondaryColor'>{t('restaurants.details.secondaryColorLabel')}</InputLabel>
                     <OutlinedInput readOnly
-                    label="Secondary color"
+                    label={t('restaurants.details.secondaryColorLabel')}
                     value={selectedRestaurant?.theme.secondaryColor}
                     id='secondaryColor' type='color'
                     disabled/>
                   </FormControl>
                   <FormControl fullWidth sx={{mb: 2}}>
-                    <InputLabel htmlFor='textPrimary'>Text primary</InputLabel>
+                    <InputLabel htmlFor='textPrimary'>{t('restaurants.details.textPrimaryColorLabel')}</InputLabel>
                     <OutlinedInput readOnly
-                    label="Text primary"
+                    label={t('restaurants.details.textPrimaryColorLabel')}
                     value={selectedRestaurant?.theme.textPrimary}
                     id='textPrimary' type='color'
                     disabled/>
                   </FormControl>
                   <FormControl fullWidth sx={{mb: 2}}>
-                    <InputLabel htmlFor='textSecondary'>Text secondary</InputLabel>
+                    <InputLabel htmlFor='textSecondary'>{t('restaurants.details.textSecondaryColorLabel')}</InputLabel>
                     <OutlinedInput readOnly
-                    label="Text secondary"
+                    label={t('restaurants.details.textSecondaryColorLabel')}
                     value={selectedRestaurant?.theme.textSecondary}
                     id='textSecondary' type='color'
                     disabled/>
                   </FormControl>
                   <FormControl fullWidth sx={{mb: 2}}>
-                    <InputLabel htmlFor='font'>Font</InputLabel>
+                    <InputLabel htmlFor='font'>{t('restaurants.details.fontLabel')}</InputLabel>
                     <OutlinedInput readOnly
-                    label="Font"
+                    label={t('restaurants.details.fontLabel')}
                     value={selectedRestaurant?.theme.font}
                     id='font'/>
                   </FormControl>

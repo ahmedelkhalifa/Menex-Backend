@@ -6,11 +6,15 @@ import com.app.menex.menu.dtos.UpdateMenuRequest;
 import com.app.menex.menu.mappers.MenuMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.nio.file.AccessDeniedException;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,8 +26,8 @@ public class MenuController {
     private final MenuService menuService;
     private final MenuMapper menuMapper;
 
-    @PostMapping
-    public ResponseEntity<MenuDto> createMenu(@RequestBody CreateMenuRequest request) throws AccessDeniedException {
+    @PostMapping("/menus")
+    public ResponseEntity<MenuDto> createMenu(@RequestBody CreateMenuRequest request) throws IOException {
         Menu createdMenu = menuService.createMenu(request.getMenuName(), request.getRestaurantId());
         MenuDto menuDto = menuMapper.toDto(createdMenu);
         return new ResponseEntity<>(menuDto, HttpStatus.CREATED);
@@ -37,22 +41,55 @@ public class MenuController {
     }
 
     @GetMapping("/restaurants/{restaurantId}/menus")
-    public ResponseEntity<Set<MenuDto>> getAllMenus(@PathVariable Long restaurantId) throws AccessDeniedException {
-        Set<Menu> menus = menuService.getAllMenus(restaurantId);
-        Set<MenuDto> dtos = menus.stream().map(menuMapper::toDto).collect(Collectors.toSet());
+    public ResponseEntity<List<MenuDto>> getAllMenus(@PathVariable Long restaurantId) throws AccessDeniedException {
+        List<Menu> menus = menuService.getAllMenus(restaurantId);
+        List<MenuDto> dtos = menus.stream().map(menuMapper::toDto).toList();
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    @PutMapping("/menus/{menuId}")
+    @GetMapping("/{slug}/menus/{menuId}/download-QR-code")
+    public ResponseEntity<byte[]> downloadMenuQRCode(@PathVariable String slug, @PathVariable Long menuId) throws Exception {
+        String menuUrl = "https://menex.my/" + slug + "/" + menuId;
+        byte[] QRImage = menuService.generateMenuQRCode(menuUrl);
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename="+ slug + "-qr.png")
+                .contentType(MediaType.IMAGE_PNG)
+                .body(QRImage);
+    }
+
+    @GetMapping("/{slug}/menus/{menuId}/get-QR-code")
+    public ResponseEntity<byte[]> getMenuQRCode(@PathVariable String slug, @PathVariable Long menuId) throws Exception {
+        System.out.println("I'm here");
+        String menuUrl = "https://menex.my/" + slug + "/" + menuId;
+        byte[] QRImage = menuService.generateMenuQRCode(menuUrl);
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_PNG)
+                .body(QRImage);
+    }
+
+    @PutMapping("restaurants/{restaurantId}/menus/{menuId}")
     public ResponseEntity<MenuDto> updateMenu(@Valid @RequestBody UpdateMenuRequest request,
-                                              @PathVariable Long menuId){
-        Menu updatedMenu = menuService.updateMenu(request.getMenuName(), request.getRestaurantId(), menuId);
+                                              @PathVariable Long menuId,
+                                              @PathVariable Long restaurantId){
+        Menu updatedMenu = menuService.updateMenu(request.getMenuName(), restaurantId, menuId);
         MenuDto menuDto = menuMapper.toDto(updatedMenu);
         return new ResponseEntity<>(menuDto, HttpStatus.OK);
     }
 
+    @PutMapping("/menus/{menuId}/disable")
+    public ResponseEntity disableMenu(@PathVariable Long menuId){
+        menuService.disableMenu(menuId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/menus/{menuId}/enable")
+    public ResponseEntity enableMenu(@PathVariable Long menuId){
+        menuService.enableMenu(menuId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @DeleteMapping("/menus/{menuId}")
-    public ResponseEntity deleteMenu(@PathVariable Long menuId){
+    public ResponseEntity deleteMenu(@PathVariable Long menuId) throws IOException {
         menuService.deleteMenu(menuId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }

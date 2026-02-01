@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useThemeMode } from '../main';
 import Logo from '../assets/logo-png.png';
 import LogoDark from '../assets/logo-dark-png.png';
+import { useTranslation } from 'react-i18next';
 
 const OwnerSidebar = ({view, subname}) => {
     function handleLogout() {
@@ -14,6 +15,7 @@ const OwnerSidebar = ({view, subname}) => {
     const navigate = useNavigate();
     const location = useLocation();
     const {mode, setMode} = useThemeMode();
+    const {t} = useTranslation();
     function handleChange() {
         setMode((prev) => prev === "light" ? "dark" : "light");
     }
@@ -23,7 +25,7 @@ const OwnerSidebar = ({view, subname}) => {
                     <Box
                     component="img"
                     src={mode === "light" ? Logo : LogoDark}
-                    width={200}            // same as 300px
+                    width={170}            // same as 200px
                     sx={{
                         display: "block",    // removes inline spacing
                         objectFit: "contain",// keeps image proportions
@@ -31,9 +33,9 @@ const OwnerSidebar = ({view, subname}) => {
                     alt="Logo"
                     />
                     <Typography variant='h5' color='text.primary' fontWeight={700} mt={2}>
-                        {subname}
+                        {t('sidebar.ownerDashboard')}
                     </Typography>
-                    <Divider sx={{my: 2, borderBottomWidth: 3, borderColor: 'text.primary'}}></Divider>
+                    <Divider sx={{my: 2, borderBottomWidth: 3, borderColor: 'divider'}}></Divider>
                     <List>
                       <ListItem disablePadding>
                         <ListItemButton
@@ -46,7 +48,7 @@ const OwnerSidebar = ({view, subname}) => {
                           <ListItemIcon>
                             <SpaceDashboard ></SpaceDashboard>
                           </ListItemIcon>
-                          <ListItemText primary="dashboard"/>
+                          <ListItemText primary={t('sidebar.dashboard')}/>
                         </ListItemButton>
                       </ListItem>
                       <ListItem disablePadding>
@@ -56,17 +58,17 @@ const OwnerSidebar = ({view, subname}) => {
                           <ListItemIcon>
                             <Restaurant></Restaurant>
                           </ListItemIcon>
-                          <ListItemText primary="Restaurants"/>
+                          <ListItemText primary={t('sidebar.restaurants')}/>
                         </ListItemButton>
                       </ListItem>
                       <ListItem disablePadding>
-                        <ListItemButton onClick={() => navigate("/owner-dashboard/menus")}
+                        <ListItemButton onClick={() => navigate("/owner-dashboard/menus-builder")}
                           sx={{color: "text.primary"}}
-                          selected={location.pathname === "/owner-dashboard/menus"}>
+                          selected={location.pathname === "/owner-dashboard/menus-builder"}>
                           <ListItemIcon>
                             <MenuBook/>
                           </ListItemIcon>
-                          <ListItemText primary="Menus"/>
+                          <ListItemText primary={t('sidebar.menus')}/>
                         </ListItemButton>
                       </ListItem>
                       <ListItem disablePadding>
@@ -76,17 +78,17 @@ const OwnerSidebar = ({view, subname}) => {
                           <ListItemIcon>
                             <AccountCircle/>
                           </ListItemIcon>
-                          <ListItemText primary="Profile"/>
+                          <ListItemText primary={t('sidebar.profile')}/>
                         </ListItemButton>
                       </ListItem>
-                      <FormGroup sx={{mt: 5}}>
+                      <FormGroup sx={{mt: 27}}>
                         <FormControlLabel control={<Switch
                         checked={mode === "dark"}
                         onChange={handleChange}/>}
-                        label="Dark mode"/>
+                        label={t('sidebar.darkMode')}/>
                       </FormGroup>
-                      <Button variant='contained' sx={{mt: 20, bgcolor: 'error.main', color: '#FFFFFF'}} onClick={handleLogout}>
-                        Logout
+                      <Button variant='contained' sx={{mt: 2, bgcolor: 'error.main', color: '#FFFFFF', width: "100%", height: "50px"}} onClick={handleLogout}>
+                        {t('sidebar.logout')}
                       </Button>
                     </List>
                   </Box>

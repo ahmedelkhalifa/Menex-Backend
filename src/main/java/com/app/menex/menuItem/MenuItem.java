@@ -27,6 +27,8 @@ public class MenuItem {
     private String description;
     @Column(nullable = false)
     private BigDecimal price;
+    @Enumerated(EnumType.STRING)
+    private Currency currency;
 
     private String imageUrl;
     private boolean available;

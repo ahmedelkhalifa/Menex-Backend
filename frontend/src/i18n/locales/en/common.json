@@ -1,0 +1,273 @@
+{
+    "ownerDashboard": {
+        "title": "Dashboard",
+        "description": "Overview of overall status.",
+        "stats": "Quick Stats",
+        "statsDescription": "Here are some statistics about your restaurants and menus.",
+        "restaurantsCountLabel": "Number of Restaurants",
+        "menusCountLabel": "Number of Menus",
+        "categoriesCountLabel": "Number of Categories",
+        "itemsCountLabel": "Number of Items",
+        "quickActions": "Quick Actions",
+        "createRestaurant": "Create Restaurant",
+        "viewRestaurants": "View Restaurants",
+        "createMenu": "Create Menu",
+        "viewMenus": "View Menus"
+    },
+    "sidebar": {
+        "ownerDashboard": "Owner Dashboard",
+        "adminDashboard": "Admin Dashboard",
+        "restaurantOwners": "Restaurant Owners",
+        "dashboard": "Dashboard",
+        "restaurants": "Restaurants",
+        "menus": "Menus Builder",
+        "profile": "Profile",
+        "logout": "Logout",
+        "darkMode": "Dark Mode",
+        "admins": "Admins"
+    },
+    "restaurants": {
+        "title": "My Restaurants",
+        "description": "Perform all operations on your restaurants.",
+        "search": "Search...",
+        "createButton": "Create Restaurant",
+        "noData": "No restaurants found. Please create a restaurant.",
+        "table": {
+            "name": "Name",
+            "address": "Address",
+            "actions": "Actions",
+            "edit": "Edit",
+            "delete": "Delete",
+            "slug": "Slug (URL path)",
+            "details": "Details"
+        },
+        "create": {
+            "title": "Create Restaurant",
+            "update": "Update Restaurant",
+            "mainLabel": "Main Info",
+            "nameLabel": "Name",
+            "addressLabel": "Address",
+            "phoneLabel": "Phone",
+            "logoLabel": "Upload Logo (optional)",
+            "themeLabel": "Theme",
+            "primaryColorLabel": "Primary Color",
+            "secondaryColorLabel": "Secondary Color",
+            "textPrimaryColorLabel": "Text Primary",
+            "textSecondaryColorLabel": "Text Secondary",
+            "fontLabel": "Font",
+            "alert": "Maximum size for a logo is 2MB.",
+            "submitButton": "Create",
+            "submitButtonLoading": "Creating your restaurant...",
+            "updateButton": "Update",
+            "updateButtonLoading": "Updating your restaurant...",
+            "updateSuccessMessage": "Restaurant updated successfully!",
+            "successTitle": "Done!",
+            "createSuccessMessage": "Restaurant created successfully!"
+        },
+        "details": {
+            "title": "Restaurant Details",
+            "mainInfo": "Main Info",
+            "nameLabel": "Name",
+            "slugLabel": "Slug",
+            "addressLabel": "Address",
+            "phoneLabel": "Phone",
+            "themeInfo": "Theme Info",
+            "primaryColorLabel": "Primary Color",
+            "secondaryColorLabel": "Secondary Color",
+            "textPrimaryColorLabel": "Text Primary",
+            "textSecondaryColorLabel": "Text Secondary",
+            "fontLabel": "Font",
+            "menusInfo": "Menus Info",
+            "menusCountLabel": "Menus count",
+            "categoriesCountLabel": "Categories count",
+            "itemsCountLabel": "Menu items count"
+        },
+        "errorAlert": {
+            "title": "Oops...",
+            "message": "An error occurred while fetching restaurant details. Please try again later.",
+            "updateErrorMessage": "An error occurred while updating the restaurant. Please try again.",
+            "createErrorMessage": "An error occurred while creating the restaurant. Please try again."
+        },
+        "deleteAlert": {
+            "title": "Are you sure?",
+            "message": "You won't be able to revert this!\nAll menus and menu items associated will be deleted.",
+            "confirmButtonText": "Yes, delete it!",
+            "cancelButtonText": "Cancel",
+            "deletedTitle": "Deleted!",
+            "deletedMessage": "The restaurant has been deleted.",
+            "errorTitle": "Error!",
+            "errorMessage": "An error occurred while deleting the restaurant. Please try again."
+        }
+    },
+    "profile": {
+        "role": "Role",
+        "superAdmin": "Super Admin",
+        "restaurantOwner": "Restaurant Owner",
+        "basicInfo": "Basic Info",
+        "firstnameLabel": "First name",
+        "lastnameLabel": "Last name",
+        "emailLabel": "Email",
+        "editButton": "Edit Profile",
+        "updateButton": "Update",
+        "cancel": "Cancel",
+        "errorAlert": {
+            "title": "Error",
+            "updateMessage": "An error occurred while updating your profile. Please try again.",
+            "fetchMessage": "An error occurred while fetching your profile data. Please try again."
+        },
+        "successAlert": {
+            "title": "Success",
+            "message": "Your profile has been updated successfully!"
+        },
+        "security": {
+            "title": "Security",
+            "changePasswordTitle": "Change Password",
+            "changePasswordDescription": "To change your password, please enter your current password and a new password.",
+            "currentPasswordLabel": "Current Password",
+            "newPasswordLabel": "New Password",
+            "confirmNewPasswordLabel": "Confirm New Password",
+            "changePasswordButton": "Change Password",
+            "changePasswordButtonLoading": "Changing your password...",
+            "passwordMismatchMessage": "New password and confirmation do not match.",
+            "logout": "Logout",
+            "errorAlert": {
+                "title": "Error",
+                "message": "An error occurred while changing your password. Please try again."
+            },
+            "successAlert": {
+                "title": "Success",
+                "message": "Your password has been changed successfully!"
+            }
+        },
+        "preferences": {
+            "title": "Preferences",
+            "darkModeLabel": "Dark Mode",
+            "languageLabel": "Language",
+            "darkMode": "Dark",
+            "lightMode": "Light"
+        }
+    },
+    "menus": {
+        "title": "Menus Builder",
+        "description": "Manage and customize your restaurant menus",
+        "currentRestaurantLabel": "Current Restaurant",
+        "selectRestaurantLabel": "Select Restaurant",
+        "noRestaurantsLabel": "No Restaurants Found",
+        "noMenusLabel": "No Menus Found",
+        "noCategoriesLabel": "No Categories Found",
+        "noItemsLabel": "No Items Found",
+        "previewQRLabel": "Preview QR",
+        "menusLabel": "Menus",
+        "categoriesLabel": "Categories",
+        "itemsLabel": "Items in",
+        "createMenu": {
+            "title": "Add Menu",
+            "nameLabel": "Menu Name",
+            "button": "Add Menu",
+            "buttonLoading": "Adding menu...",
+            "errorAlert": {
+                "title": "Error",
+                "message": "An error occurred while adding the menu. Please try again."
+            },
+            "successAlert": {
+                "title": "Success",
+                "message": "Menu added successfully!"
+            }
+        },
+        "createCategory": {
+            "title": "Add Category",
+            "nameLabel": "Category Name",
+            "button": "Add Category",
+            "buttonLoading": "Adding category..."
+        },
+        "createItem": {
+            "title": "Add Item",
+            "nameLabel": "Item Name",
+            "priceLabel": "Price",
+            "descriptionLabel": "Description",
+            "uploadImageLabel": "Upload Image",
+            "recommendedSizeLabel": "(recommended size 200x200)",
+            "button": "Add Item",
+            "buttonLoading": "Adding item...",
+            "exceededSize": "The maximum size for an image is 2MB",
+            "availableLabel": "Available",
+            "unavailableLabel": "Unavailable"
+        },
+        "menuOperationsLabel": "Operations",
+        "editMenu": {
+            "title": "Edit Menu",
+            "otherOpsLabel": "Other Operations",
+            "deleteButton": "Delete Menu",
+            "deleteButtonLoading": "Deleting menu...",
+            "nameLabel": "Menu Name",
+            "button": "Update",
+            "buttonLoading": "Updating menu...",
+            "activeLabel": "Active",
+            "inactiveLabel": "Inactive",
+            "disableButton": "Disable Menu",
+            "enableButton": "Enable Menu",
+            "deleteTitle": "Are you sure?",
+            "deleteMessage": "You won't be able to revert this!\nAll menu items associated will be deleted.",
+            "confirmDelete": "Yes, delete it!",
+            "cancelDelete": "Cancel"
+        },
+        "editCategory": {
+            "title": "Edit Category",
+            "nameLabel": "Category Name",
+            "button": "Update",
+            "buttonLoading": "Updating category...",
+            "deleteButton": "Delete Category",
+            "deleteButtonLoading": "Deleting category...",
+            "deleteTitle": "Are you sure?",
+            "deleteMessage": "You won't be able to revert this, All associated menu items will be deleted.",
+            "confirmDelete": "Yes, delete it!",
+            "cancelDelete": "Cancel"
+        },
+        "editItem": {
+            "updateLabel": "Update Item",
+            "nameLabel": "Item Name",
+            "updateButton": "Update",
+            "buttonLoading": "Updating Item...",
+            "deleteButton": "Delete Item",
+            "deleteButtonLoading": "Deleting Item...",
+            "deleteTitle": "Are you sure?",
+            "deleteMessage": "You won't be able to revert this",
+            "confirmDelete": "Yes, delete it!",
+            "cancelDelete": "Cancel"
+        },
+        "errorAlert": {
+            "title": "Oops...",
+            "message": "An error occurred",
+            "fetchMenusMessage": "An error occurred while fetching menus. Please try again later.",
+            "fetchRestaurantsMessage": "An error occurred while fetching restaurants.",
+            "fetchCategoriesMessage": "An error occurred while fetching categories.",
+            "fetchItemsMessage": "An error occurred while fetching menu items",
+            "updateErrorMessage": "An error occurred while updating the menu. Please try again.",
+            "updateCategoryErrorMessage": "An error occurred while updating the category. Please try again.",
+            "updateItemErrorMessage": "An error occurred while updating the Item. Please try again.",
+            "deleteErrorMessage": "An error occurred while deleting the menu. Please try again",
+            "deleteCategoryErrorMessage": "An error occurred while deleting the category. Please try again",
+            "deleteItemErrorMessage": "An error occurred while deleting the item. Please try again",
+            "disableErrorMessage": "An error occurred while disabling the menu. Please try again",
+            "enableErrorMessage": "An error occurred while enabling the menu. Please try again",
+            "addCategoryErrorMessage": "An error occurred while adding the category. Please try again",
+            "QRErrorMessage": "An error occurred while generating the QR code. Please try again",
+            "noMenuSelected": "No menu selected",
+            "noCategorySelected": "No category selected",
+            "addItemErrorMessage": "An error occurred while adding the item. Please try again"
+        },
+        "successAlert": {
+            "title": "Done!",
+            "updateSuccessMessage": "Menu updated successfully",
+            "updateCategorySuccessMessage": "Category updated successfully",
+            "updateItemSuccessMessage": "Item updated successfully",
+            "deleteSuccessMessage": "Menu deleted successfully",
+            "deleteCategorySuccessMessage": "Category deleted successfully",
+            "deleteItemMessage": "Item deleted successfully",
+            "disableSuccessMessage": "Menu disabled successfully",
+            "enableSuccessMessage": "Menu enabled successfully",
+            "addCategorySuccessMessage": "Category added successfully",
+            "addItemSuccessMessage": "Item added successfully"
+        }
+    }
+}

@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import './index.css'
+import "./i18n";
 import App from './App.jsx'
 
 // const theme = createTheme({
@@ -63,7 +64,7 @@ const lightTheme = createTheme({
     primary: {
       main: "#6FBF73", // logo green
       dark: "#4FA65A",
-      light: "#8FD19E",
+      light: "rgba(20, 230, 69, 0.1)",
       contrastText: "#ffffff",
     },
 
@@ -74,7 +75,7 @@ const lightTheme = createTheme({
     background: {
       default: "#F6F8F7", // soft dashboard background
       paper: "#FFFFFF",
-      sidebar: "#F4F8F6"
+      sidebar: "#f9fafb"
     },
 
     text: {
@@ -84,10 +85,12 @@ const lightTheme = createTheme({
 
     success: {
       main: "#5CB85C",
+      light: "#81C784",
     },
 
     error: {
       main: "#D32F2F",
+      light: "#EF5350",
     },
 
     divider: "#E0E5E3",

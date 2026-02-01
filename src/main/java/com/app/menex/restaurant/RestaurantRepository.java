@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -13,7 +14,7 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
     Restaurant findBySlug(String slug);
 
     @EntityGraph(attributePaths = {"menus"})
-    Set<Restaurant> findAllByOwnerId(Long id);
+    List<Restaurant> findAllByOwnerIdOrderByIdAsc(Long id);
 
     Optional<Restaurant> findByIdAndOwnerId(Long restaurantId, Long ownerId);
 }

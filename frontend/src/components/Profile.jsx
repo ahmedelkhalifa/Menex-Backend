@@ -6,6 +6,8 @@ import { useThemeMode } from '../main';
 import api from '../api';
 import Swal from 'sweetalert2';
 import Sidebar from './Sidebar';
+import i18n from '../i18n';
+import { useTranslation } from 'react-i18next';
 
 
 const Profile = () => {
@@ -57,18 +59,18 @@ const Profile = () => {
             setEditMode(false);
             Swal.fire({
                 icon: 'success',
-                title: 'Success',
-                text: 'Profile updated successfully.',
+                title: t("profile.successAlert.title"),
+                text: t("profile.successAlert.message"),
                 showCloseButton: true,
                 background: theme.palette.background.default,
                 color: theme.palette.text.primary
             });
         } catch (error) {
             console.error(error);
-            const message = error.response?.data?.message || 'Failed to update profile data.';
+            const message = error.response?.data?.message || t("profile.errorAlert.updateMessage");
             Swal.fire({
                 icon: 'error',
-                title: 'Error',
+                title: t("profile.errorAlert.title"),
                 text: message,
                 showCloseButton: true,
                 background: theme.palette.background.default,
@@ -93,6 +95,9 @@ const Profile = () => {
                 background: theme.palette.background.default,
                 color: theme.palette.text.primary
             });
+        } finally {
+            i18n.changeLanguage(language);
+            localStorage.setItem("lang", language);
         }
     }
 
@@ -104,8 +109,8 @@ const Profile = () => {
                 setOpenModal(false);
                 Swal.fire({
                     icon: 'error',
-                    title: 'Error',
-                    text: 'New passwords do not match.',
+                    title: t("profile.security.errorAlert.title"),
+                    text: t("profile.security.passwordMismatchMessage"),
                     showCloseButton: true,
                     background: theme.palette.background.default,
                     color: theme.palette.text.primary
@@ -118,18 +123,18 @@ const Profile = () => {
             });
             Swal.fire({
                 icon: 'success',
-                title: 'Success',
-                text: 'Password changed successfully.',
+                title: t("profile.security.successAlert.title"),
+                text: t("profile.security.successAlert.message"),
                 showCloseButton: true,
                 background: theme.palette.background.default,
                 color: theme.palette.text.primary
             });
         } catch (error) {   
             console.error(error);
-            const message = error.response?.data?.message || 'Failed to change password.';
+            const message = error.response?.data?.message || t("profile.security.errorAlert.message");
             Swal.fire({ 
                 icon: 'error',
-                title: 'Error',
+                title: t("profile.security.errorAlert.title"),
                 text: message,
                 showCloseButton: true,
                 background: theme.palette.background.default,
@@ -164,8 +169,8 @@ const Profile = () => {
                 console.error(error);
                 Swal.fire({
                     icon: 'error',
-                    title: 'Error',
-                    text: 'Failed to fetch profile data.',
+                    title: t("profile.errorAlert.title"),
+                    text: t("profile.errorAlert.fetchMessage"),
                     showCloseButton: true,
                     background: theme.palette.background.default,
                     color: theme.palette.text.primary
@@ -186,6 +191,7 @@ const Profile = () => {
         validateToken();
         getProfile();
     },[])
+    const {t} = useTranslation();
   return (
     <>
     <Box>
@@ -197,20 +203,20 @@ const Profile = () => {
         anchor='left'
         open={open}
         onClose={() => setOpen(false)}>
-          {user.role === "RESTAURANT_OWNER" ? (
-            <OwnerSidebar view={"phone"} subname={"Restaurant Owner"}/>
+          {localStorage.getItem("role") === "RESTAURANT_OWNER" ? (
+            <OwnerSidebar view={"phone"}/>
           ) : (
-            <Sidebar view={"phone"} subname={"Super Admin"}/>
+            <Sidebar view={"phone"}/>
           )}
         </Drawer>
       </Box>
       <Box display={'flex'} bgcolor={"background.default"} gap={2}>
-        {user.role === "RESTAURANT_OWNER" ? (
-            <OwnerSidebar view={"desktop"} subname={"Restaurant Owner"}/>
+        {localStorage.getItem("role") === "RESTAURANT_OWNER" ? (
+            <OwnerSidebar view={"desktop"}/>
           ) : (
-            <Sidebar view={"desktop"} subname={"Super Admin"}/>
+            <Sidebar view={"desktop"}/>
           )}
-        <Box flex={4} p={5} mt={{xs: 8, md: 0}}>
+        <Box flex={5} p={5} mt={{xs: 8, md: 0}}>
             <Box>
                 <Stack direction={'row'} alignItems={'center'} gap={2} mb={3}>
                     <Avatar sx={{width: 70, height: 70, bgcolor: theme.palette.primary.main, fontSize: 40}}></Avatar>
@@ -223,7 +229,7 @@ const Profile = () => {
                                 {firstname + " " + lastname}
                             </Typography>
                             <Typography variant='h6' color='text.secondary' fontWeight={500}>
-                                ({user.role === 'RESTAURANT_OWNER' ? 'Restaurant Owner' : "Super Admin"})
+                                ({user.role === 'RESTAURANT_OWNER' ? t("profile.restaurantOwner") : t("profile.superAdmin")})
                             </Typography>
                             </>
                         )}
@@ -236,45 +242,45 @@ const Profile = () => {
                 ) : (
                 <>
                 <Typography variant='h5' color='text.primary' fontWeight={600} mb={2}>
-                    Basic Info
+                    {t("profile.basicInfo")}
                 </Typography>
                 <Divider sx={{borderWidth: 1, borderColor: 'divider', mb: 2}}></Divider>
                 <Grid container spacing={2}>
                     <Grid item size={{xs: 12, sm: 6}}>
-                        <TextField label="First name" fullWidth
+                        <TextField label={t("profile.firstnameLabel")} fullWidth
                         inputProps={{readOnly: !editMode}} 
                         value={user.firstName}
                         onChange={(e) => setUser({ ...user, firstName: e.target.value })}
                         autoFocus={editMode}/>
                     </Grid>
                     <Grid item size={{xs: 12, sm: 6}}>
-                        <TextField label="Last name" fullWidth inputProps={{readOnly: !editMode}}
+                        <TextField label={t("profile.lastnameLabel")} fullWidth inputProps={{readOnly: !editMode}}
                         value={user.lastName}
                         onChange={(e) => setUser({ ...user, lastName: e.target.value })}/>
                     </Grid>
                     <Grid item size={{xs: 12, sm: 6}}>
-                        <TextField label="Email" fullWidth inputProps={{readOnly: !editMode}}
+                        <TextField label={t("profile.emailLabel")} fullWidth inputProps={{readOnly: !editMode}}
                         value={user.email}
                         onChange={(e) => setUser({ ...user, email: e.target.value })}/>
                     </Grid>
                     <Grid item size={{xs: 12, sm: 6}}>
-                        <TextField label="Role" fullWidth inputProps={{readOnly: true}} 
+                        <TextField label={t("profile.role")} fullWidth inputProps={{readOnly: true}} 
                         value={user.role}/>
                     </Grid>
                 </Grid>
                 <Divider sx={{borderWidth: 1, borderColor: 'divider', mt: 2}}></Divider>
                 <Box mt={2} display={'flex'} justifyContent={'flex-start'} gap={2}>
-                    <Tooltip title="Edit Profile">
+                    <Tooltip title={t("profile.editButton")}>
                         <IconButton onClick={() => setEditMode(true)} sx={{bgcolor: 'primary.main', '&:hover': {bgcolor: 'primary.dark'}}}>
                             <Edit sx={{color: 'background.default'}}/>
                         </IconButton>
                     </Tooltip>
-                    <Tooltip title="Update">
+                    <Tooltip title={t("profile.updateButton")}>
                         <IconButton onClick={handleUpdate} sx={{bgcolor: 'success.main', '&:hover': {bgcolor: 'success.dark'}}} disabled={!editMode}>
                             <Save sx={{color: 'background.default'}}/>
                         </IconButton>
                     </Tooltip>
-                    <Tooltip title="Cancel">
+                    <Tooltip title={t("profile.cancel")}>
                         <IconButton onClick={() => setEditMode(false)} sx={{bgcolor: 'error.main', '&:hover': {bgcolor: 'error.dark'}}} disabled={!editMode}>
                             <Cancel sx={{color: 'background.default'}}/>
                         </IconButton>
@@ -289,18 +295,18 @@ const Profile = () => {
                 ) : (
                 <>
                 <Typography variant='h5' color='text.primary' fontWeight={600} mb={2}>
-                    Security
+                    {t("profile.security.title")}
                 </Typography>
                 <Divider sx={{borderWidth: 1, borderColor: 'divider', mb: 2}}></Divider>
                 <Grid container spacing={2}>
                     <Grid item size={{xs: 12, sm: 6}}>
                         <Button variant='contained' sx={{bgcolor: 'primary.main', '&:hover': {bgcolor: 'primary.dark'}}} fullWidth onClick={() => setOpenModal(true)}>
-                            Change Password
+                            {t("profile.security.changePasswordTitle")}
                         </Button>
                     </Grid>
                     <Grid item size={{xs: 12, sm: 6}}>
                         <Button variant='contained' sx={{bgcolor: 'error.main', '&:hover': {bgcolor: 'error.dark'}, color: '#FFF'}} fullWidth>
-                            Logout
+                            {t("profile.security.logout")}
                         </Button>
                     </Grid>
                 </Grid>
@@ -315,14 +321,14 @@ const Profile = () => {
                     borderRadius: 2
                 }}>
                     <Typography variant="h5" component="h2" fontWeight={600}>
-                        Change Password
+                        {t("profile.security.changePasswordTitle")}
                     </Typography>
                     <Typography color='text.secondary' sx={{mt: 1}}>
-                        please enter your old password and new password to change your password.
+                        {t("profile.security.changePasswordDescription")}
                     </Typography>
                     <form action="#" onSubmit={handleChangePassword}>
                         <TextField
-                            label="Old Password"
+                            label={t("profile.security.currentPasswordLabel")}
                             type="password"
                             fullWidth
                             sx={{mt: 2}}
@@ -331,7 +337,7 @@ const Profile = () => {
                             required
                         />
                         <TextField
-                            label="New Password"
+                            label={t("profile.security.newPasswordLabel")}
                             type="password"
                             fullWidth
                             sx={{mt: 2}}
@@ -340,7 +346,7 @@ const Profile = () => {
                             required
                         />
                         <TextField
-                            label="Confirm New Password"
+                            label={t("profile.security.confirmNewPasswordLabel")}
                             type="password"
                             fullWidth
                             sx={{mt: 2}}
@@ -349,7 +355,7 @@ const Profile = () => {
                             required
                         />
                         {(newPassword !== confirmNewPassword && confirmNewPassword !== "") && (
-                            <Alert severity="error" sx={{mt: 2}}>New password and confirm password do not match.</Alert>
+                            <Alert severity="error" sx={{mt: 2}}>{t("profile.security.passwordMismatchMessage")}</Alert>
                         )}
                         <Button
                             variant="contained"
@@ -359,7 +365,7 @@ const Profile = () => {
                             startIcon={loading ? <CircularProgress size={20} color="inherit"/> : <LockReset />}
                             disabled={loading || newPassword !== confirmNewPassword || !oldPassword || !newPassword || !confirmNewPassword}
                         >
-                            Change Password
+                            {loading ? t("profile.security.changePasswordButtonLoading") : t("profile.security.changePasswordButton")}
                         </Button>
                     </form>
                 </Box>
@@ -370,13 +376,13 @@ const Profile = () => {
                 ) : (
                 <>
                 <Typography variant='h5' color='text.primary' fontWeight={600} mb={2}>
-                    Prefrences
+                    {t("profile.preferences.title")}
                 </Typography>
                 <Divider sx={{borderWidth: 1, borderColor: 'divider', mb: 2}}></Divider>
                 <Grid container spacing={2}>
                     <Grid item size={12}>
                         <Typography variant='h6' color='text.secondary' fontWeight={600}>
-                            Language
+                            {t("profile.preferences.languageLabel")}
                         </Typography>
                         <FormControl fullWidth sx={{mt: 1}}>
                             <Select
@@ -393,7 +399,7 @@ const Profile = () => {
                     </Grid>
                     <Grid item size={12}>
                         <Typography variant='h6' color='text.secondary' fontWeight={600}>
-                            Dark mode
+                            {t("profile.preferences.darkModeLabel")}
                         </Typography>
                         <FormControl fullWidth sx={{mt: 1}}>
                             <Select
@@ -402,8 +408,8 @@ const Profile = () => {
                                 fullWidth
                                 onChange={handleChange}
                             >
-                                <MenuItem value="light">Light</MenuItem>
-                                <MenuItem value="dark">Dark</MenuItem>
+                                <MenuItem value="light">{t("profile.preferences.lightMode")}</MenuItem>
+                                <MenuItem value="dark">{t("profile.preferences.darkMode")}</MenuItem>
                             </Select>
                         </FormControl>
                     </Grid>

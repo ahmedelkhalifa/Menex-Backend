@@ -13,12 +13,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/restaurant")
+@RequestMapping("/api/restaurants")
 public class RestaurantController {
 
     private final RestaurantService restaurantService;
@@ -52,9 +53,9 @@ public class RestaurantController {
     }
 
     @GetMapping
-    public ResponseEntity<Set<RestaurantDto>> getAllRestaurantsForCurrentUser() {
-        Set<Restaurant> restaurants = restaurantService.getAllRestaurantsForCurrentUser();
-        Set<RestaurantDto> dtos = restaurants.stream().map(restaurantMapper::toDto).collect(Collectors.toSet());
+    public ResponseEntity<List<RestaurantDto>> getAllRestaurantsForCurrentUser() {
+        List<Restaurant> restaurants = restaurantService.getAllRestaurantsForCurrentUser();
+        List<RestaurantDto> dtos = restaurants.stream().map(restaurantMapper::toDto).toList();
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 

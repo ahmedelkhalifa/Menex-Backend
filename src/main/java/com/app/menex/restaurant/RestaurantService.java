@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.*;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -76,7 +77,7 @@ public class RestaurantService {
             String fileName = "logo." + StringUtils.getFilenameExtension(logo.getOriginalFilename());
             Path logoPath = restaurantDir.resolve(fileName);
             Files.copy(logo.getInputStream(), logoPath, StandardCopyOption.REPLACE_EXISTING);
-            restaurant.setLogoUrl(uploadDir + "/" + id + "/" + fileName);
+            restaurant.setLogoUrl(id + "/" + fileName);
         }
         return restaurantRepository.save(restaurant);
     }
@@ -87,9 +88,9 @@ public class RestaurantService {
         );
     }
 
-    public Set<Restaurant> getAllRestaurantsForCurrentUser() {
+    public List<Restaurant> getAllRestaurantsForCurrentUser() {
         User user = userService.getCurrentUser();
-        return restaurantRepository.findAllByOwnerId(user.getId());
+        return restaurantRepository.findAllByOwnerIdOrderByIdAsc(user.getId());
     }
 
     @Transactional

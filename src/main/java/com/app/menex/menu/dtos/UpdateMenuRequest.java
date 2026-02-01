@@ -15,5 +15,4 @@ public class UpdateMenuRequest {
     @Size(min = 4, max = 100, message = "name must be between {min} and {max} characters")
     @NotBlank(message = "name can't be empty")
     private String menuName;
-    private Long restaurantId;
 }

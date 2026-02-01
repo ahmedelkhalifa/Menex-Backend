@@ -1,5 +1,6 @@
 package com.app.menex.category;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -11,11 +12,8 @@ import java.util.Optional;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
-    @Query("""
-           select c from Category c
-           left join fetch c.menuItems
-           left join fetch c.menu
-           """)
+
+    @EntityGraph(attributePaths = {"menu"})
     List<Category> findAllByMenuId(Long menuId);
 
     @Query("""
@@ -31,4 +29,6 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
             where c.id = :categoryId and c.menu.restaurant.owner.id = :ownerId
             """)
     void deleteByIdAndOwnerId(@Param("categoryId") Long categoryId, @Param("ownerId") Long ownerId);
+
+    List<Category> findAllByMenuRestaurantOwnerId(Long id);
 }

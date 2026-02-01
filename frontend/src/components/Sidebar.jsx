@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useThemeMode } from '../main';
 import Logo from '../assets/logo-png.png';
 import LogoDark from '../assets/logo-dark-png.png';
+import { useTranslation } from 'react-i18next';
 
 const Sidebar = ({view, subname}) => {
     function handleLogout() {
@@ -14,6 +15,7 @@ const Sidebar = ({view, subname}) => {
     const navigate = useNavigate();
     const location = useLocation();
     const {mode, setMode} = useThemeMode();
+    const {t} = useTranslation();
     function handleChange() {
         setMode((prev) => prev === "light" ? "dark" : "light");
     }
@@ -31,7 +33,7 @@ const Sidebar = ({view, subname}) => {
                     alt="Logo"
                     />
                     <Typography variant='h5' color='text.primary' fontWeight={700} mt={2}>
-                        {subname}
+                        {t('sidebar.adminDashboard')}
                     </Typography>
                     <Divider sx={{my: 2, borderBottomWidth: 3, borderColor: 'text.primary'}}></Divider>
                     <List>
@@ -46,7 +48,7 @@ const Sidebar = ({view, subname}) => {
                           <ListItemIcon>
                             <SpaceDashboard ></SpaceDashboard>
                           </ListItemIcon>
-                          <ListItemText primary="dashboard"/>
+                          <ListItemText primary={t('sidebar.dashboard')}/>
                         </ListItemButton>
                       </ListItem>
                       <ListItem disablePadding>
@@ -56,7 +58,7 @@ const Sidebar = ({view, subname}) => {
                           <ListItemIcon>
                             <Restaurant></Restaurant>
                           </ListItemIcon>
-                          <ListItemText primary="Restaurants"/>
+                          <ListItemText primary={t('sidebar.restaurants')}/>
                         </ListItemButton>
                       </ListItem>
                       <ListItem disablePadding>
@@ -66,7 +68,7 @@ const Sidebar = ({view, subname}) => {
                           <ListItemIcon>
                             <Person></Person>
                           </ListItemIcon>
-                          <ListItemText primary="Restaurant Owners"/>
+                          <ListItemText primary={t('sidebar.restaurantOwners')}/>
                         </ListItemButton>
                       </ListItem>
                       <ListItem disablePadding>
@@ -76,7 +78,7 @@ const Sidebar = ({view, subname}) => {
                           <ListItemIcon>
                             <AdminPanelSettings/>
                           </ListItemIcon>
-                          <ListItemText primary="Admins"/>
+                          <ListItemText primary={t('sidebar.admins')}/>
                         </ListItemButton>
                       </ListItem>
                       <ListItem disablePadding>
@@ -86,17 +88,17 @@ const Sidebar = ({view, subname}) => {
                           <ListItemIcon>
                             <AccountCircle/>
                           </ListItemIcon>
-                          <ListItemText primary="Profile"/>
+                          <ListItemText primary={t("sidebar.profile")}/>
                         </ListItemButton>
                       </ListItem>
                       <FormGroup sx={{mt: 5}}>
                         <FormControlLabel control={<Switch
                         checked={mode === "dark"}
                         onChange={handleChange}/>}
-                        label="Dark mode"/>
+                        label={t('sidebar.darkMode')}/>
                       </FormGroup>
                       <Button variant='contained' sx={{mt: 20, bgcolor: 'error.main'}} onClick={handleLogout}>
-                        Logout
+                        {t("sidebar.logout")}
                       </Button>
                     </List>
                   </Box>

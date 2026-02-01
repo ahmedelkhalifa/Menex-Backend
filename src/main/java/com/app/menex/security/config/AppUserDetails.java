@@ -54,4 +54,8 @@ public class AppUserDetails implements UserDetails {
         return user;
     }
 
+    public String getLanguage() {
+        return user.getLanguage();
+    }
+
 }
