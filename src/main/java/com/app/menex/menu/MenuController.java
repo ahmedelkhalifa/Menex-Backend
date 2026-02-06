@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
@@ -26,9 +27,12 @@ public class MenuController {
     private final MenuService menuService;
     private final MenuMapper menuMapper;
 
-    @PostMapping("/menus")
-    public ResponseEntity<MenuDto> createMenu(@RequestBody CreateMenuRequest request) throws IOException {
-        Menu createdMenu = menuService.createMenu(request.getMenuName(), request.getRestaurantId());
+    @PostMapping(value = "restaurants/{restaurantId}/menus", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<MenuDto> createMenu(@PathVariable Long restaurantId,
+                                              @RequestParam String name,
+                                              @RequestParam String description,
+                                              @RequestParam(required = false) MultipartFile image) throws IOException {
+        Menu createdMenu = menuService.createMenu(name, description, restaurantId, image);
         MenuDto menuDto = menuMapper.toDto(createdMenu);
         return new ResponseEntity<>(menuDto, HttpStatus.CREATED);
     }
@@ -68,10 +72,12 @@ public class MenuController {
     }
 
     @PutMapping("restaurants/{restaurantId}/menus/{menuId}")
-    public ResponseEntity<MenuDto> updateMenu(@Valid @RequestBody UpdateMenuRequest request,
+    public ResponseEntity<MenuDto> updateMenu(@PathVariable Long restaurantId,
                                               @PathVariable Long menuId,
-                                              @PathVariable Long restaurantId){
-        Menu updatedMenu = menuService.updateMenu(request.getMenuName(), restaurantId, menuId);
+                                              @RequestParam String name,
+                                              @RequestParam String description,
+                                              @RequestParam(required = false) MultipartFile image) throws IOException {
+        Menu updatedMenu = menuService.updateMenu(name, description, restaurantId, menuId, image);
         MenuDto menuDto = menuMapper.toDto(updatedMenu);
         return new ResponseEntity<>(menuDto, HttpStatus.OK);
     }

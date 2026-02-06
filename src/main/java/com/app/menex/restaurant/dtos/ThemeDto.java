@@ -14,5 +14,7 @@ public class ThemeDto {
     private String secondaryColor;
     private String textPrimary;
     private String textSecondary;
+    private String background;
+    private String backgroundCard;
     private String font;
 }

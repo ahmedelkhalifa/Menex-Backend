@@ -39,6 +39,8 @@ public class RestaurantService {
                                        String secondaryColor,
                                        String textPrimary,
                                        String textSecondary,
+                                       String background,
+                                       String backgroundCard,
                                        String font,
                                        MultipartFile logo) throws IOException {
 
@@ -57,6 +59,8 @@ public class RestaurantService {
                 .secondaryColor(secondaryColor)
                 .textPrimary(textPrimary)
                 .textSecondary(textSecondary)
+                .background(background)
+                .backgroundCard(backgroundCard)
                 .font(font)
                 .build();
 
@@ -101,6 +105,8 @@ public class RestaurantService {
                                        String secondaryColor,
                                        String textPrimary,
                                        String textSecondary,
+                                       String background,
+                                       String backgroundCard,
                                        String font,
                                        MultipartFile logo,
                                        Long id) throws IOException {
@@ -125,6 +131,8 @@ public class RestaurantService {
         theme.setSecondaryColor(secondaryColor);
         theme.setTextPrimary(textPrimary);
         theme.setTextSecondary(textSecondary);
+        theme.setBackground(background);
+        theme.setBackgroundCard(backgroundCard);
         theme.setFont(font);
         restaurant.setName(name);
         restaurant.setSlug(slug);
@@ -139,7 +147,7 @@ public class RestaurantService {
             String fileName = "logo." + StringUtils.getFilenameExtension(logo.getOriginalFilename());
             Path logoPath = restaurantDir.resolve(fileName);
             Files.copy(logo.getInputStream(), logoPath, StandardCopyOption.REPLACE_EXISTING);
-            restaurant.setLogoUrl(uploadDir + "/" + id + "/" + fileName);
+            restaurant.setLogoUrl(id + "/" + fileName);
         }
         return restaurantRepository.save(restaurant);
     }

@@ -25,6 +25,10 @@ public class Menu {
 
     @Column(nullable = false)
     private String name;
+    @Lob
+    @Column(columnDefinition = "TEXT")
+    private String description;
+    private String imageUrl;
     @Column(nullable = false)
     private boolean active;
 

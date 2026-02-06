@@ -34,12 +34,14 @@ public class RestaurantController {
             @RequestParam String secondaryColor,
             @RequestParam String textPrimary,
             @RequestParam String textSecondary,
+            @RequestParam String background,
+            @RequestParam String backgroundCard,
             @RequestParam String font,
             @RequestParam(required = false) MultipartFile logo
             ) throws IOException {
         Restaurant createdRestaurant = restaurantService.createRestaurant(
                 name, address, phone, primaryColor, secondaryColor, textPrimary,
-                textSecondary, font, logo
+                textSecondary, background, backgroundCard, font, logo
         );
         RestaurantDto restaurantDto = restaurantMapper.toDto(createdRestaurant);
         return new ResponseEntity<>(restaurantDto, HttpStatus.CREATED);
@@ -68,13 +70,15 @@ public class RestaurantController {
             @RequestParam String secondaryColor,
             @RequestParam String textPrimary,
             @RequestParam String textSecondary,
+            @RequestParam String background,
+            @RequestParam String backgroundCard,
             @RequestParam String font,
             @RequestParam(required = false) MultipartFile logo,
             @PathVariable Long id
     ) throws IOException {
         Restaurant updatedRestaurant = restaurantService.updateRestaurant(
                 name, address, phone, primaryColor, secondaryColor, textPrimary,
-                textSecondary, font, logo, id
+                textSecondary, background, backgroundCard, font, logo, id
         );
         RestaurantDto restaurantDto = restaurantMapper.toDto(updatedRestaurant);
         return new ResponseEntity<>(restaurantDto, HttpStatus.OK);

@@ -16,14 +16,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UncheckedIOException;
-import java.nio.file.AccessDeniedException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -39,7 +39,7 @@ public class MenuService {
     private String uploadDir;
 
     @Transactional
-    public Menu createMenu(String name, Long restaurantId) throws IOException {
+    public Menu createMenu(String name, String description, Long restaurantId, MultipartFile image) throws IOException {
         Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(
                 () -> new EntityNotFoundException("Restaurant with id: " + restaurantId + " not found"));
         User user = userService.getCurrentUser();
@@ -48,18 +48,26 @@ public class MenuService {
         }
         Menu menu = Menu.builder()
                 .name(name)
+                .description(description)
                 .active(true)
                 .build();
         restaurant.addMenu(menu);
-        restaurantRepository.saveAndFlush(restaurant);
-        Menu createdMenu = restaurant.getMenus().stream().filter(m -> m.getName().equals(menu.getName()))
-                .findFirst().get();
+
+        menuRepository.saveAndFlush(menu);
         Long id = restaurant.getId();
-        String filename = "menu-" + createdMenu.getId();
+        String filename = "menu-" + menu.getId();
         Path restaurantDir = Paths.get(uploadDir , id.toString());
         Path menuDir = restaurantDir.resolve(filename);
         Files.createDirectories(menuDir);
-        return createdMenu;
+
+        if (image != null && !image.isEmpty()) {
+            String imageName = "image." + StringUtils.getFilenameExtension(image.getOriginalFilename());
+            Files.copy(image.getInputStream(), menuDir.resolve(imageName), StandardCopyOption.REPLACE_EXISTING);
+            String resId = menu.getRestaurant().getId().toString();
+            String menuPath = "menu-" + menu.getId();
+            menu.setImageUrl(resId + "/" + menuPath + "/" + imageName);
+        }
+        return menu;
     }
 
     @Transactional
@@ -83,12 +91,14 @@ public class MenuService {
     }
 
     @Transactional
-    public Menu updateMenu(String name, Long restaurantId, Long menuId) {
+    public Menu updateMenu(String name, String description, Long restaurantId, Long menuId,
+                           MultipartFile image) throws IOException {
         User user = userService.getCurrentUser();
         Menu menu = menuRepository.findByIdAndRestaurantOwnerId(menuId, user.getId()).orElseThrow(
                 () -> new EntityNotFoundException("Menu with id: " + menuId + " not found")
         );
         menu.setName(name);
+        menu.setDescription(description);
 
         if (restaurantId != null) {
             Restaurant newRestaurant = restaurantRepository.findByIdAndOwnerId(restaurantId, user.getId()).orElseThrow(
@@ -99,6 +109,24 @@ public class MenuService {
                 oldRestaurant.removeMenu(menu);
             }
             newRestaurant.addMenu(menu);
+        }
+        if (image != null && !image.isEmpty()) {
+            if (menu.getImageUrl() != null && !menu.getImageUrl().isEmpty()) {
+                Path oldImagePath = Paths.get(uploadDir , menu.getImageUrl());
+                Files.deleteIfExists(oldImagePath);
+            }
+            Path menuDir = Paths.get(uploadDir).resolve(menu.getRestaurant().getId().toString())
+                    .resolve("menu-" + menu.getId());
+            String imageName = "image." + StringUtils.getFilenameExtension(image.getOriginalFilename());
+            Path imagePath = menuDir.resolve(imageName);
+            Files.copy(image.getInputStream(), imagePath, StandardCopyOption.REPLACE_EXISTING);
+            String resId = menu.getRestaurant().getId().toString();
+            String menuPath = "menu-" + menu.getId();
+            menu.setImageUrl(resId + "/" + menuPath + "/" + imageName);
+        } else {
+            Path imagePath = Paths.get(uploadDir , menu.getImageUrl());
+            Files.deleteIfExists(imagePath);
+            menu.setImageUrl(null);
         }
         return menu;
     }

@@ -1,11 +1,12 @@
-import { Close, Delete, Edit, Info, Menu, SentimentDissatisfied, Translate, Warning } from '@mui/icons-material'
-import { Alert, AppBar, Autocomplete, Box, Button, Card, CircularProgress, debounce, Dialog, Divider, Drawer, FormControl, IconButton, InputLabel, List, ListItemButton, ListItemText, Modal, OutlinedInput, Paper, Skeleton, Slide, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Toolbar, Tooltip, Typography, useTheme } from '@mui/material'
+import { ArrowForward, Close, Delete, Edit, Info, Menu, SentimentDissatisfied, Translate, Warning } from '@mui/icons-material'
+import { Alert, AppBar, Autocomplete, Box, Button, Card, Chip, CircularProgress, debounce, Dialog, Divider, Drawer, FormControl, Grid, IconButton, InputLabel, List, ListItemButton, ListItemText, Modal, OutlinedInput, Paper, Skeleton, Slide, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Toolbar, Tooltip, Typography, useTheme } from '@mui/material'
 import React, { useCallback, useEffect, useState } from 'react'
 import OwnerSidebar from './OwnerSidebar'
 import { SketchPicker } from 'react-color'
 import api from '../api'
 import Swal from 'sweetalert2'
 import { useTranslation } from 'react-i18next'
+import donerImage from "../assets/Beef-Doner-wrap-min-1024x683.jpg"
 
 const Restaurants_Owner = () => {
   const [open, setOpen] = useState(false);
@@ -16,16 +17,18 @@ const Restaurants_Owner = () => {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
-  const [main, setMain] = useState("#ffffff");
-  const [secondary, setSecondary] = useState("#333333");
-  const [textMain, setTextMain] = useState("#000000");
-  const [textSecondary, setTextSecondary] = useState("#777777");
+  const [main, setMain] = useState("#6FBF73");
+  const [secondary, setSecondary] = useState("#2E3A3A");
+  const [textMain, setTextMain] = useState("#2E3A3A");
+  const [textSecondary, setTextSecondary] = useState("#5F6F6F");
+  const [background, setBackground] = useState("#F6F8F7");
+  const [backgroundCard, setBackgroundCard] = useState("#FFFFFF");
   const [logo, setLogo] = useState(null);
-  const [font, setFont] = useState("");
+  const [font, setFont] = useState("roboto");
   const [restaurants, setRestaurants] = useState([]);
   const [exceedSize, setExceedSize] = useState(false);
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
-  const fonts = ["poppins", "roboto", "montaserrat", "open sans", "oswald"];
+  const fonts = ["poppins", "roboto", "montserrat", "open sans", "oswald"];
   const theme = useTheme();
   const [openUpdate, setOpenUpdate] = useState(false);
   const [openDetails, setOpenDetails] = useState(false);
@@ -53,6 +56,8 @@ const Restaurants_Owner = () => {
       formData.append("secondaryColor", secondary);
       formData.append("textPrimary", textMain);
       formData.append("textSecondary", textSecondary);
+      formData.append("background", background);
+      formData.append("backgroundCard", backgroundCard);
       formData.append("font", font);
       if (logo) formData.append("logo", logo);
       const response = await api.post("/restaurants", formData,{
@@ -98,6 +103,8 @@ const Restaurants_Owner = () => {
       formData.append("secondaryColor", secondary);
       formData.append("textPrimary", textMain);
       formData.append("textSecondary", textSecondary);
+      formData.append("background", background);
+      formData.append("backgroundCard", backgroundCard);
       formData.append("font", font);
       if (logo) formData.append("logo", logo);
       const response = await api.put(`/restaurants/${selectedRestaurant.id}`, formData,{
@@ -191,11 +198,13 @@ const Restaurants_Owner = () => {
     setName("");
     setAddress("");
     setPhone("");
-    setMain("#ffffff");
-    setSecondary("#333333");
-    setTextMain("#000000");
-    setTextSecondary("#777777");
-    setFont("");
+    setMain("#6FBF73");
+    setSecondary("#2E3A3A");
+    setTextMain("#2E3A3A");
+    setTextSecondary("#5F6F6F");
+    setBackground("#F6F8F7");
+    setBackgroundCard("#FFFFFF");
+    setFont("roboto");
     setLogo(null);
     setExceedSize(false);
   };
@@ -206,11 +215,13 @@ const Restaurants_Owner = () => {
     setName("");
     setAddress("");
     setPhone("");
-    setMain("#ffffff");
-    setSecondary("#333333");
-    setTextMain("#000000");
-    setTextSecondary("#777777");
-    setFont("");
+    setMain("#6FBF73");
+    setSecondary("#2E3A3A");
+    setTextMain("#2E3A3A");
+    setTextSecondary("#5F6F6F");
+    setBackground("#F6F8F7");
+    setBackgroundCard("#FFFFFF");
+    setFont("roboto");
     setLogo(null);
     setExceedSize(false);
   }
@@ -330,6 +341,8 @@ const Restaurants_Owner = () => {
                               setSecondary(r.theme.secondaryColor);
                               setTextMain(r.theme.textPrimary);
                               setTextSecondary(r.theme.textSecondary);
+                              setBackground(r.theme.background);
+                              setBackgroundCard(r.theme.backgroundCard);
                               setFont(r.theme.font);
                             }}>
                               <Edit sx={{color: "primary.dark"}}/>
@@ -375,7 +388,7 @@ const Restaurants_Owner = () => {
               <Card
               sx={{
                 p: 5,
-                width: {xs: '80vw', md: '1000px'},
+                width: {xs: '80vw', md: '1000px', lg: "1400px"},
                 maxHeight: '88vh',
                 overflowY: 'auto'
               }} onClick={(e) => e.stopPropagation()}>
@@ -431,59 +444,136 @@ const Restaurants_Owner = () => {
                             {exceedSize && <Alert icon={<Warning fontSize='inherit'/>} severity='error' sx={{width: '100%', mt: 2}}>
                               {t('restaurants.create.alert')}</Alert>}
                           </Box>
+                          <Stack flexDirection={{xs: "column", md: "row"}} gap={2} alignItems={'flex-start'} flex={2}>
                           <Box flex={1} p={3} px={{xs: 0, md: 3}} sx={{width: '100%'}}>
                             <Typography variant='h5' textAlign={'center'}>
                               {t('restaurants.create.themeLabel')}
                             </Typography>
-                            <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
-                              <InputLabel htmlFor='primary'>{t('restaurants.create.primaryColorLabel')}</InputLabel>
-                              <OutlinedInput
-                              label={t('restaurants.create.primaryColorLabel')}
-                              value={main}
-                              id='primary' type='color'
-                              onChange={(e) => setMain(e.target.value)}/>
-                            </FormControl>
-                            <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
-                              <InputLabel htmlFor='secondary'>{t('restaurants.create.secondaryColorLabel')}</InputLabel>
-                              <OutlinedInput
-                              label={t('restaurants.create.secondaryColorLabel')}
-                              value={secondary}
-                              id='secondary' type='color'
-                              onChange={(e) => setSecondary(e.target.value)}/>
-                            </FormControl>
-                            <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
-                              <InputLabel htmlFor='textPrimary'>{t('restaurants.create.textPrimaryColorLabel')}</InputLabel>
-                              <OutlinedInput
-                              label={t('restaurants.create.textPrimaryColorLabel')}
-                              value={textMain}
-                              id='textPrimary' type='color'
-                              onChange={(e) => setTextMain(e.target.value)}/>
-                            </FormControl>
-                            <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
-                              <InputLabel htmlFor='textSecondary'>{t('restaurants.create.textSecondaryColorLabel')}</InputLabel>
-                              <OutlinedInput
-                              label={t('restaurants.create.textSecondaryColorLabel')}
-                              value={textSecondary}
-                              id='textSecondary' type='color'
-                              onChange={(e) => setTextSecondary(e.target.value)}/>
-                            </FormControl>
-                            <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
-                              <Autocomplete
-                                disablePortal
-                                options={fonts}
-                                sx={{ width: "100%", flex:1 }}
-                                value={font}
-                                onChange={(event, newValue) => {
-                                  setFont(newValue);
-                                }}
-                                renderInput={(params) => <TextField {...params} label={t('restaurants.create.fontLabel')} />}
-                              />
-                            </FormControl>
+                            <Grid container spacing={2}>
+                              <Grid size={4}>
+                                <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
+                                  <InputLabel htmlFor='primary'>{t('restaurants.create.primaryColorLabel')}</InputLabel>
+                                  <OutlinedInput
+                                  label={t('restaurants.create.primaryColorLabel')}
+                                  value={main}
+                                  id='primary' type='color'
+                                  onChange={(e) => setMain(e.target.value)}/>
+                                </FormControl>
+                              </Grid>
+                              <Grid size={4}>
+                                <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
+                                  <InputLabel htmlFor='secondary'>{t('restaurants.create.secondaryColorLabel')}</InputLabel>
+                                  <OutlinedInput
+                                  label={t('restaurants.create.secondaryColorLabel')}
+                                  value={secondary}
+                                  id='secondary' type='color'
+                                  onChange={(e) => setSecondary(e.target.value)}/>
+                                </FormControl>
+                              </Grid>
+                              <Grid size={4}>
+                                <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
+                                  <InputLabel htmlFor='textPrimary'>{t('restaurants.create.textPrimaryColorLabel')}</InputLabel>
+                                  <OutlinedInput
+                                  label={t('restaurants.create.textPrimaryColorLabel')}
+                                  value={textMain}
+                                  id='textPrimary' type='color'
+                                  onChange={(e) => setTextMain(e.target.value)}/>
+                                </FormControl>
+                              </Grid>
+                              <Grid size={4}>
+                                <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
+                                  <InputLabel htmlFor='textSecondary'>{t('restaurants.create.textSecondaryColorLabel')}</InputLabel>
+                                  <OutlinedInput
+                                  label={t('restaurants.create.textSecondaryColorLabel')}
+                                  value={textSecondary}
+                                  id='textSecondary' type='color'
+                                  onChange={(e) => setTextSecondary(e.target.value)}/>
+                                </FormControl>
+                              </Grid>
+                              <Grid size={4}>
+                                <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
+                                  <InputLabel htmlFor='background'>{t('restaurants.create.backgroundLabel')}</InputLabel>
+                                  <OutlinedInput
+                                  label={t('restaurants.create.backgroundLabel')}
+                                  value={background}
+                                  id='background' type='color'
+                                  onChange={(e) => setBackground(e.target.value)}/>
+                                </FormControl>
+                              </Grid>
+                              <Grid size={4}>
+                                <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
+                                  <InputLabel htmlFor='background'>{t('restaurants.create.backgroundCardLabel')}</InputLabel>
+                                  <OutlinedInput
+                                  label={t('restaurants.create.backgroundCardLabel')}
+                                  value={backgroundCard}
+                                  id='backgroundCard' type='color'
+                                  onChange={(e) => setBackgroundCard(e.target.value)}/>
+                                </FormControl>
+                              </Grid>
+                                <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
+                                  <Autocomplete
+                                    disablePortal
+                                    options={fonts}
+                                    sx={{ width: "100%", flex:1 }}
+                                    value={font}
+                                    onChange={(event, newValue) => {
+                                      setFont(newValue);
+                                    }}
+                                    renderInput={(params) => <TextField {...params} label={t('restaurants.create.fontLabel')} />}
+                                  />
+                                </FormControl>
+                            </Grid>
                           </Box>
+                          <Box flex={1}>
+                          <Typography variant='h5' textAlign={'center'} mt={3}>
+                              Preview
+                            </Typography>
+                            <Paper elevation={1} sx={{width: "100%", position: 'relative', overflow: 'hidden', cursor: 'pointer', mt: 2, bgcolor: backgroundCard,
+                            }}>
+                                <Chip label="active"  sx={{position: 'absolute', top: "5%", right: "5%", fontWeight: 600,
+                                    bgcolor: background,
+                                    color: main,
+                                    fontSize: "16px",
+                                    borderRadius: 1,
+                                    fontFamily: font
+                                }}/>
+                                <Box
+                                component={"img"}
+                                src={donerImage}
+                                width={"100%"} height={"250px"}
+                                sx={{objectFit: "cover"}}/>
+                                <Box px={4} minHeight={{xs: "75px", md: "150px"}} mt={2}>
+                                    <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} width={"100%"}>
+                                        <Typography variant='h5' fontWeight={600} textAlign={'center'} fontSize={{xs: 18, md: 24}} fontFamily={font}>
+                                            Menu Name
+                                        </Typography>
+                                        <Chip label={`5 items`} sx={{fontFamily: font}}/>
+                                    </Box>
+                                    <Typography variant='body1' color={textSecondary} 
+                                    textAlign={{xs: 'center', md: 'left'}} mt={2}
+                                      sx={{
+                                        display: "-webkit-box",
+                                        WebkitBoxOrient: "vertical",
+                                        WebkitLineClamp: 4,
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
+                                    }} fontSize={{xs: 12, md: 14}} fontFamily={font}>
+                                        Try the best doner wraps from our specialized team, best doner wraps in all around the island.
+                                    </Typography>
+                                </Box>
+                                <Box px={4} py={3}>
+                                    <Button endIcon={<ArrowForward/>} fullWidth variant='contained'
+                                    sx={{color: background, height: "40px", bgcolor: main, fontFamily: font}}>
+                                        View Menu
+                                    </Button>
+                                </Box>
+                            </Paper>
+                          </Box>
+                          </Stack>
                       </Stack>
                       <Button variant='contained' sx={{mt: 3, width: '50%'}} type='submit'
                       startIcon={loading && <CircularProgress size={20}
-                      sx={{color: "background.default"}}/>}>
+                      sx={{color: background}}/>}>
                         {loading ? t('restaurants.create.submitButtonLoading') : t('restaurants.create.submitButton')}
                       </Button>
                     </Box>
@@ -505,7 +595,7 @@ const Restaurants_Owner = () => {
               <Card
               sx={{
                 p: 5,
-                width: {xs: '80vw', md: '1000px'},
+                width: {xs: '80vw', md: '1000px', lg: "1400px"},
                 maxHeight: '88vh',
                 overflowY: 'auto'
               }} onClick={(e) => e.stopPropagation()}>
@@ -561,55 +651,133 @@ const Restaurants_Owner = () => {
                             {exceedSize && <Alert icon={<Warning fontSize='inherit'/>} severity='error' sx={{width: '100%', mt: 2}}>
                               {t('restaurants.create.alert')}</Alert>}
                           </Box>
+                          <Stack flexDirection={{xs: "column", md: "row"}} gap={2} alignItems={'flex-start'} flex={2}>
                           <Box flex={1} p={3} px={{xs: 0, md: 3}} sx={{width: '100%'}}>
                             <Typography variant='h5' textAlign={'center'}>
                               {t('restaurants.create.themeLabel')}
                             </Typography>
-                            <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
-                              <InputLabel htmlFor='primary'>{t('restaurants.create.primaryColorLabel')}</InputLabel>
-                              <OutlinedInput
-                              label={t('restaurants.create.primaryColorLabel')}
-                              value={main}
-                              id='primary' type='color'
-                              onChange={(e) => setMain(e.target.value)}/>
-                            </FormControl>
-                            <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
-                              <InputLabel htmlFor='secondary'>{t('restaurants.create.secondaryColorLabel')}</InputLabel>
-                              <OutlinedInput
-                              label={t('restaurants.create.secondaryColorLabel')}
-                              value={secondary}
-                              id='secondary' type='color'
-                              onChange={(e) => setSecondary(e.target.value)}/>
-                            </FormControl>
-                            <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
-                              <InputLabel htmlFor='textPrimary'>{t('restaurants.create.textPrimaryColorLabel')}</InputLabel>
-                              <OutlinedInput
-                              label={t('restaurants.create.textPrimaryColorLabel')}
-                              value={textMain}
-                              id='textPrimary' type='color'
-                              onChange={(e) => setTextMain(e.target.value)}/>
-                            </FormControl>
-                            <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
-                              <InputLabel htmlFor='textSecondary'>{t('restaurants.create.textSecondaryColorLabel')}</InputLabel>
-                              <OutlinedInput
-                              label={t('restaurants.create.textSecondaryColorLabel')}
-                              value={textSecondary}
-                              id='textSecondary' type='color'
-                              onChange={(e) => setTextSecondary(e.target.value)}/>
-                            </FormControl>
-                            <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
-                              <Autocomplete
-                                disablePortal
-                                options={fonts}
-                                sx={{ width: "100%", flex:1 }}
-                                value={selectedRestaurant?.theme.font}
-                                onChange={(event, newValue) => {
-                                  setFont(newValue);
-                                }}
-                                renderInput={(params) => <TextField {...params} label={t('restaurants.create.fontLabel')} />}
-                              />
-                            </FormControl>
+                            <Grid container spacing={2}>
+                              <Grid size={4}>
+                                <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
+                                  <InputLabel htmlFor='primary'>{t('restaurants.create.primaryColorLabel')}</InputLabel>
+                                  <OutlinedInput
+                                  label={t('restaurants.create.primaryColorLabel')}
+                                  value={main}
+                                  id='primary' type='color'
+                                  onChange={(e) => setMain(e.target.value)}/>
+                                </FormControl>
+                              </Grid>
+                              <Grid size={4}>
+                                <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
+                                  <InputLabel htmlFor='secondary'>{t('restaurants.create.secondaryColorLabel')}</InputLabel>
+                                  <OutlinedInput
+                                  label={t('restaurants.create.secondaryColorLabel')}
+                                  value={secondary}
+                                  id='secondary' type='color'
+                                  onChange={(e) => setSecondary(e.target.value)}/>
+                                </FormControl>
+                              </Grid>
+                              <Grid size={4}>
+                                <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
+                                  <InputLabel htmlFor='textPrimary'>{t('restaurants.create.textPrimaryColorLabel')}</InputLabel>
+                                  <OutlinedInput
+                                  label={t('restaurants.create.textPrimaryColorLabel')}
+                                  value={textMain}
+                                  id='textPrimary' type='color'
+                                  onChange={(e) => setTextMain(e.target.value)}/>
+                                </FormControl>
+                              </Grid>
+                              <Grid size={4}>
+                                <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
+                                  <InputLabel htmlFor='textSecondary'>{t('restaurants.create.textSecondaryColorLabel')}</InputLabel>
+                                  <OutlinedInput
+                                  label={t('restaurants.create.textSecondaryColorLabel')}
+                                  value={textSecondary}
+                                  id='textSecondary' type='color'
+                                  onChange={(e) => setTextSecondary(e.target.value)}/>
+                                </FormControl>
+                              </Grid>
+                              <Grid size={4}>
+                                <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
+                                  <InputLabel htmlFor='background'>{t('restaurants.create.backgroundLabel')}</InputLabel>
+                                  <OutlinedInput
+                                  label={t('restaurants.create.backgroundLabel')}
+                                  value={background}
+                                  id='background' type='color'
+                                  onChange={(e) => setBackground(e.target.value)}/>
+                                </FormControl>
+                              </Grid>
+                              <Grid size={4}>
+                                <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
+                                  <InputLabel htmlFor='background'>{t('restaurants.create.backgroundCardLabel')}</InputLabel>
+                                  <OutlinedInput
+                                  label={t('restaurants.create.backgroundCardLabel')}
+                                  value={backgroundCard}
+                                  id='backgroundCard' type='color'
+                                  onChange={(e) => setBackgroundCard(e.target.value)}/>
+                                </FormControl>
+                              </Grid>
+                                <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
+                                  <Autocomplete
+                                    disablePortal
+                                    options={fonts}
+                                    sx={{ width: "100%", flex:1 }}
+                                    value={font}
+                                    onChange={(event, newValue) => {
+                                      setFont(newValue);
+                                    }}
+                                    renderInput={(params) => <TextField {...params} label={t('restaurants.create.fontLabel')} />}
+                                  />
+                                </FormControl>
+                            </Grid>
                           </Box>
+                          <Box flex={1}>
+                          <Typography variant='h5' textAlign={'center'} mt={3}>
+                              Preview
+                            </Typography>
+                            <Paper elevation={1} sx={{width: "100%", position: 'relative', overflow: 'hidden', cursor: 'pointer', mt: 2, bgcolor: backgroundCard,
+                            }}>
+                                <Chip label="active"  sx={{position: 'absolute', top: "5%", right: "5%", fontWeight: 600,
+                                    bgcolor: background,
+                                    color: main,
+                                    fontSize: "16px",
+                                    borderRadius: 1,
+                                    fontFamily: font
+                                }}/>
+                                <Box
+                                component={"img"}
+                                src={donerImage}
+                                width={"100%"} height={"250px"}
+                                sx={{objectFit: "cover"}}/>
+                                <Box px={4} minHeight={{xs: "75px", md: "150px"}} mt={2}>
+                                    <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} width={"100%"}>
+                                        <Typography variant='h5' fontWeight={600} textAlign={'center'} fontSize={{xs: 18, md: 24}} fontFamily={font}
+                                        sx={{color: textMain}}>
+                                            Menu Name
+                                        </Typography>
+                                        <Chip label={`5 items`} sx={{fontFamily: font}}/>
+                                    </Box>
+                                    <Typography variant='body1' color={textSecondary} 
+                                    textAlign={{xs: 'center', md: 'left'}} mt={2}
+                                      sx={{
+                                        display: "-webkit-box",
+                                        WebkitBoxOrient: "vertical",
+                                        WebkitLineClamp: 4,
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
+                                    }} fontSize={{xs: 12, md: 14}} fontFamily={font}>
+                                        Try the best doner wraps from our specialized team, best doner wraps in all around the island.
+                                    </Typography>
+                                </Box>
+                                <Box px={4} py={3}>
+                                    <Button endIcon={<ArrowForward/>} fullWidth variant='contained'
+                                    sx={{color: background, height: "40px", bgcolor: main, fontFamily: font}}>
+                                        View Menu
+                                    </Button>
+                                </Box>
+                            </Paper>
+                          </Box>
+                          </Stack>
                       </Stack>
                       <Button variant='contained' sx={{mt: 3, width: '50%'}} type='submit'
                       startIcon={loading && <CircularProgress size={20}
@@ -699,38 +867,68 @@ const Restaurants_Owner = () => {
                   <Typography variant='h6' fontWeight={600} mb={1} textAlign={'center'}>
                     {t('restaurants.details.themeInfo')}
                   </Typography>
-                  <FormControl fullWidth sx={{mb: 2}}>
-                    <InputLabel htmlFor='primaryColor'>{t('restaurants.details.primaryColorLabel')}</InputLabel>
-                    <OutlinedInput readOnly
-                    label={t('restaurants.details.primaryColorLabel')}
-                    value={selectedRestaurant?.theme.primaryColor}
-                    id='primaryColor' type='color'
-                    disabled/>
-                  </FormControl>
-                  <FormControl fullWidth sx={{mb: 2}}>
-                    <InputLabel htmlFor='secondaryColor'>{t('restaurants.details.secondaryColorLabel')}</InputLabel>
-                    <OutlinedInput readOnly
-                    label={t('restaurants.details.secondaryColorLabel')}
-                    value={selectedRestaurant?.theme.secondaryColor}
-                    id='secondaryColor' type='color'
-                    disabled/>
-                  </FormControl>
-                  <FormControl fullWidth sx={{mb: 2}}>
-                    <InputLabel htmlFor='textPrimary'>{t('restaurants.details.textPrimaryColorLabel')}</InputLabel>
-                    <OutlinedInput readOnly
-                    label={t('restaurants.details.textPrimaryColorLabel')}
-                    value={selectedRestaurant?.theme.textPrimary}
-                    id='textPrimary' type='color'
-                    disabled/>
-                  </FormControl>
-                  <FormControl fullWidth sx={{mb: 2}}>
-                    <InputLabel htmlFor='textSecondary'>{t('restaurants.details.textSecondaryColorLabel')}</InputLabel>
-                    <OutlinedInput readOnly
-                    label={t('restaurants.details.textSecondaryColorLabel')}
-                    value={selectedRestaurant?.theme.textSecondary}
-                    id='textSecondary' type='color'
-                    disabled/>
-                  </FormControl>
+                  <Grid container spacing={2}>
+                    <Grid size={6}>
+                      <FormControl fullWidth sx={{mb: 2}}>
+                        <InputLabel htmlFor='primaryColor'>{t('restaurants.details.primaryColorLabel')}</InputLabel>
+                        <OutlinedInput readOnly
+                        label={t('restaurants.details.primaryColorLabel')}
+                        value={selectedRestaurant?.theme.primaryColor}
+                        id='primaryColor' type='color'
+                        disabled/>
+                      </FormControl>
+                    </Grid>
+                    <Grid size={6}>
+                      <FormControl fullWidth sx={{mb: 2}}>
+                        <InputLabel htmlFor='secondaryColor'>{t('restaurants.details.secondaryColorLabel')}</InputLabel>
+                        <OutlinedInput readOnly
+                        label={t('restaurants.details.secondaryColorLabel')}
+                        value={selectedRestaurant?.theme.secondaryColor}
+                        id='secondaryColor' type='color'
+                        disabled/>
+                      </FormControl>
+                    </Grid>
+                    <Grid size={6}>
+                      <FormControl fullWidth sx={{mb: 2}}>
+                        <InputLabel htmlFor='textPrimary'>{t('restaurants.details.textPrimaryColorLabel')}</InputLabel>
+                        <OutlinedInput readOnly
+                        label={t('restaurants.details.textPrimaryColorLabel')}
+                        value={selectedRestaurant?.theme.textPrimary}
+                        id='textPrimary' type='color'
+                        disabled/>
+                      </FormControl>
+                    </Grid>
+                    <Grid size={6}>
+                      <FormControl fullWidth sx={{mb: 2}}>
+                        <InputLabel htmlFor='textSecondary'>{t('restaurants.details.textSecondaryColorLabel')}</InputLabel>
+                        <OutlinedInput readOnly
+                        label={t('restaurants.details.textSecondaryColorLabel')}
+                        value={selectedRestaurant?.theme.textSecondary}
+                        id='textSecondary' type='color'
+                        disabled/>
+                      </FormControl>
+                    </Grid>
+                    <Grid size={6}>
+                      <FormControl fullWidth sx={{mb: 2}}>
+                        <InputLabel htmlFor='background'>{t('restaurants.create.backgroundLabel')}</InputLabel>
+                        <OutlinedInput readOnly
+                        label={t('restaurants.create.backgroundLabel')}
+                        value={selectedRestaurant?.theme.background}
+                        id='background' type='color'
+                        disabled/>
+                      </FormControl>
+                    </Grid>
+                    <Grid size={6}>
+                      <FormControl fullWidth sx={{mb: 2}}>
+                        <InputLabel htmlFor='backgroundCard'>{t('restaurants.create.backgroundCardLabel')}</InputLabel>
+                        <OutlinedInput readOnly
+                        label={t('restaurants.create.backgroundCardLabel')}
+                        value={selectedRestaurant?.theme.backgroundCard}
+                        id='backgroundCard' type='color'
+                        disabled/>
+                      </FormControl>
+                    </Grid>
+                  </Grid>
                   <FormControl fullWidth sx={{mb: 2}}>
                     <InputLabel htmlFor='font'>{t('restaurants.details.fontLabel')}</InputLabel>
                     <OutlinedInput readOnly

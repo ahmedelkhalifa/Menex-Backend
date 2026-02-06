@@ -9,6 +9,9 @@ import RestaurantsAdmin from "./components/RestaurantsAdmin"
 import Restaurants_Owner from "./components/Restaurants_Owner"
 import Profile from "./components/Profile"
 import Menus from "./components/Menus"
+import PublicMenu from "./components/PublicMenu"
+import PublicRestaurant from "./components/PublicRestaurant"
+import NotFound from "./components/notFound"
 
 function App() {
 
@@ -66,6 +69,15 @@ function App() {
           <ProtectedRoute allowedRole={"RESTAURANT_OWNER"}>
             <Menus/>
           </ProtectedRoute>
+        }/>
+        <Route path="/not-found" element={
+          <NotFound/>
+        }/>
+        <Route path="/:restaurantSlug/:menuId" element={
+          <PublicMenu/>
+        }/>
+        <Route path="/:restaurantSlug" element={
+          <PublicRestaurant/>
         }/>
       </Routes>
     </BrowserRouter>

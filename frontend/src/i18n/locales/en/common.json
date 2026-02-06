@@ -54,6 +54,8 @@
             "secondaryColorLabel": "Secondary Color",
             "textPrimaryColorLabel": "Text Primary",
             "textSecondaryColorLabel": "Text Secondary",
+            "backgroundLabel": "Background",
+            "backgroundCardLabel": "Background Card",
             "fontLabel": "Font",
             "alert": "Maximum size for a logo is 2MB.",
             "submitButton": "Create",
@@ -163,6 +165,7 @@
         "createMenu": {
             "title": "Add Menu",
             "nameLabel": "Menu Name",
+            "descriptionLabel": "Description",
             "button": "Add Menu",
             "buttonLoading": "Adding menu...",
             "errorAlert": {

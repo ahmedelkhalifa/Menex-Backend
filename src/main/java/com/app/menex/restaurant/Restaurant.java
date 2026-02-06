@@ -7,9 +7,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "restaurants")
@@ -49,7 +47,7 @@ public class Restaurant {
 
     @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY,
     cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Menu> menus = new HashSet<>();
+    private List<Menu> menus = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "theme_id")

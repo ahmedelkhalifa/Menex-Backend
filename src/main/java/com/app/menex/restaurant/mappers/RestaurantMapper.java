@@ -2,6 +2,8 @@ package com.app.menex.restaurant.mappers;
 
 import com.app.menex.category.Category;
 import com.app.menex.menu.Menu;
+import com.app.menex.menu.dtos.MenuDto;
+import com.app.menex.publicAPI.dtos.PublicRestaurantDto;
 import com.app.menex.restaurant.Restaurant;
 import com.app.menex.restaurant.dtos.RestaurantDto;
 import com.app.menex.restaurant.dtos.ThemeDto;
@@ -13,11 +15,13 @@ import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
+import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE,
-uses = ThemeMapper.class)
+uses = {ThemeMapper.class})
 public interface RestaurantMapper {
 
     @Mapping(source = "owner", target = "ownerEmail", qualifiedByName = "getOwnerEmail")
@@ -34,26 +38,26 @@ public interface RestaurantMapper {
         return owner.getEmail();
     }
     @Named("getMenusCount")
-    default  Integer getMenusCount(Set<Menu> menus) {
+    default  Integer getMenusCount(List<Menu> menus) {
         return menus == null ? 0 : menus.size();
     }
     @Named("getCategoriesCount")
-    default  Integer getCategoriesCount(Set<Menu> menus) {
+    default  Integer getCategoriesCount(List<Menu> menus) {
         int categories = 0;
         if (menus != null)
             for (Menu menu : menus) {
-                if (!menu.getCategories().isEmpty())
+                if (menu.getCategories() != null)
                     categories += menu.getCategories().size();
             }
         return categories;
     }
     @Named("getMenuItemsCount")
-    default  Integer getMenuItemsCount(Set<Menu> menus) {
+    default  Integer getMenuItemsCount(List<Menu> menus) {
         int items = 0;
         if (menus != null) {
             Set<Category> categories = new HashSet<>();
             for (Menu menu : menus) {
-                if (!menu.getCategories().isEmpty())
+                if (menu.getCategories() != null)
                     categories.addAll(menu.getCategories());
             }
             for (Category category : categories) {

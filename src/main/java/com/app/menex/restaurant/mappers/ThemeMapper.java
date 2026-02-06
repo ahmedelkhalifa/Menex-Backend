@@ -11,5 +11,7 @@ public interface ThemeMapper {
 
     @Mapping(source = "textPrimary", target = "textPrimary")
     @Mapping(source = "textSecondary", target = "textSecondary")
+    @Mapping(source = "background", target = "background")
+    @Mapping(source = "backgroundCard", target = "backgroundCard")
     ThemeDto toDto(Theme theme);
 }

@@ -1,6 +1,6 @@
 import { Add, Delete, DeleteOutlined, Edit, ErrorOutline, EventAvailable, EventBusy, ExpandMore, MoreHoriz, QrCode, Restaurant, SentimentDissatisfiedOutlined, Update, WebAsset, WebAssetOffOutlined } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Alert, Box, Button, Card, CircularProgress, Divider, Drawer, FormControl, FormControlLabel, Grid, IconButton, InputLabel, List, ListItem, ListItemButton, ListItemText, Menu, MenuItem, Modal, Paper, Select, Skeleton, Stack, Switch, TextField, Tooltip, Typography, useTheme } from '@mui/material';
+import { Alert, Box, Button, Card, CircularProgress, Divider, Drawer, FormControl, FormControlLabel, Grid, IconButton, InputLabel, List, ListItem, ListItemButton, ListItemText, Menu, MenuItem, Modal, Paper, Select, Skeleton, Stack, Switch, Tab, Tabs, TextField, Tooltip, Typography, useTheme } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import OwnerSidebar from './OwnerSidebar';
 import Sidebar from './Sidebar';
@@ -18,6 +18,8 @@ const Menus = () => {
     const [openQr, setOpenQr] = useState(false);
     const [openOperationsCategory, setOpenOperationsCategory] = useState(false);
     const [menuName, setMenuName] = useState("");
+    const [menuDescription, setMenuDescription] = useState("");
+    const [menuPreviewUrl, setMenuPreviewUrl] = useState(null);
     const [categoryName, setCategoryName] = useState("");
     const [anchorEl, setAnchorEl] = useState(null);
     const openMenu = Boolean(anchorEl);
@@ -31,6 +33,7 @@ const Menus = () => {
     const [loading, setLoading] = useState(true);
     const {t} = useTranslation();
     const [openOperations, setOpenOperations] = useState(false);
+    const [tabValue, setTabValue] = useState(0)
     const [qrUrl, setQrUrl] = useState(null);
     const [items, setItems] = useState([
         {
@@ -79,6 +82,7 @@ const Menus = () => {
         setImage(file);
         setPreviewUrl(URL.createObjectURL(file));
         setExceededSize(false);
+        e.target.value = null;
     };
 
     useEffect(() => {
@@ -99,14 +103,19 @@ const Menus = () => {
     async function handleAddMenu() {
         try {
             setLoading(true);
-            const response = await api.post(`menus`, {
-                menuName: menuName,
-                restaurantId: selectedRestaurant?.id
-            });
+            const formdata = new FormData();
+            formdata.append("name", menuName);
+            formdata.append("description", menuDescription);
+            formdata.append("image", image);
+            const response = await api.post(`restaurants/${selectedRestaurant?.id}/menus`, 
+                formdata, {
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    }
+                }
+            );
             setMenus([...menus, response.data]);
             setSelectedMenu(response.data);
-            setMenuName("");
-            setOpenAddMenu(false);
             Swal.fire({
                 icon: 'success',
                 title: t("menus.createMenu.successAlert.title"),
@@ -123,10 +132,13 @@ const Menus = () => {
                 background: theme.palette.background.default,
                 color: theme.palette.text.primary
             });
-            setMenuName("");
-            setOpenAddMenu(false);
         } finally {
             setLoading(false);
+                        setMenuName("");
+            setMenuDescription("");
+            setImage(null);
+            setPreviewUrl(null);
+            setOpenAddMenu(false);
         }
     }
 
@@ -176,8 +188,14 @@ const Menus = () => {
     async function handleUpdateMenu() {
         try {
             setLoading(true);
-            const response = await api.put(`restaurants/${selectedRestaurant?.id}/menus/${selectedMenu?.id}`, {
-                menuName: menuName
+            const formdata = new FormData();
+            formdata.append("name", menuName);
+            formdata.append("description", menuDescription);
+            formdata.append("image", image);
+            const response = await api.put(`restaurants/${selectedRestaurant?.id}/menus/${selectedMenu?.id}`, formdata, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
             });
             setMenus(menus.map((menu) => {
                 if (menu.id === selectedMenu?.id) {
@@ -634,6 +652,35 @@ const Menus = () => {
         setExceededSize(false)
     }
 
+    function handleCloseOperation() {
+        setOpenOperations(false);
+        setMenuName("");
+        setMenuDescription("");
+        setImage(null);
+        setPreviewUrl(null);
+        setExceededSize(false)
+    }
+
+    async function handleOpenOperations(selectedMenu) {
+        setOpenOperations(true);
+        setSelectedMenu(selectedMenu);
+        setMenuName(selectedMenu?.name);
+        setMenuDescription(selectedMenu?.description);
+        setMenuPreviewUrl(selectedMenu?.imageUrl);
+        try {
+            const response = await api.get(`images/${selectedMenu?.imageUrl}`,
+                {
+                    responseType: 'blob'
+                }
+            );
+            setPreviewUrl(URL.createObjectURL(response?.data))
+        } catch (error) {
+            console.error(error);
+        }
+        setImage(null);
+        setExceededSize(false)
+    }
+
     async function handleOpenUpdateItem(selectedItem) {
         setOpenUpdateItem(true);
         setSelectedItemId(selectedItem?.id);
@@ -968,7 +1015,7 @@ const Menus = () => {
                                                     <Box flex={1}>
                                                         <Tooltip title={t("menus.menuOperationsLabel")}>
                                                             <IconButton onClick={
-                                                                () => setOpenOperations(true)
+                                                                () => handleOpenOperations(menu)
                                                             }>
                                                                 <MoreHoriz/>
                                                             </IconButton>
@@ -982,9 +1029,16 @@ const Menus = () => {
                                 </List>
                                 <Modal
                                     open={openAddMenu}
-                                    onClose={() => setOpenAddMenu(false)}
+                                    onClose={() => {
+                                        setOpenAddMenu(false);
+                                        setMenuName("");
+                                        setMenuDescription("");
+                                        setImage(null);
+                                        setPreviewUrl(null);
+                                        setExceededSize(false);
+                                    }}
                                >
-                                    <Box sx={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: {xs: '80%', md: '400px'}, bgcolor: 'background.paper', boxShadow: 24, p: 4,
+                                    <Box sx={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: {xs: '80%', md: '700px'}, bgcolor: 'background.paper', boxShadow: 24, p: 4,
                                         borderRadius: 1
                                     }}>
                                         <Typography variant="h5" component="h2" fontWeight={600}
@@ -992,36 +1046,153 @@ const Menus = () => {
                                             {t("menus.createMenu.title")}
                                         </Typography>
                                         <Divider sx={{my: 1, borderColor: "divider", borderWidth: 1}}></Divider>
-                                        <TextField label={t("menus.createMenu.nameLabel")} fullWidth sx={{mt: 2}} value={menuName} onChange={(e) => setMenuName(e.target.value)}/>
-                                        <Button variant="contained" sx={{mt: 2, bgcolor: 'primary.main', '&:hover': {bgcolor: 'primary.dark'},
-                                    height: "50px"}} fullWidth
-                                    startIcon={loading ? <CircularProgress size={20} color="inherit"/> : <Add />}
-                                    onClick={handleAddMenu}
-                                    disabled={loading}>
-                                            {loading ? t("menus.createMenu.buttonLoading") : 
-                                            t("menus.createMenu.button")}
-                                        </Button>
+                                        <Grid container spacing={2} mt={3}>
+                                            <Grid size={{xs: 12, md: 4}}>
+                                                <Box display={'flex'} alignItems={'center'}
+                                                flexDirection={'column'}>
+                                                <Box width={"200px"} height={"200px"}
+                                                sx={{cursor: 'pointer', display: 'flex',
+                                                    borderRadius: "10px"
+                                                }}
+                                                component={'label'}>
+                                                    <input
+                                                        type="file"
+                                                        hidden
+                                                        accept="image/*"
+                                                        onChange={handleImageChange}
+                                                        width={"100%"}
+                                                        height={"100%"}
+                                                    />
+                                                    {previewUrl ? (
+                                                        <img src={previewUrl} style={{width: "100%",
+                                                            height: "100%",
+                                                            objectFit: "cover"
+                                                        }}/>
+                                                    ) : (
+                                                        <Box width={"100%"} height={"100%"}
+                                                        sx={{bgcolor: "#c4c4c4"}} display={'flex'}
+                                                        justifyContent={"center"} alignItems={"center"}>
+                                                            <Typography variant='body1' textAlign={'center'}>
+                                                                {t("menus.createItem.uploadImageLabel")}<Typography display={'block'} variant='body3' fontSize={"12px"}>
+                                                                    {t("menus.createItem.recommendedSizeLabel")}
+                                                                </Typography>
+                                                            </Typography>
+                                                        </Box>
+                                                    )}
+                                                </Box>
+                                                {previewUrl && 
+                                                <Button fullWidth variant='contained' color='warning'
+                                                onClick={() => {
+                                                    setImage(null),
+                                                    setPreviewUrl(null)
+                                                }} sx={{mt: 1}}>
+                                                Remove image 
+                                                </Button>}
+                                                {exceededSize && 
+                                                    <Alert icon={<ErrorOutline fontSize='inherit'/>}
+                                                    severity='error' sx={{width: "100%", mt:2}}>
+                                                        {t("menus.createItem.exceededSize")}
+                                                    </Alert>}
+                                            </Box>
+                                            </Grid>
+                                            <Grid size={{xs: 12, md: 8}}>
+                                                <TextField label={t("menus.createMenu.nameLabel")} fullWidth value={menuName} onChange={(e) => setMenuName(e.target.value)} required/>
+                                                <TextField label={t("menus.createMenu.descriptionLabel")} fullWidth sx={{mt: 2}} value={menuDescription} onChange={(e) => setMenuDescription(e.target.value)}
+                                                multiline minRows={6}/>
+                                                <Button variant="contained" sx={{mt: 2, bgcolor: 'primary.main', '&:hover': {bgcolor: 'primary.dark'},
+                                            height: "50px"}} fullWidth
+                                            startIcon={loading ? <CircularProgress size={20} color="inherit"/> : <Add />}
+                                            onClick={handleAddMenu}
+                                            disabled={loading}>
+                                                    {loading ? t("menus.createMenu.buttonLoading") : 
+                                                    t("menus.createMenu.button")}
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
                                     </Box>
                                 </Modal>
                                 <Modal
                                     open={openOperations}
-                                    onClose={() => setOpenOperations(false)}
+                                    onClose={handleCloseOperation}
                                >
-                                    <Box sx={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: {xs: '80%', md: '400px'}, bgcolor: 'background.paper', boxShadow: 24, p: 4,
+                                    <Box sx={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: {xs: '80%', md: '700px'}, bgcolor: 'background.paper', boxShadow: 24, p: 4,
                                         borderRadius: 1
                                     }}>
-                                        <Typography variant='h6' fontWeight={600} textAlign={'center'}>
+                                        <Typography variant='h5' fontWeight={600}
+                                        textAlign={'center'} mb={2}>
                                             {t("menus.editMenu.title")}
                                         </Typography>
+                                        <Tabs value={tabValue} onChange={(e, v) => setTabValue(v)} variant='fullWidth'>
+                                            <Tab label={t("menus.editMenu.title")}/>
+                                            <Tab label={t("menus.editMenu.otherOpsLabel")}/>
+                                        </Tabs>
                                         <Divider sx={{my: 1, borderColor: "divider", borderWidth: 1}}></Divider>
-                                        <TextField label={t("menus.editMenu.nameLabel")} fullWidth sx={{mt: 2}} value={menuName} onChange={(e) => setMenuName(e.target.value)}/>
-                                        <Button variant="contained" fullWidth
-                                        startIcon={loading ? <CircularProgress size={20} color="inherit"/> : <Update/>} sx={{height: "40px", mt: 2}}
-                                        onClick={handleUpdateMenu} disabled={loading}>
-                                            {loading ? t("menus.editMenu.buttonLoading") : 
-                                            t("menus.editMenu.button")}
-                                        </Button>
-                                        <Divider sx={{my: 3, borderColor: "divider", borderWidth: 1}}></Divider>
+                                        {tabValue === 0 && 
+                                        <Grid container spacing={2} mt={3}>
+                                            <Grid size={{xs: 12, md: 4}}>
+                                                <Box display={'flex'} alignItems={'center'}
+                                                flexDirection={'column'}>
+                                                <Box width={"200px"} height={"200px"}
+                                                sx={{cursor: 'pointer', display: 'flex',
+                                                    borderRadius: "10px"
+                                                }}
+                                                component={'label'}>
+                                                    <input
+                                                        type="file"
+                                                        hidden
+                                                        accept="image/*"
+                                                        onChange={handleImageChange}
+                                                        width={"100%"}
+                                                        height={"100%"}
+                                                    />
+                                                    {previewUrl ? (
+                                                        <img src={previewUrl} style={{width: "100%",
+                                                            height: "100%",
+                                                            objectFit: "cover"
+                                                        }}/>
+                                                    ) : (
+                                                        <Box width={"100%"} height={"100%"}
+                                                        sx={{bgcolor: "#c4c4c4"}} display={'flex'}
+                                                        justifyContent={"center"} alignItems={"center"}>
+                                                            <Typography variant='body1' textAlign={'center'}>
+                                                                {t("menus.createItem.uploadImageLabel")}<Typography display={'block'} variant='body3' fontSize={"12px"}>
+                                                                    {t("menus.createItem.recommendedSizeLabel")}
+                                                                </Typography>
+                                                            </Typography>
+                                                        </Box>
+                                                    )}
+                                                </Box>
+                                                {previewUrl && 
+                                                <Button fullWidth variant='contained' color='warning'
+                                                onClick={() => {
+                                                    setImage(null),
+                                                    setPreviewUrl(null)
+                                                }} sx={{mt: 1}}>
+                                                Remove image 
+                                                </Button>}
+                                                {exceededSize && 
+                                                    <Alert icon={<ErrorOutline fontSize='inherit'/>}
+                                                    severity='error' sx={{width: "100%", mt:2}}>
+                                                        {t("menus.createItem.exceededSize")}
+                                                    </Alert>}
+                                            </Box>
+                                            </Grid>
+                                            <Grid size={{xs: 12, md: 8}}>
+                                                <TextField label={t("menus.createMenu.nameLabel")} fullWidth value={menuName} onChange={(e) => setMenuName(e.target.value)} required/>
+                                                <TextField label={t("menus.createMenu.descriptionLabel")} fullWidth sx={{mt: 2}} value={menuDescription} onChange={(e) => setMenuDescription(e.target.value)}
+                                                multiline minRows={6}/>
+                                                <Button variant="contained" sx={{mt: 2, bgcolor: 'primary.main', '&:hover': {bgcolor: 'primary.dark'},
+                                            height: "50px"}} fullWidth
+                                            startIcon={loading ? <CircularProgress size={20} color="inherit"/> : <Add />}
+                                            onClick={handleUpdateMenu}
+                                            disabled={loading}>
+                                                    {loading ? t("menus.editMenu.buttonLoading") : 
+                                                    t("menus.editMenu.button")}
+                                                </Button>
+                                            </Grid>
+                                        </Grid>}
+                                        {tabValue === 1 &&
+                                        <>
                                         <Typography variant='h6' fontWeight={600} textAlign={'center'}>
                                             {t("menus.editMenu.otherOpsLabel")}
                                         </Typography>
@@ -1052,6 +1223,8 @@ const Menus = () => {
                                                 t("menus.editMenu.deleteButton")}
                                             </Button>
                                         </Box>
+                                        </>
+                                        }
                                     </Box>
 
                                 </Modal>

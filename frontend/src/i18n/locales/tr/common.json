@@ -54,6 +54,8 @@
             "secondaryColorLabel": "İkincil Renk",
             "textPrimaryColorLabel": "Metin Birincil",
             "textSecondaryColorLabel": "Metin İkincil",
+            "backgroundLabel": "Arka Plan",
+            "backgroundCardLabel": "Kart Arka Planı",
             "fontLabel": "Yazı Tipi",
             "alert": "Bir logo için maksimum boyut 2MB'dir.",
             "submitButton": "Oluştur",
@@ -163,6 +165,7 @@
         "createMenu": {
             "title": "Menü Ekle",
             "nameLabel": "Menü Adı",
+            "descriptionLabel": "Açıklama",
             "button": "Menü Ekle",
             "buttonLoading": "Menü ekleniyor...",
             "errorAlert": {
