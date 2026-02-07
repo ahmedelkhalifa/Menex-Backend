@@ -32,6 +32,9 @@ public class Menu {
     @Column(nullable = false)
     private boolean active;
 
+    @Column(nullable = false)
+    private Integer views;
+
     @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;

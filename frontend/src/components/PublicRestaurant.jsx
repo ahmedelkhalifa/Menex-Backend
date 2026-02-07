@@ -27,7 +27,7 @@ const PublicRestaurant = () => {
             }
         }
         fetchData();
-    }, [restaurantSlug]);
+    }, []);
     if (!restaurant || !theme) return null;
   return (
     <ThemeProvider theme={theme}>

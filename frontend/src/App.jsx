@@ -12,6 +12,7 @@ import Menus from "./components/Menus"
 import PublicMenu from "./components/PublicMenu"
 import PublicRestaurant from "./components/PublicRestaurant"
 import NotFound from "./components/notFound"
+import Inactive from "./components/Inactive"
 
 function App() {
 
@@ -72,6 +73,9 @@ function App() {
         }/>
         <Route path="/not-found" element={
           <NotFound/>
+        }/>
+        <Route path="/inactive" element={
+          <Inactive/>
         }/>
         <Route path="/:restaurantSlug/:menuId" element={
           <PublicMenu/>

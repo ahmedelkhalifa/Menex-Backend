@@ -9,6 +9,7 @@ const PublicRestaurantLayout = ({restaurant}) => {
     const navigate = useNavigate();
   return (
     <>
+    <Box sx={{bgcolor: "background.default"}}>
     <Container maxWidth="lg">
         <Paper elevation={1} sx={{width: "100%", mt: 5, overflow: "hidden", justifyContent: "center", display: "flex", flexDirection: "column", alignItems: "center"}}>
             <Box width={"100%"} height={"5px"} sx={{bgcolor: "primary.main", padding: 0}}/>
@@ -75,7 +76,7 @@ const PublicRestaurantLayout = ({restaurant}) => {
                                 <Typography variant='body1' color={"text.secondary"} 
                                 textAlign={{xs: 'center', md: 'left'}} mt={2}
                                   sx={{
-                                    display: "-webkit-box",
+                                      display: "-webkit-box",
                                     WebkitBoxOrient: "vertical",
                                     WebkitLineClamp: 4,
                                     overflow: "hidden",
@@ -107,6 +108,7 @@ const PublicRestaurantLayout = ({restaurant}) => {
         <Typography>
                 {new Date().getFullYear()} | Powered by Menex.
         </Typography>
+    </Box>
     </Box>
     </>
   )

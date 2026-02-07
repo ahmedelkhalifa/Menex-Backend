@@ -27,21 +27,15 @@ public class RestaurantController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<RestaurantDto> createRestaurant(
-            @RequestParam String name,
-            @RequestParam String address,
-            @RequestParam String phone,
-            @RequestParam String primaryColor,
-            @RequestParam String secondaryColor,
-            @RequestParam String textPrimary,
-            @RequestParam String textSecondary,
-            @RequestParam String background,
-            @RequestParam String backgroundCard,
-            @RequestParam String font,
-            @RequestParam(required = false) MultipartFile logo
+            @RequestPart("data") CreateRestaurantRequest request,
+            @RequestPart(value = "logo", required = false) MultipartFile logo
             ) throws IOException {
+        System.out.println("I'm here");
         Restaurant createdRestaurant = restaurantService.createRestaurant(
-                name, address, phone, primaryColor, secondaryColor, textPrimary,
-                textSecondary, background, backgroundCard, font, logo
+                request.getName(), request.getAddress(), request.getPhone(), request.getPrimaryColor(),
+                request.getSecondaryColor(), request.getTextPrimary(),
+                request.getTextSecondary(), request.getBackground(), request.getBackgroundCard(),
+                request.getFont(), logo
         );
         RestaurantDto restaurantDto = restaurantMapper.toDto(createdRestaurant);
         return new ResponseEntity<>(restaurantDto, HttpStatus.CREATED);
@@ -63,22 +57,15 @@ public class RestaurantController {
 
     @PutMapping("/{id}")
     public ResponseEntity<RestaurantDto> updateRestaurant(
-            @RequestParam String name,
-            @RequestParam String address,
-            @RequestParam String phone,
-            @RequestParam String primaryColor,
-            @RequestParam String secondaryColor,
-            @RequestParam String textPrimary,
-            @RequestParam String textSecondary,
-            @RequestParam String background,
-            @RequestParam String backgroundCard,
-            @RequestParam String font,
-            @RequestParam(required = false) MultipartFile logo,
+            @RequestPart("data") CreateRestaurantRequest request,
+            @RequestPart(value = "logo", required = false) MultipartFile logo,
             @PathVariable Long id
     ) throws IOException {
         Restaurant updatedRestaurant = restaurantService.updateRestaurant(
-                name, address, phone, primaryColor, secondaryColor, textPrimary,
-                textSecondary, background, backgroundCard, font, logo, id
+                request.getName(), request.getAddress(), request.getPhone(), request.getPrimaryColor(),
+                request.getSecondaryColor(), request.getTextPrimary(),
+                request.getTextSecondary(), request.getBackground(), request.getBackgroundCard(),
+                request.getFont(), logo, id
         );
         RestaurantDto restaurantDto = restaurantMapper.toDto(updatedRestaurant);
         return new ResponseEntity<>(restaurantDto, HttpStatus.OK);

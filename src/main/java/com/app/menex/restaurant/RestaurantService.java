@@ -71,6 +71,7 @@ public class RestaurantService {
                 .theme(theme)
                 .address(address)
                 .phone(phone)
+                .views(0)
                 .build();
         restaurantRepository.saveAndFlush(restaurant);
         Long id = restaurant.getId();

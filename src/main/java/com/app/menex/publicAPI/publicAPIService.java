@@ -29,6 +29,11 @@ public class publicAPIService {
         if (restaurant == null) {
             throw new EntityNotFoundException("Restaurant not found");
         }
+        if (!restaurant.getOwner().isEnabled())
+                throw new IllegalArgumentException("Restaurant is not enabled");
+        System.out.println("restaurant " + restaurant.getViews());
+        restaurant.setViews(restaurant.getViews() + 1);
+        restaurantRepository.save(restaurant);
         restaurant.setMenus(restaurant.getMenus().stream().sorted(Comparator.comparing(Menu::getId)).toList());
         return mapper.toPublicRestaurant(restaurant);
     }
@@ -38,6 +43,11 @@ public class publicAPIService {
         Menu menu = menuRepository.findByIdAndRestaurantSlug(menuId, restaurantSlug).orElseThrow(
                 () -> new EntityNotFoundException("Menu not found")
         );
+        if (!menu.isActive() && !menu.getRestaurant().getOwner().isEnabled())
+            throw new IllegalStateException("Menu is not active");
+        System.out.println("menu " + menu.getViews());
+        menu.setViews(menu.getViews() + 1);
+        menuRepository.save(menu);
         return mapper.toPublicMenu(menu);
     }
 }

@@ -3,6 +3,11 @@
         "title": "Dashboard",
         "description": "Overview of overall status.",
         "stats": "Quick Stats",
+        "views": "Views",
+        "viewsDetails": "Views per restaurant",
+        "totalViewsLabel": "Total Views",
+        "menusViews": "Menus Views",
+        "restaurantsViews": "Restaurants Views",
         "statsDescription": "Here are some statistics about your restaurants and menus.",
         "restaurantsCountLabel": "Number of Restaurants",
         "menusCountLabel": "Number of Menus",
@@ -12,7 +17,9 @@
         "createRestaurant": "Create Restaurant",
         "viewRestaurants": "View Restaurants",
         "createMenu": "Create Menu",
-        "viewMenus": "View Menus"
+        "viewMenus": "View Menus",
+        "restaurantViews": "Restaurant Views",
+        "chartTitle": "Views per menu"
     },
     "sidebar": {
         "ownerDashboard": "Owner Dashboard",

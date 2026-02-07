@@ -1,4 +1,4 @@
-import { Box, Divider, Drawer, Grid, IconButton, Paper, Skeleton, Stack, Typography, useTheme } from '@mui/material';
+import { Autocomplete, Box, Divider, Drawer, Grid, IconButton, Paper, Skeleton, Stack, TextField, Typography, useTheme } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import OwnerSidebar from './OwnerSidebar';
 import { Add, Class, Fastfood, Menu, MenuBook, Storefront, Visibility } from '@mui/icons-material';
@@ -6,6 +6,7 @@ import { BarChart, LineChart, PieChart } from '@mui/x-charts';
 import api from '../api';
 import { useTranslation } from 'react-i18next';
 import i18n from '../i18n';
+import Swal from 'sweetalert2';
 
 const OwnerDashboard = () => {
   const [open, setOpen] = useState(false);
@@ -13,13 +14,15 @@ const OwnerDashboard = () => {
   const [menusCount, setMenusCount] = useState(12);
   const [categoriesCount, setCategoriesCount] = useState(24);
   const [itemsCount, setItemsCount] = useState(125);
+  const [views, setViews] = useState(25);
   const theme = useTheme();
-  const [data, setData] = useState([
-    {name: "Ates kebab", menus: 4},
-    {name: "Fornello pizza", menus: 6},
-    {name: "FoodCourt", menus: 2},
-  ]);
+  const [menusName, setMenusName] = useState([]);
+  const [menusViews, setMenusViews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [restaurants, setRestaurants] = useState([]);
+  const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+  const [restaurantViews, setRestaurantViews] = useState(0);
+  const [totalViews, setTotalViews] = useState(0);
 
   const {t} = useTranslation();
 
@@ -57,6 +60,77 @@ const OwnerDashboard = () => {
       validateToken();
       getData();
     }, []);
+
+    useEffect(() => {
+      async function getRestaurants() {
+        try {
+          const response = await api.get("admin/owner-dashboard/restaurants");
+          setRestaurants(response.data);
+          setSelectedRestaurant(Object.values(response.data)[0]);
+        } catch (error) {
+          console.error(error);
+          Swal.fire({
+            icon: 'error',
+            title: t("restaurants.errorAlert.title"),
+            text: t("restaurants.errorAlert.message"),
+            showCloseButton: true,
+            background: theme.palette.background.default,
+            color: theme.palette.text.primary
+          })
+        }
+      }
+      getRestaurants();
+    }, []);
+
+    useEffect(() => {
+      async function getViews() {
+        setLoading(true);
+        try {
+          const response = await api.get("admin/owner-dashboard/views");
+          setViews(response.data);
+        } catch (error) {
+          console.error(error);
+          Swal.fire({
+            icon: 'error',
+            title: t("restaurants.errorAlert.title"),
+            text: t("restaurants.errorAlert.message"),
+            showCloseButton: true,
+            background: theme.palette.background.default,
+            color: theme.palette.text.primary
+          })
+        } finally {
+          setLoading(false);
+        }
+      }
+      getViews();
+    }, []);
+    useEffect(() => {
+      if (!selectedRestaurant) return;
+      async function getDetailedViews() {
+        setLoading(true);
+        try {
+          const response = await api.get(`admin/owner-dashboard/views/${selectedRestaurant}`);
+          setMenusName(Object.keys(response.data.perMenuViews));
+          setMenusViews(Object.values(response.data.perMenuViews));
+          setRestaurantViews(response.data.restaurantViews);
+          setTotalViews(response.data.totalViews);
+        } catch (error) {
+          console.error(error);
+          Swal.fire({
+            icon: 'error',
+            title: t("restaurants.errorAlert.title"),
+            text: t("restaurants.errorAlert.message"),
+            showCloseButton: true,
+            background: theme.palette.background.default,
+            color: theme.palette.text.primary
+          })
+        } finally {
+          setLoading(false);
+        }
+      }
+      getDetailedViews();
+    }, [selectedRestaurant]);
+
   return (
 <>
     <Box>
@@ -234,62 +308,170 @@ const OwnerDashboard = () => {
             </Grid>
           </Grid>
 
+          <Typography variant='h4' fontWeight={700} color='text.primary' mt={5} 
+          textAlign={{xs: 'center', md: 'left'}}>
+            {t('ownerDashboard.views')}
+          </Typography>
+
           <Grid container spacing={2} mt={3}>
-            <Grid size={{xs: 12, md: 6}}>
-              <Paper elevation={5} sx={{bgcolor: "background.paper",
-                p: 3, height: '100%'
-              }}>
-                <Typography variant='h5' textAlign={'center'}>
-                  Restaurants VS Menus
-                </Typography>
-                <Box sx={{ width: '100%', height: 300 }} mt={5}>
-                  <LineChart
-                    xAxis={[{ 
-                      scaleType: 'band',
-                      data: data.map(d => d.name) }]}
-                    series={[
-                      { data: data.map(d => d.menus),
-                        color: theme.palette.text.primary
-                      },
-                    ]}
-                    yAxis={[{
-                      scaleType: 'linear',
-                      min: 0
-                    }]}
-                    height={300}
-                  >
-                  </LineChart>
-                </Box>
+            <Grid size={{xs: 12, md: 4}}>
+              <Paper elevation={1} sx={{p: 3, textAlign: 'left',
+                bgcolor: "background.paper", display: 'flex', gap: 2,
+                alignItems: 'center'
+              }}> 
+                  <Visibility sx={{fontSize: 40, color: theme.palette.warning.main}}/>
+                  <Box>
+                    <Typography variant='h6' color='text.primary' display={"block"}>
+                      {t('ownerDashboard.totalViewsLabel')} 
+                    </Typography>
+                    <Typography variant='h4' fontWeight={800} display={'block'}>
+                      {views.totalViews}
+                    </Typography>
+                  </Box>
               </Paper>
             </Grid>
-            <Grid size={{xs: 12, md: 6}}>
-              <Paper elevation={5} sx={{bgcolor: "background.paper",
-                p: 3, height: '100%'
-              }}>
-                <Typography variant='h5' textAlign={'center'}>
-                  Restaurants VS Menus
-                </Typography>
-                <Box sx={{ width: '100%', height: 300 }} mt={5}>
-                  <LineChart
-                    xAxis={[{ 
-                      scaleType: 'band',
-                      data: data.map(d => d.name) }]}
-                    series={[
-                      { data: data.map(d => d.menus),
-                        color: theme.palette.text.primary
-                      },
-                    ]}
-                    yAxis={[{
-                      scaleType: 'linear',
-                      min: 0
-                    }]}
-                    height={300}
-                  >
-                  </LineChart>
-                </Box>
+            <Grid size={{xs: 12, md: 4}}>
+              <Paper elevation={1} sx={{p: 3, textAlign: 'left',
+                bgcolor: "background.paper", display: 'flex', gap: 2,
+                alignItems: 'center'
+              }}> 
+                  <Visibility sx={{fontSize: 40, color: theme.palette.warning.main}}/>
+                  <Box>
+                    <Typography variant='h6' color='text.primary'>
+                      {t('ownerDashboard.menusViews')} 
+                    </Typography>
+                    <Typography variant='h4' fontWeight={800} >
+                      {views.menusViews}
+                    </Typography>
+                  </Box>
+              </Paper>
+            </Grid>
+            <Grid size={{xs: 12, md: 4}}>
+              <Paper elevation={1} sx={{p: 3, textAlign: 'left',
+                bgcolor: "background.paper", display: 'flex', gap: 2,
+                alignItems: 'center'
+              }}> 
+                  <Visibility sx={{fontSize: 40, color: theme.palette.warning.main}}/>
+                  <Box>
+                    <Typography variant='h6' color='text.primary'>
+                      {t('ownerDashboard.restaurantsViews')} 
+                    </Typography>
+                    <Typography variant='h4' fontWeight={800} >
+                      {views.restaurantViews}
+                    </Typography>
+                  </Box>
               </Paper>
             </Grid>
           </Grid>
+
+          <Typography variant='h4' fontWeight={700} color='text.primary' mt={5} 
+          textAlign={{xs: 'center', md: 'left'}}>
+            {t('ownerDashboard.viewsDetails')}
+          </Typography>
+
+          <Autocomplete
+            disablePortal
+            options={Object.keys(restaurants)}
+            value={
+              Object.keys(restaurants).find(
+                (name) => restaurants[name] === selectedRestaurant
+              ) || null
+            }
+            onChange={(e, v) => {
+              console.log(selectedRestaurant)
+              setSelectedRestaurant(restaurants[v]);
+            }}
+            sx={{ mt: 3, bgcolor: "background.paper"}}
+            renderInput={(params) => <TextField {...params} label="Restaurant" />}
+            fullWidth
+          />
+
+          <Grid container spacing={2} mt={3}>
+            <Grid size={{xs: 12, sm: 6}}>
+              <Paper elevation={1} sx={{p: 3, textAlign: 'left',
+                bgcolor: "background.paper", display: 'flex', gap: 2,
+                alignItems: 'center'
+              }}> 
+                  <Visibility sx={{fontSize: 40, color: theme.palette.warning.main}}/>
+                  <Box>
+                    <Typography variant='h6' color='text.primary' display={"block"}>
+                      {t('ownerDashboard.totalViewsLabel')} 
+                    </Typography>
+                    <Typography variant='h4' fontWeight={800} display={'block'}>
+                      {totalViews}
+                    </Typography>
+                  </Box>
+              </Paper>
+            </Grid>
+            <Grid size={{xs: 12, sm: 6}}>
+              <Paper elevation={1} sx={{p: 3, textAlign: 'left',
+                bgcolor: "background.paper", display: 'flex', gap: 2,
+                alignItems: 'center'
+              }}> 
+                  <Visibility sx={{fontSize: 40, color: theme.palette.warning.main}}/>
+                  <Box>
+                    <Typography variant='h6' color='text.primary'>
+                      {t('ownerDashboard.restaurantViews')} 
+                    </Typography>
+                    <Typography variant='h4' fontWeight={800} >
+                      {restaurantViews}
+                    </Typography>
+                  </Box>
+              </Paper>
+            </Grid>
+          </Grid>
+
+              <Paper elevation={1} sx={{bgcolor: "background.paper",
+                p: 3, mt: 3
+              }}>
+                <Typography variant='h5' textAlign={'center'}>
+                  {t("ownerDashboard.chartTitle")}
+                </Typography>
+                <Box display={{ xs: "none", sm: "block" }}>
+                  <BarChart
+                    xAxis={[
+                      {
+                        data: menusName ?? [],
+                        scaleType: "band",
+                        categoryGapRatio: 0.8,
+                      },
+                    ]}
+                    series={[
+                      {
+                        data: menusViews ?? [],
+                        color: theme.palette.primary.main,
+                      },
+                    ]}
+                    height={350}
+                  />
+                </Box>
+
+                {/* Mobile: horizontal bars */}
+                <Box display={{ xs: "block", sm: "none" }}>
+                  <BarChart
+                    yAxis={[
+                      {
+                        data: menusName ?? [],
+                        scaleType: "band",
+                        categoryGapRatio: 0.8,
+                      },
+                    ]}
+                    xAxis={[
+                      {
+                        min: 0,
+                      },
+                    ]}
+                    series={[
+                      {
+                        data: menusViews ?? [],
+                        color: theme.palette.primary.main,
+                      },
+                    ]}
+                    layout="horizontal"
+                    height={350}
+                  />
+                </Box>
+              </Paper>
         </Box>
       </Box>
     </Box>

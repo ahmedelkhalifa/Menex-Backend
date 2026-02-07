@@ -33,18 +33,6 @@ public interface PublicAPIMapper {
     @Mapping(source = "restaurant", target = "theme", qualifiedByName = "getTheme")
     PublicMenuDto toPublicMenu(Menu menu);
 
-//    default ThemeDto toThemeDto(Theme theme) {
-//        ThemeDto themeDto = ThemeDto.builder()
-//                .primaryColor(theme.getPrimaryColor())
-//                .secondaryColor(theme.getSecondaryColor())
-//                .textPrimary(theme.getTextPrimary())
-//                .textSecondary(theme.getTextSecondary())
-//                .background(theme.getBackground())
-//                .backgroundCard(theme.getBackgroundCard())
-//                .font(theme.getFont())
-//                .build();
-//        return themeDto;
-//    }
 
     @Named("getTheme")
     default Theme getTheme(Restaurant restaurant){
@@ -52,7 +40,13 @@ public interface PublicAPIMapper {
         return theme;
     }
 
+    @Mapping(source = "category", target = "categoryId", qualifiedByName = "getCategoryId")
     PublicMenuItemDto toPublicMenuItemDto(MenuItem item);
+
+    @Named("getCategoryId")
+    default Long getCategoryId(Category category){
+        return category.getId();
+    }
 
     @Named("getMenuItems")
     default List<PublicMenuItemDto> getMenuItems(List<Category> categories) {

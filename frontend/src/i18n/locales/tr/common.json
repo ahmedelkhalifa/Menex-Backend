@@ -3,6 +3,11 @@
         "title": "Kontrol Paneli",
         "description": "Genel durumun özeti.",
         "stats": "Hızlı İstatistikler",
+        "views": "Görüntüleme",
+        "viewsDetails": "Restoran başı görüntüleme",
+        "totalViewsLabel": "Toplam Görüntüleme",
+        "menusViews": "Menüler Görüntüleme",
+        "restaurantsViews": "Restoranlar Görüntüleme",
         "statsDescription": "restoranlarınız ve menüleriniz hakkında bazı istatistikler.",
         "restaurantsCountLabel": "Restoran Sayısı",
         "menusCountLabel": "Menü Sayısı",
@@ -12,7 +17,9 @@
         "createRestaurant": "Restoran Oluştur",
         "viewRestaurants": "Restoranları Görüntüle",
         "createMenu": "Menü Oluştur",
-        "viewMenus": "Menüleri Görüntüle"
+        "viewMenus": "Menüleri Görüntüle",
+        "restaurantViews": "Restoran Görüntüleme",
+        "chartTitle": "Menülerde Görüntüleme"
     },
     "sidebar": {
         "ownerDashboard": "Sahip Kontrol Paneli",

@@ -41,6 +41,9 @@ public class Restaurant {
     @Column(nullable = true)
     private String logoUrl;
 
+    @Column(nullable = false)
+    private Integer views;
+
     @ManyToOne
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;

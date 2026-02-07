@@ -15,8 +15,14 @@ import lombok.NoArgsConstructor;
 public class CreateRestaurantRequest {
     @NotBlank(message = "name can't be empty")
     @Size(min = 2, max = 100, message = "name must be between {min} and {max} characters")
-    private String restaurantName;
+    private String name;
+    private String address;
+    private String phone;
     private String primaryColor;
     private String secondaryColor;
+    private String textPrimary;
+    private String textSecondary;
+    private String background;
+    private String backgroundCard;
     private String font;
 }

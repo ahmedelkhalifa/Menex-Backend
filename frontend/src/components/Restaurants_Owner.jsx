@@ -49,22 +49,22 @@ const Restaurants_Owner = () => {
     setLoading(true);
     try {
       const formData = new FormData(); 
-      formData.append("name", name);
-      formData.append("address", address);
-      formData.append("phone", phone);
-      formData.append("primaryColor", main);
-      formData.append("secondaryColor", secondary);
-      formData.append("textPrimary", textMain);
-      formData.append("textSecondary", textSecondary);
-      formData.append("background", background);
-      formData.append("backgroundCard", backgroundCard);
-      formData.append("font", font);
-      if (logo) formData.append("logo", logo);
-      const response = await api.post("/restaurants", formData,{
-        headers: {
-          "Content-Type": "mutlipart/form-data"
-        }
-      });
+      const restaurantData = {
+          name: name,
+          address: address,
+          phone: phone,
+          primaryColor: main,
+          secondaryColor: secondary,
+          textPrimary: textMain,
+          textSecondary: textSecondary,
+          background: background,
+          backgroundCard: backgroundCard,
+          font: font
+      };
+      const jsonBlob = new Blob([JSON.stringify(restaurantData)], { type: "application/json" });
+      formData.append("data", jsonBlob);
+      if (logo){formData.append("logo", logo)};
+      const response = await api.post("/restaurants", formData);
       setRestaurants((r) => [...r, response.data]);
       Swal.fire({
         title: t("restaurants.create.successTitle"),
@@ -88,6 +88,19 @@ const Restaurants_Owner = () => {
     } finally {
       setLoading(false);
       setOpenCreate(false);
+      setSelectedRestaurant(null);
+      setName("");
+      setAddress("");
+      setPhone("");
+      setMain("#6FBF73");
+      setSecondary("#2E3A3A");
+      setTextMain("#2E3A3A");
+      setTextSecondary("#5F6F6F");
+      setBackground("#F6F8F7");
+      setBackgroundCard("#FFFFFF");
+      setFont("roboto");
+      setLogo(null);
+      setExceedSize(false);
     }
   }
 
@@ -96,22 +109,22 @@ const Restaurants_Owner = () => {
     setLoading(true);
     try {
       const formData = new FormData(); 
-      formData.append("name", name);
-      formData.append("address", address);
-      formData.append("phone", phone);
-      formData.append("primaryColor", main);
-      formData.append("secondaryColor", secondary);
-      formData.append("textPrimary", textMain);
-      formData.append("textSecondary", textSecondary);
-      formData.append("background", background);
-      formData.append("backgroundCard", backgroundCard);
-      formData.append("font", font);
+      const restaurantData = {
+          name: name,
+          address: address,
+          phone: phone,
+          primaryColor: main,
+          secondaryColor: secondary,
+          textPrimary: textMain,
+          textSecondary: textSecondary,
+          background: background,
+          backgroundCard: backgroundCard,
+          font: font
+      };
+      const jsonBlob = new Blob([JSON.stringify(restaurantData)], { type: "application/json" });
+      formData.append("data", jsonBlob);
       if (logo) formData.append("logo", logo);
-      const response = await api.put(`/restaurants/${selectedRestaurant.id}`, formData,{
-        headers: {
-          "Content-Type": "mutlipart/form-data"
-        }
-      });
+      const response = await api.put(`/restaurants/${selectedRestaurant.id}`, formData);
       setRestaurants(prev => prev.map(
         r => r.id === selectedRestaurant.id ? response.data : r
       ));
@@ -137,6 +150,19 @@ const Restaurants_Owner = () => {
     } finally {
       setLoading(false);
       setOpenUpdate(false);
+      setSelectedRestaurant(null);
+      setName("");
+      setAddress("");
+      setPhone("");
+      setMain("#6FBF73");
+      setSecondary("#2E3A3A");
+      setTextMain("#2E3A3A");
+      setTextSecondary("#5F6F6F");
+      setBackground("#F6F8F7");
+      setBackgroundCard("#FFFFFF");
+      setFont("roboto");
+      setLogo(null);
+      setExceedSize(false);
     }
   }
 
@@ -573,7 +599,7 @@ const Restaurants_Owner = () => {
                       </Stack>
                       <Button variant='contained' sx={{mt: 3, width: '50%'}} type='submit'
                       startIcon={loading && <CircularProgress size={20}
-                      sx={{color: background}}/>}>
+                      sx={{color: background}}/>} disabled={loading}>
                         {loading ? t('restaurants.create.submitButtonLoading') : t('restaurants.create.submitButton')}
                       </Button>
                     </Box>
@@ -781,7 +807,7 @@ const Restaurants_Owner = () => {
                       </Stack>
                       <Button variant='contained' sx={{mt: 3, width: '50%'}} type='submit'
                       startIcon={loading && <CircularProgress size={20}
-                      sx={{color: "background.default"}}/>}>
+                      sx={{color: "background.default"}}/>} disabled={loading}>
                         {loading ? t('restaurants.create.updateButtonLoading') : t('restaurants.create.updateButton')}
                       </Button>
                     </Box>

@@ -50,6 +50,7 @@ public class MenuService {
                 .name(name)
                 .description(description)
                 .active(true)
+                .views(0)
                 .build();
         restaurant.addMenu(menu);
 

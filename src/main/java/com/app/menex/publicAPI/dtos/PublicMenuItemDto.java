@@ -21,4 +21,5 @@ public class PublicMenuItemDto {
     String imageUrl;
     boolean available;
     Currency currency;
+    Long categoryId;
 }
