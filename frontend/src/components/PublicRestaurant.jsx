@@ -23,6 +23,9 @@ const PublicRestaurant = () => {
                 console.error('Error fetching restaurants:', error);
                 if (error.response.status === 404) {
                     window.location.href = "/not-found";
+                } 
+                if (error.response.status === 400) {
+                    window.location.href = "/inactive";
                 }            
             }
         }

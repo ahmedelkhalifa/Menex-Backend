@@ -14,6 +14,7 @@ import PublicRestaurant from "./components/PublicRestaurant"
 import NotFound from "./components/notFound"
 import Inactive from "./components/Inactive"
 import Home from "./components/Home"
+import GetStarted from "./components/GetStarted"
 
 function App() {
 
@@ -72,6 +73,9 @@ function App() {
           <ProtectedRoute allowedRole={"RESTAURANT_OWNER"}>
             <Menus/>
           </ProtectedRoute>
+        }/>
+        <Route path="/get-started" element={
+          <GetStarted/>
         }/>
         <Route path="/not-found" element={
           <NotFound/>

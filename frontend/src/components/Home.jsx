@@ -128,7 +128,7 @@ const Home = () => {
                     onClick={() => navigate("login")}>
                         {t("landing.login")}
                     </Button>
-                    <Button variant='contained' sx={{bgcolor: "success.main", color: "#fff", height: "40px", width: "150px", fontWeight: 700}}>
+                    <Button variant='contained' sx={{bgcolor: "success.main", color: "#fff", height: "40px", width: "150px", fontWeight: 700}} onClick={() => navigate("get-started")}>
                         {t("landing.register")}
                     </Button>
                 </Box>
@@ -173,7 +173,7 @@ const Home = () => {
                         <Box display={'flex'} gap={{xs: 2, md: 1}} alignItems={'center'} mt={3}
                         flexDirection={{xs: "column", sm: "row"}} justifyContent={{xs: "center", md: "left"}}>
                             <Button variant='contained' color='success' sx={{height: "60px", width: "250px", color: "#FFFFFF", fontSize: 20, fontWeight: 700}}
-                            endIcon={<ArrowForward/>}>
+                            endIcon={<ArrowForward/>} onClick={() => navigate("get-started")}>
                                 {t("landing.startFree")}
                             </Button>
                             <Button variant='contained' sx={{height: "60px", width: "200px", color: "text.primary", fontSize: 20, bgcolor: "background.default", fontWeight: 700}}
@@ -522,7 +522,7 @@ const Home = () => {
                             boxShadow: (theme) =>
                             `0px 6px 20px ${theme.palette.primary.main}80`,
                             mt: 2
-                        }}>
+                        }} onClick={() => navigate("get-started")}>
                             {t("landing.pricing.card.button")}
                         </Button>
                     </Box>
@@ -600,7 +600,7 @@ const Home = () => {
                             boxShadow: (theme) =>
                             `0px 6px 20px ${theme.palette.primary.main}80`,
                             mt: 2
-                        }}>
+                        }} onClick={() => navigate("get-started")}>
                             {t("landing.pricing.card.button")}
                         </Button>
                     </Box>
@@ -623,7 +623,7 @@ const Home = () => {
                     boxShadow: (theme) =>
                             `0px 6px 20px ${theme.palette.primary.main}80`,
                     fontSize: 18, fontWeight: 600
-                }}>
+                }} onClick={() => navigate("get-started")}>
                     {t("landing.startFree")}
                 </Button>
             </Box>
