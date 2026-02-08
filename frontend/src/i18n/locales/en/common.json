@@ -1,4 +1,69 @@
 {
+    "landing": {
+        "featuresNav": "Features",
+        "howItWorks": "How it works",
+        "pricingNav": "Pricing",
+        "login": "Login",
+        "register": "Get Started",
+        "startFree": "Get Started Free",
+        "hero1": "Modernize Your Restaurant with",
+        "hero2": "Smart Digital Menus.",
+        "hero-desc": "Say goodbye to printing costs. Update your prices instantly, showcase delicious photos, and let customers see menus via QR code seamlessly.",
+        "watch-demo": "Watch Demo",
+        "features": {
+            "title": "WHY CHOOSE MENEX?",
+            "subtitle": "Everything you need to run a modern restaurant",
+            "desc": "Streamline your operations and enhance customer experience with our comprehensive suite of tools.",
+            "feature1": {
+                "title": "Easy Menu Builder",
+                "desc": "Create items, organize categories, and upload mouth-watering photos in seconds. No coding required."
+            },
+            "feature2": {
+                "title": "Real-time Updates",
+                "desc": "Run out of a special? Disable it instantly. Need to change a price? Update it everywhere with one click."
+            },
+            "feature3": {
+                "title": "Analytics Dashboard",
+                "desc": "Track which items are popular, monitor scan rates, and gain insights to optimize your menu profitability."
+            }
+        },
+        "getStarted": {
+            "title": "Get Started In 3 Simple Steps",
+            "step1": {
+                "title": "Create Account",
+                "desc": "Sign up and set up your restaurant profile with basic details and logo."
+            },
+            "step2": {
+                "title": "Customize Menus",
+                "desc": "Add your categories, delicious items, prices, and mouth-watering images."
+            },
+            "step3": {
+                "title": "Generate QR",
+                "desc": "Download your unique QR code, print it for your tables, and start serving!"
+            }
+        },
+        "pricing": {
+            "title": "Pricing",
+            "card": {
+                "proPlan": "Pro Plan",
+                "perMonth": "/month",
+                "perYear": "/year",
+                "free-trial": "1 month free trial",
+                "cancellation": "Cancel anytime. No hidden fees.",
+                "features": {
+                    "1": "Unlimited restaurant creation.",
+                    "2": "Unlimited menu creation.",
+                    "3": "Unlimited Menu Items & Categories",
+                    "4": "Unlimited QR code generations.",
+                    "5": "Priority Support (24/7)",
+                    "6": "Advanced Analytics"
+                },
+                "button": "Start Free Trial",
+                "badge": "BEST VALUE",
+                "perYearLabel": "1 month free trial - save 2 months"
+            }
+        }
+    },
     "ownerDashboard": {
         "title": "Dashboard",
         "description": "Overview of overall status.",

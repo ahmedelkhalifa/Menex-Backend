@@ -43,18 +43,19 @@ const Login = () => {
 
   return (
     <>
-    <Box height={'100vh'} bgcolor={"#eee"} display={'flex'}
+    <Box height={'100vh'} sx={{bgcolor: "background.default"}} display={'flex'}
     alignItems={'center'} justifyContent={'center'}>
-        <Card sx={{py: 7, px: 3, width: {xs: "300px", sm: "600px"}, textAlign: "center"}}>
-            <Typography variant='h4' color='primary' fontWeight={700}>
+        <Card sx={{py: 7, px: 3, width: {xs: "300px", sm: "600px"}, textAlign: "center",
+    bgcolor: "background.card"}}>
+            <Typography variant='h4' color='primary.main' fontWeight={700}>
                 Login
             </Typography>
 
-            <Divider sx={{my: 3}}></Divider>
+            <Divider sx={{my: 3, borderColor: "divider"}}></Divider>
 
             <form action="#" onSubmit={handleSubmit}>
                 <Stack direction={'row'} gap={2} alignItems={'center'}>
-                    <Email color='primary' sx={{display: {xs: "none", sm: "block"}}}/>
+                    <Email sx={{display: {xs: "none", sm: "block"}, color:'primary.main'}}/>
                     <Box sx={{width: '100%'}}>
                         <FormControl fullWidth>
                             <InputLabel htmlFor="email">Email</InputLabel>
@@ -65,12 +66,13 @@ const Login = () => {
                             fullWidth
                             type='email'
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}/>
+                            onChange={(e) => setEmail(e.target.value)}
+                            sx={{color: "text.primary"}}/>
                         </FormControl>
                     </Box>
                 </Stack>
                 <Stack direction={'row'} gap={2} alignItems={'center'} mt={3}>
-                    <Lock color='primary' sx={{display: {xs: "none", sm: "block"}}}/>
+                    <Lock sx={{display: {xs: "none", sm: "block"}, color:'primary.main'}}/>
                     <Box sx={{width: '100%'}}>
                         <FormControl fullWidth>
                             <InputLabel htmlFor="password">Password</InputLabel>
@@ -80,17 +82,18 @@ const Login = () => {
                             fullWidth
                             type='password'
                             value={password}
-                            onChange={(e) => setPassword(e.target.value)}/>
+                            onChange={(e) => setPassword(e.target.value)}
+                            sx={{color: "text.primary"}}/>
                         </FormControl>
                     </Box>
                 </Stack>
-                <Typography variant='body1' color='primary'
+                <Typography variant='body1' color='primary.main'
                 component= "a" href='/forgot-password'
                 sx={{textDecoration: "none", display: "inline-block"}} mt={3}>
                     Forgot your password?
                 </Typography>
-                <Button type="sumbit" variant='contained' sx={{mt: 2}} fullWidth
-                disabled={loading ? true : false} startIcon={loading && <CircularProgress/>}>
+                <Button type="sumbit" variant='contained' sx={{mt: 2, height: "50px"}} fullWidth
+                disabled={loading ? true : false} startIcon={loading && <CircularProgress size={20}/>}>
                     {loading ? "logging you in..." : "Login"}
                 </Button>
             </form>

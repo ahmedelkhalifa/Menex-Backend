@@ -1,4 +1,69 @@
 {
+    "landing": {
+        "featuresNav": "Özellikler",
+        "howItWorks": "Nasıl Çalışır",
+        "pricingNav": "Fiyat",
+        "login": "Giriş Yap",
+        "register": "Başla",
+        "startFree": "Ücretsiz Başla",
+        "hero1": "Restoranınızı Modernleştirin",
+        "hero2": "Akıllı Dijital Menülerle",
+        "hero-desc": "Baskı maliyetlerine veda edin. Fiyatlarınızı anında güncelleyin, lezzetli fotoğrafları sergileyin ve müşterilerin menüleri QR kodla sorunsuz bir şekilde görmelerini sağlayın.",
+        "watch-demo": "Demoyu izleyin",
+        "features": {
+            "title": "NEDEN MENEX'İ SEÇMELİSİNİZ?",
+            "subtitle": "Modern bir restoran işletmek için ihtiyacınız olan her şey",
+            "desc": "Kapsamlı araç paketimizle operasyonlarınızı kolaylaştırın ve müşteri deneyimini geliştirin.",
+            "feature1": {
+                "title": "Kolay Menü Oluşturucu",
+                "desc": "Saniyeler içinde öğeler oluşturun, kategorileri düzenleyin ve ağız sulandıran fotoğraflar yükleyin. Kodlamaya gerek yok."
+            },
+            "feature2": {
+                "title": "Gerçek Zamanlı Güncellemeler",
+                "desc": "Özel etkinliğin bitti mi? Anında devre dışı bırakın. Fiyatı değiştirmeniz mi gerekiyor? Tek tıklamayla her yerde güncelleyin."
+            },
+            "feature3": {
+                "title": "Analitik Kontrol Paneli",
+                "desc": "Hangi öğelerin popüler olduğunu takip edin, tarama oranlarını izleyin ve menünüzün karlılığını optimize etmek için öngörüler elde edin."
+            }
+        },
+        "getStarted": {
+            "title": "3 Basit Adımda Başlayın",
+            "step1": {
+                "title": "Hesap oluştur",
+                "desc": "Kaydolun ve temel bilgiler ve logo ile restoran profilinizi oluşturun."
+            },
+            "step2": {
+                "title": "Menüleri Özelleştir",
+                "desc": "Kategorilerinizi, lezzetli ürünlerinizi, fiyatlarınızı ve iştah açıcı görsellerinizi ekleyin."
+            },
+            "step3": {
+                "title": "Generate QR",
+                "desc": "Size özel QR kodunuzu indirin, masalarınız için yazdırın ve servis yapmaya başlayın!"
+            }
+        },
+        "pricing": {
+            "title": "Fiyatlandırma",
+            "card": {
+                "proPlan": "Pro Plan",
+                "perMonth": "/ay",
+                "perYear": "/yıl",
+                "free-trial": "1 ay ücretsiz deneme",
+                "cancellation": "İstediğiniz zaman iptal edebilirsiniz. Gizli ücret yok.",
+                "features": {
+                    "1": "Sınırsız restoran açma olanağı.",
+                    "2": "Sınırsız menü oluşturma.",
+                    "3": "Sınırsız Menü Seçeneği ve Kategori",
+                    "4": "Sınırsız sayıda QR kod oluşturma imkanı.",
+                    "5": "Öncelikli Destek (7/24)",
+                    "6": "Gelişmiş Analitik"
+                },
+                "button": "Ücretsiz Deneme Başlat",
+                "badge": "EN İYİ FİYAT",
+                "perYearLabel": "1 ay ücretsiz deneme - 2 ay tasarruf edin"
+            }
+        }
+    },
     "ownerDashboard": {
         "title": "Kontrol Paneli",
         "description": "Genel durumun özeti.",

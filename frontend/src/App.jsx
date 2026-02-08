@@ -13,6 +13,7 @@ import PublicMenu from "./components/PublicMenu"
 import PublicRestaurant from "./components/PublicRestaurant"
 import NotFound from "./components/notFound"
 import Inactive from "./components/Inactive"
+import Home from "./components/Home"
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
     <>
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<Home/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/admin-dashboard" element={
           <ProtectedRoute allowedRole={"SUPER_ADMIN"}>

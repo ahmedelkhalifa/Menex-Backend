@@ -171,7 +171,7 @@ const darkTheme = createTheme({
     },
 
     background: {
-      default: "#0F1A17", // dark green-charcoal
+      default: "#0f1a17", // dark green-charcoal
       paper: "#162521",
       sidebar: "#13201C"
     },
