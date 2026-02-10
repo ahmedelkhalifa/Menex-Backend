@@ -20,7 +20,7 @@
             },
             "feature2": {
                 "title": "Gerçek Zamanlı Güncellemeler",
-                "desc": "Özel etkinliğin bitti mi? Anında devre dışı bırakın. Fiyatı değiştirmeniz mi gerekiyor? Tek tıklamayla her yerde güncelleyin."
+                "desc": "Özel ürününüz bitti mi? Anında devre dışı bırakın. Fiyatı değiştirmeniz mi gerekiyor? Tek tıklamayla her yerde güncelleyin."
             },
             "feature3": {
                 "title": "Analitik Kontrol Paneli",
@@ -38,12 +38,12 @@
                 "desc": "Kategorilerinizi, lezzetli ürünlerinizi, fiyatlarınızı ve iştah açıcı görsellerinizi ekleyin."
             },
             "step3": {
-                "title": "Generate QR",
+                "title": "QR oluştur",
                 "desc": "Size özel QR kodunuzu indirin, masalarınız için yazdırın ve servis yapmaya başlayın!"
             }
         },
         "pricing": {
-            "title": "Fiyatlandırma",
+            "title": "Fiyatlarımız",
             "card": {
                 "proPlan": "Pro Plan",
                 "perMonth": "/ay",
@@ -60,7 +60,7 @@
                 },
                 "button": "Ücretsiz Deneme Başlat",
                 "badge": "EN İYİ FİYAT",
-                "perYearLabel": "1 ay ücretsiz deneme - 2 ay tasarruf edin"
+                "perYearLabel": "1 ay ücretsiz deneme - 2 ay tasarruflu"
             }
         }
     },
