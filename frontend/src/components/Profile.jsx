@@ -525,7 +525,10 @@ const Profile = () => {
                     }} 
                     />
                     <Typography variant='body1' color='text.secondary' mt={1}>
-                        {loading || !expirationDate ? <Skeleton variant='text' width={"100%"}/> : `${t("profile.subscription.trialEnd")} ${expirationDate}`}
+                        {loading || !expirationDate ? <Skeleton variant='text' width={"100%"}/> : `${subscription?.status === "trialing" ? 
+                            t("profile.subscription.trialEnd") :
+                            t("profile.subscription.periodEnd")
+                        } ${expirationDate}`}
                     </Typography>
                     {!subscription?.isScheduledForCancel && (
                         <Box width={"100%"} sx={{bgcolor: mode === "dark" ? "#1B3F2A" : "primary.light", border:
@@ -620,7 +623,7 @@ const Profile = () => {
             </Paper>
             )}
             {localStorage.getItem("role") === "RESTAURANT_OWNER" && (
-                <Grid container spacing={2} mt={3}>
+            <Grid container spacing={2} mt={3}>
                 <Grid size={{xs: 12, md: 4}} sx={{ display: "flex" }}>
                     <Card sx={{width: "100%", display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2, py: 2, px: 4, flexGrow: 1}}>
                         <VerifiedUser sx={{color: "primary.main"}}/>

@@ -1,22 +1,25 @@
 import { Box, Button, Card, CircularProgress, Container, IconButton, Menu, MenuItem, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import logo from "../assets/logo-png.png"
 import logoDark from "../assets/logo-dark-png.png"
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { useThemeMode } from '../main'
-import { Bedtime, Email, Language, LightMode, Send, SupportAgent } from '@mui/icons-material'
+import { Bedtime, Check, Clear, Email, LabelImportant, Language, LightMode, Send, SupportAgent } from '@mui/icons-material'
 import { useTranslation } from 'react-i18next'
 import Swal from 'sweetalert2'
 import api from '../api'
 import i18n from '../i18n'
 
 
-const Activate = () => {
+const Verification = () => {
   const {mode, setMode} = useThemeMode();
   const {t} = useTranslation();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [verified, setVerified] = useState(false);
+  const [error, setError] = useState("");
+
 
   const open = Boolean(anchorEl);
 
@@ -40,31 +43,18 @@ const Activate = () => {
     document.documentElement.dir = isRTL ? "rtl" : "ltr";
   }
 
-  async function resendEmail() {
-    try {
-      setLoading(true);
-      const response = await api.post("/auth/resend-email", {
-        email: sessionStorage.getItem("email")
-      });
-      Swal.fire({
-        title: "Success",
-        text: "Email sent, check your inbox",
-        icon: "success",
-        showCloseButton: true
-      })
-    } catch (error) {
-      console.error(error);
-      const message = error.response?.data?.message || "Can't resend email, try again";
-      Swal.fire({
-        title: "Oops...",
-        text: message,
-        icon: "error",
-        showCloseButton: true
-      })
-    } finally {
-      setLoading(false);
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    
+    if (params.get('verified') === 'true') {
+        setVerified(true);
+    } 
+    else {
+        setVerified(false);
+        setError(params.get('error'))
     }
-  }
+  }, []);
+
   return (
     <>
     <Box>
@@ -132,43 +122,47 @@ const Activate = () => {
           gap: 2,
           p: 4,
           width: {xs: "80vw", md: "600px"},
-          boxShadow: (theme) =>
-                        `0px 6px 20px ${theme.palette.primary.main}50`
+          boxShadow: verified ? (theme) =>
+                        `0px 6px 20px ${theme.palette.primary.main}50` : (theme) =>
+                        `0px 6px 20px ${theme.palette.error.main}50`
         }}>
           <Box width={"100px"} height={"100px"} borderRadius={"50%"}
           sx={{
-            bgcolor: "primary.main",
+            bgcolor: verified ? "primary.main" : "error.main",
             display: "flex",
             justifyContent: "center",
             alignItems: "center"
           }}>
-            <Email fontSize='large' sx={{color: "background.default"}}/>
+            {verified ? <Check fontSize='large' sx={{color: "background.default"}}/> :
+            <Clear fontSize='large' sx={{color: "background.default"}}/>}
           </Box>
           <Typography variant='h4' fontWeight={800} textAlign={"center"} mt={2}
-          color='primary.dark'>
-            Check Your Email
+          color={verified ? "primary.dark" : "error.main"}>
+            {verified ? "Your account is verified" : (
+                error === "expired" ? "Token is expired" : "Invalid token"
+            )}
           </Typography>
           <Typography variant='body1' color='text.secondary' textAlign={'center'}>
-            We've sent an activation link to <br/>
-            <b>{sessionStorage.getItem("email")}</b><br/>
-            Please click the link to verify your account.
+            {verified ? "Your account has been verified successfully.\nYou are one step away from degitizing your menus" : (
+                error === "expired" ? "The token is now expired, To have new verification token please try to login again and click \"Resend Email\" button." : 
+                "The token is invalid, For security reasons you will need to create your account again."
+            )}
           </Typography>
-          <Button variant='contained' sx={{
-            bgcolor: "primary.main",
-            color: "background.default",
-            height: "50px",
-            py: 2,
-            px: 4,
-            width: "fit-content",
-            mt: 2,
-            fontSize: "18px"
-          }} startIcon={loading ? <CircularProgress size={20}/> : <Send/>}
-          onClick={resendEmail} disabled={loading}>
-            Resend Email
-          </Button>
-          <Typography variant='body1' color='text.secondary' mt={2} textAlign={'center'}>
-            Didn't recieve an email? <b>Check your spam folder.</b>
-          </Typography>
+          {verified && (
+            <Button variant='contained' sx={{
+                bgcolor: "primary.main",
+                color: "background.default",
+                height: "50px",
+                py: 2,
+                px: 4,
+                width: "fit-content",
+                mt: 2,
+                fontSize: "18px"
+            }} startIcon={<LabelImportant/>}
+            onClick={() => navigate("/subscription")}>
+                SUBSCRIBE NOW
+            </Button>
+          )}
         </Card>
       </Box>
     </Box>
@@ -176,4 +170,4 @@ const Activate = () => {
   )
 }
 
-export default Activate
+export default Verification

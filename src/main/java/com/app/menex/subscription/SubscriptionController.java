@@ -37,8 +37,8 @@ public class SubscriptionController {
     public ResponseEntity<Map<String, String>> createCardPortalSession() {
         User user = userService.getCurrentUser();
         try {
-            // Configure where the user goes after they finish updating their card
-            String returnUrl = frontendURL + "success";
+
+            String returnUrl = frontendURL + "/success";
 
             com.stripe.param.billingportal.SessionCreateParams params =
                     com.stripe.param.billingportal.SessionCreateParams.builder()
@@ -64,7 +64,7 @@ public class SubscriptionController {
     public ResponseEntity<Map<String, String>> createPortalSession() {
         User user = userService.getCurrentUser();
         try {
-            // Configure where the user goes after they finish updating their card
+
             String returnUrl = frontendURL + "/success";
 
             com.stripe.param.billingportal.SessionCreateParams params =

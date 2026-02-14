@@ -1,10 +1,11 @@
-import { Email, Lock, Person } from '@mui/icons-material'
+import { Email, HowToReg, Lock, Person } from '@mui/icons-material'
 import { Alert, Box, Button, Card, CircularProgress, Divider, FormControl, InputLabel, OutlinedInput, Stack, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import api from "../api"
 import Swal from 'sweetalert2'
 import { useTranslation } from 'react-i18next'
 import { useThemeMode } from '../main'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 const Signup = () => {
     
@@ -17,6 +18,7 @@ const Signup = () => {
     const [loading, setLoading] = useState(false);
     const {t} = useTranslation();
     const {mode, setMode} = useThemeMode();
+    const navigate = useNavigate();
 
     async function handleSubmit(e) {
         try {
@@ -73,7 +75,7 @@ const Signup = () => {
         <Card sx={{py: 7, px: 3, width: {xs: "300px", sm: "600px"}, textAlign: "center",
     bgcolor: "background.card"}}>
             <Typography variant='h4' color='primary.main' fontWeight={700}>
-                Signup
+                {t("landing.account.signup")}
             </Typography>
 
             <Divider sx={{my: 3, borderColor: "divider"}}></Divider>
@@ -83,10 +85,10 @@ const Signup = () => {
                     <Person sx={{display: {xs: "none", sm: "block"}, color:'primary.main'}}/>
                     <Box sx={{width: '100%'}}>
                         <FormControl fullWidth>
-                            <InputLabel htmlFor="firstname">First name</InputLabel>
+                            <InputLabel htmlFor="firstname">{t("landing.account.firstname")}</InputLabel>
                             <OutlinedInput
                             id="firstname"
-                            label="First name"
+                            label={t("landing.account.firstname")}
                             autoFocus
                             fullWidth
                             type='text'
@@ -97,10 +99,10 @@ const Signup = () => {
                     </Box>
                     <Box sx={{width: '100%'}}>
                         <FormControl fullWidth>
-                            <InputLabel htmlFor="lastname">Last name</InputLabel>
+                            <InputLabel htmlFor="lastname">{t("landing.account.lastname")}</InputLabel>
                             <OutlinedInput
                             id="lastname"
-                            label="Last name"
+                            label={t("landing.account.lastname")}
                             fullWidth
                             type='text'
                             value={lastname}
@@ -113,10 +115,10 @@ const Signup = () => {
                     <Email sx={{display: {xs: "none", sm: "block"}, color:'primary.main'}}/>
                     <Box sx={{width: '100%'}}>
                         <FormControl fullWidth>
-                            <InputLabel htmlFor="email">Email</InputLabel>
+                            <InputLabel htmlFor="email">{t("landing.account.email")}</InputLabel>
                             <OutlinedInput
                             id="email"
-                            label="Email"
+                            label={t("landing.account.email")}
                             fullWidth
                             type='email'
                             value={email}
@@ -129,10 +131,10 @@ const Signup = () => {
                     <Lock sx={{display: {xs: "none", sm: "block"}, color:'primary.main'}}/>
                     <Box sx={{width: '100%'}}>
                         <FormControl fullWidth>
-                            <InputLabel htmlFor="password">Password</InputLabel>
+                            <InputLabel htmlFor="password">{t("landing.account.password")}</InputLabel>
                             <OutlinedInput
                             id="password"
-                            label="Password"
+                            label={t("landing.account.password")}
                             fullWidth
                             type='password'
                             value={password}
@@ -145,10 +147,10 @@ const Signup = () => {
                     <Lock sx={{display: {xs: "none", sm: "block"}, color:'primary.main'}}/>
                     <Box sx={{width: '100%'}}>
                         <FormControl fullWidth>
-                            <InputLabel htmlFor="confirmPassword">Confirm Password</InputLabel>
+                            <InputLabel htmlFor="confirmPassword">{t("landing.account.confirmPassword")}</InputLabel>
                             <OutlinedInput
                             id="confirmPassword"
-                            label="Confirm Password"
+                            label={t("landing.account.confirmPassword")}
                             fullWidth
                             type='password'
                             value={confirmPassword}
@@ -160,9 +162,9 @@ const Signup = () => {
                     </Box>
                 </Stack>
                 <Typography variant='body1' color='primary.main'
-                component= "a" href='/login'
-                sx={{textDecoration: "none", display: "inline-block"}} mt={3}>
-                    Already have an account? Login
+                component={"label"} onClick={() => navigate("/login")}
+                sx={{textDecoration: "none", display: "inline-block", cursor: "pointer"}} mt={3}>
+                    {t("landing.account.haveAccount")}
                 </Typography>
                 {(password !== confirmPassword && confirmPassword !== "") && (
                     <Alert severity="error" sx={{ my: 2,
@@ -174,8 +176,8 @@ const Signup = () => {
                          }}>{t("profile.security.passwordMismatchMessage")}</Alert>
                 )}
                 <Button type="sumbit" variant='contained' sx={{mt: 2, height: "50px"}} fullWidth
-                disabled={loading || password !== confirmPassword || !password || !confirmPassword} startIcon={loading && <CircularProgress size={20}/>}>
-                    {loading ? "Signing up..." : "Signup"}
+                disabled={loading || password !== confirmPassword || !password || !confirmPassword} startIcon={loading ? <CircularProgress size={20}/> : <HowToReg/>}>
+                    {loading ? t("landing.account.createAccountLoading") : t("landing.account.createAccount")}
                 </Button>
             </form>
         </Card>

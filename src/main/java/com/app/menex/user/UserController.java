@@ -3,6 +3,7 @@ package com.app.menex.user;
 import com.app.menex.user.dtos.UpdateUserRequest;
 import com.app.menex.user.dtos.UserDto;
 import com.app.menex.user.mappers.UserMapper;
+import com.stripe.exception.StripeException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -47,7 +48,7 @@ public class UserController {
 
     @PreAuthorize("hasRole('SUPER_ADMIN')")
     @GetMapping("users/unsubscribers")
-    public ResponseEntity<List<UserDto>> getAllUnsubcribers() {
+    public ResponseEntity<List<UserDto>> getAllUnsubscribers() {
         List<User> users = userService.getAllUnsubscribedUsers();
         List<UserDto>  userDtos = users.stream().map(userMapper::toDto).toList();
         return  new ResponseEntity<>(userDtos, HttpStatus.OK);
@@ -64,7 +65,6 @@ public class UserController {
     @PutMapping("/users/{userId}")
     public ResponseEntity<UserDto> updateUser(@PathVariable Long userId, @Valid @RequestBody UpdateUserRequest request)
             throws AccessDeniedException {
-        System.out.println("I'm here");
         User updatedUser = userService.updateUser(userId, request.getFirstname(),
                 request.getLastname(), request.getEmail(), request.getRole());
         return ResponseEntity.ok(userMapper.toDto(updatedUser));
@@ -77,7 +77,7 @@ public class UserController {
     }
 
     @DeleteMapping("/users/{userId}")
-    public ResponseEntity deleteUser(@PathVariable Long userId) throws AccessDeniedException {
+    public ResponseEntity deleteUser(@PathVariable Long userId) throws AccessDeniedException, StripeException {
         userService.deleteUser(userId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }

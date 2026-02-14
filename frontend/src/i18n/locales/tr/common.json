@@ -5,6 +5,7 @@
         "pricingNav": "Fiyat",
         "login": "Giriş Yap",
         "register": "Başla",
+        "support": "Bize Ulaş",
         "startFree": "Ücretsiz Başla",
         "hero1": "Restoranınızı Modernleştirin",
         "hero2": "Akıllı Dijital Menülerle",
@@ -44,6 +45,7 @@
         },
         "pricing": {
             "title": "Fiyatlarımız",
+            "subtitle": "Dijital menülerinizi anında oluşturmaya başlamak için bir plan seçin.",
             "card": {
                 "proPlan": "Pro Plan",
                 "perMonth": "/ay",
@@ -62,6 +64,39 @@
                 "badge": "EN İYİ FİYAT",
                 "perYearLabel": "1 ay ücretsiz deneme - 2 ay tasarruflu"
             }
+        },
+        "subscription": {
+            "success": "Hesap başarıyla oluşturuldu!",
+            "successDesc": "Restoran deneyiminizi dönüştürmeye yalnızca bir adım uzaktasınız."
+        },
+        "footer": {
+            "desc": "Restoran menülerinizi yönetmenin en akıllı yolu. Dijital, hızlı ve çevre dostu.",
+            "product": "Ürün",
+            "features": "Özellikler",
+            "pricing": "Fiyatlarımız",
+            "support": "Destek",
+            "contact": "Bize Ulaş",
+            "FAQ": "SSS",
+            "blog": "Restoranlarımız",
+            "legal": "Yasal",
+            "privacy": "Gizlilik Politikası",
+            "terms": "Şartlar ve Koşullar",
+            "copyright": "Her hakkı saklıdır"
+        },
+        "account": {
+            "firstname": "İlk adı",
+            "lastname": "Son adı",
+            "email": "E-posta",
+            "password": "Şifre",
+            "confirmPassword": "Şifreyi Onayla",
+            "haveAccount": "Zaten bir hesabınız var mı? Giriş yap.",
+            "createAccount": "Hesap oluşturmak",
+            "createAccountLoading": "Hesap oluşturuluyor...",
+            "login":"Giriş Yap",
+            "loginLoading": "Giriş yapılıyor...",
+            "forgotPassword": "Şifreni mi unuttun?",
+            "dontHaveAccount": "Hesabın yok mu? Kaydol.",
+            "signup": "Kaydol"
         }
     },
     "ownerDashboard": {
@@ -237,6 +272,7 @@
             "pastDue": "Önceki Ödeme Başarısız",
             "daysRemaining": "Kalan Gün",
             "trialEnd": "İlk deneme sona erdi",
+            "periodEnd": "Mevcut dönem sona erdi",
             "nextBillingDate": "BİR SONRAKİ FATURALANDIRMA TARİHİ",
             "renewalAmount": "YENİLEME TUTARI",
             "perMonth": "/ay",

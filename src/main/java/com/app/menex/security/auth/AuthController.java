@@ -7,13 +7,17 @@ import com.app.menex.user.UserRepository;
 import com.app.menex.user.dtos.UserDto;
 import com.app.menex.user.mappers.UserMapper;
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.net.URI;
 import java.util.Map;
 
 @RestController
@@ -25,6 +29,8 @@ public class AuthController {
     private final UserMapper userMapper;
     private final VerificationTokenRepository verificationTokenRepository;
     private final UserRepository userRepository;
+    @Value("${menex.frontendURL}")
+    private String frontendURL;
 
    @PostMapping("/login")
    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
@@ -33,20 +39,24 @@ public class AuthController {
    }
 
     @GetMapping("/verify")
-    public ResponseEntity<String> verifyAccount(@RequestParam String token) {
+    public void verifyAccount(@RequestParam String token, HttpServletResponse response) throws IOException {
+        String successUrl = frontendURL + "/verification";
         VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
         if (verificationToken == null) {
-            return new ResponseEntity("Token is not valid", HttpStatus.BAD_REQUEST);
+            response.sendRedirect(successUrl + "?error=invalid");
+            return;
         }
+
         if (verificationToken.isExpired()) {
-            return new ResponseEntity("Token has expired",HttpStatus.BAD_REQUEST);
+            response.sendRedirect(successUrl + "?error=expired");
+            return;
         }
 
         User user = verificationToken.getUser();
         user.setEnabled(true);
         userRepository.save(user);
         verificationTokenRepository.delete(verificationToken);
-        return new ResponseEntity("Token has been verified",HttpStatus.OK);
+        response.sendRedirect(successUrl + "?verified=true");
     }
 
    @PostMapping("/register")

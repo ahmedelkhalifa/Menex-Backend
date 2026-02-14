@@ -1,5 +1,5 @@
 import { Box, Button, Card, Container, Divider, Drawer, Grid, IconButton, Menu, MenuItem, Paper, Stack, Typography } from '@mui/material'
-import {Analytics, ArrowForward, Bedtime, ChangeCircleOutlined, CheckCircle, Facebook, Instagram, Language, LightMode, MenuBook, PlayArrow, Restaurant, Star} from "@mui/icons-material"
+import {Analytics, ArrowForward, Bedtime, ChangeCircleOutlined, CheckCircle, Facebook, HowToReg, Instagram, Language, LightMode, Login, MenuBook, PlayArrow, Restaurant, Restore, Star, Start, SupportAgent, VerifiedUser} from "@mui/icons-material"
 import MenuIcon from '@mui/icons-material/Menu'
 import React, { useState } from 'react'
 import background from "../assets/white-wall-textures.jpg"
@@ -45,20 +45,6 @@ const Home = () => {
         setAnchorEl(null);
         const isRTL = lang === "ar";
         document.documentElement.dir = isRTL ? "rtl" : "ltr";
-    }
-
-    async function handleSubscription(priceId) {
-        try {
-            const response = await api.post("subscription", {
-                priceId: priceId,
-                successUrl: window.location.origin + "/success",
-                cancelUrl: window.location.origin + "/cancel"
-            });
-            const paymentUrl = response.data;
-            window.location.href = paymentUrl;
-        } catch (error) {
-            console.error(error);
-        }
     }
 
   return (
@@ -111,9 +97,9 @@ const Home = () => {
                             <Language/>
                         </IconButton>
                         <Typography variant='body1' fontWeight={700} color='text.primary'>
-                            {localStorage.getItem("lang") === "en" && "EN"}
-                            {localStorage.getItem("lang") === "tr" && "TR"}
-                            {localStorage.getItem("lang") === "ar" && "AR"}
+                            {i18n.language === "en" && "EN"}
+                            {i18n.language === "tr" && "TR"}
+                            {i18n.language === "ar" && "AR"}
                         </Typography>
                     </Box>
                     <Menu
@@ -141,11 +127,11 @@ const Home = () => {
                 </Box>
                 <Box display={'flex'} gap={1} alignItems={'center'}>
                     <Button variant='outlined' 
-                    color='success' sx={{height: "40px", width: "100px"}}
-                    onClick={() => navigate("login")}>
+                    color='success' sx={{height: "40px", width: "fit-content", px: 4}}
+                    onClick={() => navigate("login")} startIcon={<Login/>}>
                         {t("landing.login")}
                     </Button>
-                    <Button variant='contained' sx={{bgcolor: "success.main", color: "#fff", height: "40px", width: "150px", fontWeight: 700}} onClick={() => navigate("signup")}>
+                    <Button variant='contained' sx={{bgcolor: "success.main", color: "#fff", height: "40px", width: "150px", fontWeight: 700}} onClick={() => navigate("signup")} startIcon={<Start/>}>
                         {t("landing.register")}
                     </Button>
                 </Box>
@@ -190,10 +176,10 @@ const Home = () => {
                         <Box display={'flex'} gap={{xs: 2, md: 1}} alignItems={'center'} mt={3}
                         flexDirection={{xs: "column", sm: "row"}} justifyContent={{xs: "center", md: "left"}}>
                             <Button variant='contained' color='success' sx={{height: "60px", width: "250px", color: "#FFFFFF", fontSize: 20, fontWeight: 700}}
-                            endIcon={<ArrowForward/>} onClick={() => navigate("get-started")}>
+                            endIcon={<ArrowForward/>} onClick={() => navigate("signup")}>
                                 {t("landing.startFree")}
                             </Button>
-                            <Button variant='contained' sx={{height: "60px", width: "200px", color: "text.primary", fontSize: 20, bgcolor: "background.default", fontWeight: 700}}
+                            <Button variant='contained' sx={{height: "60px", width: "fit-content", color: "text.primary", fontSize: 20, bgcolor: "background.default", fontWeight: 700, px: 4}}
                             startIcon={<PlayArrow sx={{bgcolor: "success.main", borderRadius: "50%",
                                 color: "#fff"
                             }}/>}>
@@ -255,9 +241,9 @@ const Home = () => {
                                 <Language/>
                             </IconButton>
                             <Typography variant='body1' fontWeight={700} color='text.primary'>
-                                {localStorage.getItem("lang") === "en" && "EN"}
-                                {localStorage.getItem("lang") === "tr" && "TR"}
-                                {localStorage.getItem("lang") === "ar" && "AR"}
+                                {i18n.language === "en" && "EN"}
+                                {i18n.language === "tr" && "TR"}
+                                {i18n.language === "ar" && "AR"}
                             </Typography>
                         </Box>
                         <Menu
@@ -469,7 +455,7 @@ const Home = () => {
 
     {/* pricing */}
     <Box id="pricing" py={10}>
-        <Container maxWidth="lg">
+        <Container maxWidth="md">
             <Typography variant='h4' fontWeight={700} textAlign={'center'}>
                 {t("landing.pricing.title")}
             </Typography>
@@ -494,7 +480,8 @@ const Home = () => {
                             {t("landing.pricing.card.free-trial")}
                         </Typography>
                     </Box>
-                    <Typography variant='body1' color='text.secondary'>
+                    <Typography variant='body1' color='text.secondary' width={{xs: "80%", md: "95%"}}
+                        textAlign={'center'}>
                         {t("landing.pricing.card.cancellation")}
                     </Typography>
                     <Box width={"100%"} sx={{bgcolor: "background.default"}} mt={1} p={4}>
@@ -539,7 +526,7 @@ const Home = () => {
                             boxShadow: (theme) =>
                             `0px 6px 20px ${theme.palette.primary.main}80`,
                             mt: 2
-                        }} onClick={() => handleSubscription("price_1SzIOGRSGDklsSzW3S7Ie72I")}>
+                        }} onClick={() => navigate("signup")}>
                             {t("landing.pricing.card.button")}
                         </Button>
                     </Box>
@@ -572,7 +559,8 @@ const Home = () => {
                             {t("landing.pricing.card.perYearLabel")} 
                         </Typography>
                     </Box>
-                    <Typography variant='body1' color='text.secondary'>
+                    <Typography variant='body1' color='text.secondary' width={{xs: "80%", md: "95%"}}
+                        textAlign={'center'}>
                         {t("landing.pricing.card.cancellation")} 
                     </Typography>
                     <Box width={"100%"} sx={{bgcolor: "background.default"}} mt={1} p={4}>
@@ -617,12 +605,53 @@ const Home = () => {
                             boxShadow: (theme) =>
                             `0px 6px 20px ${theme.palette.primary.main}80`,
                             mt: 2
-                        }} onClick={() => handleSubscription("price_1SzIOGRSGDklsSzWwHehWPwv")}>
+                        }} onClick={() => navigate("signup")}>
                             {t("landing.pricing.card.button")}
                         </Button>
                     </Box>
                 </Card>
             </Stack>
+            <Grid container spacing={2} mt={6}>
+                <Grid size={{xs: 12, md: 4}} sx={{ display: "flex" }}>
+                    <Card sx={{width: "100%", display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2, py: 2, px: 4, flexGrow: 1}}>
+                        <VerifiedUser sx={{color: "primary.main"}}/>
+                        <Box>
+                            <Typography variant='body1' color='text.primary' fontWeight={700}>
+                                {t("profile.subscription.securePayment")}
+                            </Typography>
+                            <Typography variant='body1' color='text.secondary' fontSize={12}>
+                                {t("profile.subscription.encrypted")}
+                            </Typography>
+                        </Box>
+                    </Card>
+                </Grid>
+                <Grid size={{xs: 12, md: 4}} sx={{ display: "flex" }}>
+                    <Card sx={{width: "100%", display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2, py: 2, px: 4, flexGrow: 1}}>
+                        <SupportAgent sx={{color: "primary.main"}}/>
+                        <Box>
+                            <Typography variant='body1' color='text.primary' fontWeight={700}>
+                                {t("profile.subscription.support")}
+                            </Typography>
+                            <Typography variant='body1' color='text.secondary' fontSize={12}>
+                                {t("profile.subscription.help")}
+                            </Typography>
+                        </Box>
+                    </Card>
+                </Grid>
+                <Grid size={{xs: 12, md: 4}} sx={{ display: "flex" }}>
+                    <Card sx={{width: "100%", display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2, py: 2, px: 4, flexGrow: 1}}>
+                        <Restore sx={{color: "primary.main"}}/>
+                        <Box>
+                            <Typography variant='body1' color='text.primary' fontWeight={700}>
+                                {t("profile.subscription.commitment")}
+                            </Typography>
+                            <Typography variant='body1' color='text.secondary' fontSize={12}>
+                                {t("profile.subscription.cancelAnytime")}
+                            </Typography>
+                        </Box>
+                    </Card>
+                </Grid>
+            </Grid>
         </Container>
     </Box>
 
@@ -640,7 +669,7 @@ const Home = () => {
                     boxShadow: (theme) =>
                             `0px 6px 20px ${theme.palette.primary.main}80`,
                     fontSize: 18, fontWeight: 600
-                }} onClick={() => navigate("get-started")}>
+                }} onClick={() => navigate("signup")}>
                     {t("landing.startFree")}
                 </Button>
             </Box>
@@ -648,15 +677,15 @@ const Home = () => {
     </Box>
     {/* footer */}
     <Box sx={{bgcolor: "background.paper"}} py={10}>
-        <Container maxWidth="lg">
-            <Stack flexDirection={{xs: "column", md:"row"}} gap={8} alignItems={{xs: "center", md: "flex-start"}} mb={3}
+        <Container maxWidth={"lg"}>
+            <Stack flexDirection={{xs: "column", md:"row"}} gap={10} alignItems={{xs: "flex-start", md: "flex-start", p: {xs: 5, md: 0}}} mb={3}
             justifyContent={'center'}>
                 <Box flex={1.1} display={'flex'} flexDirection={'column'} gap={2}
                 alignItems={{xs: 'center', md: "flex-start"}}>
                     <Box component={"img"} src={mode === "light" ? logo : logoDark} width={"200px"} height={"60px"}
                     sx={{objectFit: "contain"}}/>
                     <Typography variant='body1' color='text.secondary' textAlign={{xs: "center", md: "left"}} width={{xs: "70%", md: "100%"}}>
-                        The smartest way to manage your restaurant menus. Digital, fast, and eco-friendly.
+                        {t("landing.footer.desc")}
                     </Typography>
                     <Box display={'flex'} alignItems={"center"} gap={0}>
                         <IconButton>
@@ -667,40 +696,60 @@ const Home = () => {
                         </IconButton>
                     </Box>
                 </Box>
-                <Box flex={1} display={'flex'} flexDirection={{xs: "row", md: "column"}}
-                alignItems={'center'}>
-                    <Box>
-                        <Typography variant='body1' fontWeight={700} fontSize={18}>
-                            Product
-                        </Typography>
-                        <Box display={'flex'} flexDirection={{xs: "row", md: "column"}} gap={3}
-                        mt={2}>
-                            <Typography variant='body1' color='text.secondary'>
-                                Features
+                <Box display={'flex'} justifyContent={'space-between'} alignItems={'flex-start'}
+                flex={1.5} flexDirection={{xs: "column", md: "row"}} gap={2}>
+                    <Box flex={1} display={'flex'} flexDirection={{xs: "row", md: "column"}}
+                    alignItems={'center'}>
+                        <Box>
+                            <Typography variant='body1' fontWeight={700} fontSize={18}>
+                                {t("landing.footer.product")}
                             </Typography>
-                            <Typography variant='body1' color='text.secondary'>
-                                Pricing
-                            </Typography>
-                            <Typography variant='body1' color='text.secondary'>
-                                Our restaurants
-                            </Typography>
+                            <Box display={'flex'} flexDirection={{xs: "row", md: "column"}} gap={3}
+                            mt={2}>
+                                <Typography variant='body1' color='text.secondary'>
+                                    {t("landing.footer.features")}
+                                </Typography>
+                                <Typography variant='body1' color='text.secondary'>
+                                    {t("landing.footer.pricing")}
+                                </Typography>
+                                <Typography variant='body1' color='text.secondary'>
+                                    {t("landing.footer.blog")}
+                                </Typography>
+                            </Box>
                         </Box>
                     </Box>
-                </Box>
-                <Box flex={1} display={'flex'} flexDirection={{xs: "row", md: "column"}}
-                alignItems={'center'}>
-                    <Box>
-                        <Typography variant='body1' fontWeight={700} fontSize={18}>
-                            Legal
-                        </Typography>
-                        <Box display={'flex'} flexDirection={{xs: "row", md: "column"}} gap={3}
-                        mt={2}>
-                            <Typography variant='body1' color='text.secondary'>
-                                Privacy Policy
+                    <Box flex={1} display={'flex'} flexDirection={{xs: "row", md: "column"}}
+                    alignItems={'center'}>
+                        <Box>
+                            <Typography variant='body1' fontWeight={700} fontSize={18}>
+                                {t("landing.footer.support")}
                             </Typography>
-                            <Typography variant='body1' color='text.secondary'>
-                                Terms of Service
+                            <Box display={'flex'} flexDirection={{xs: "row", md: "column"}} gap={3}
+                            mt={2}>
+                                <Typography variant='body1' color='text.secondary'>
+                                    {t("landing.footer.contact")}
+                                </Typography>
+                                <Typography variant='body1' color='text.secondary'>
+                                    {t("landing.footer.FAQ")}
+                                </Typography>
+                            </Box>
+                        </Box>
+                    </Box>
+                    <Box flex={1} display={'flex'} flexDirection={{xs: "row", md: "column"}}
+                    alignItems={'center'}>
+                        <Box>
+                            <Typography variant='body1' fontWeight={700} fontSize={18}>
+                                {t("landing.footer.legal")}
                             </Typography>
+                            <Box display={'flex'} flexDirection={{xs: "row", md: "column"}} gap={3}
+                            mt={2}>
+                                <Typography variant='body1' color='text.secondary'>
+                                    {t("landing.footer.privacy")}
+                                </Typography>
+                                <Typography variant='body1' color='text.secondary'>
+                                    {t("landing.footer.terms")}
+                                </Typography>
+                            </Box>
                         </Box>
                     </Box>
                 </Box>
@@ -708,7 +757,7 @@ const Home = () => {
             <Divider/>
             <Typography variant='body1' color='text.secondary' mt={3}
             textAlign={{xs: "center", md: "left"}}>
-                {new Date().getFullYear()} © MENEX. All rights reserved.
+                {new Date().getFullYear()} © MENEX. {t("landing.footer.copyright")}.
             </Typography>
         </Container>
     </Box>

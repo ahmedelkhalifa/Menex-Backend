@@ -3,12 +3,14 @@ import { Box, Button, Card, CircularProgress, Divider, FormControl, InputLabel, 
 import React, { useState } from 'react'
 import api from "../api"
 import Swal from 'sweetalert2'
+import { useThemeMode } from '../main'
 
 const Login = () => {
     
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const {mode, setMode} = useThemeMode();
 
     async function handleSubmit(e) {
         try {

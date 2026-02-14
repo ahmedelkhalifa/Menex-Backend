@@ -3,6 +3,12 @@ package com.app.menex.user;
 import com.app.menex.enums.Role;
 import com.app.menex.security.config.AppUserDetails;
 import com.app.menex.security.verifcationToken.VerificationTokenRepository;
+import com.stripe.exception.StripeException;
+import com.stripe.model.Subscription;
+import com.stripe.model.SubscriptionCollection;
+import com.stripe.param.SubscriptionListParams;
+import com.stripe.param.SubscriptionUpdateParams;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.file.AccessDeniedException;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -76,19 +83,43 @@ public class UserService {
     }
 
     @Transactional
-    public void deleteUser(Long userId) throws AccessDeniedException {
-        User current = getCurrentUser();
-        List<User> admins = userRepository.findAllByRole(Role.SUPER_ADMIN);
-        List<Long> adminIds = admins.stream().map(User::getId).toList();
-        if (adminIds.contains(current.getId()) || current.getId().equals(userId)) {
-            if (userId.equals(current.getId())) {
-                throw new IllegalArgumentException("You can't delete yourself");
-            }
-            verificationTokenRepository.deleteByUser(userRepository.findById(userId).get());
-            userRepository.deleteById(userId);
-        } else {
-            throw new AccessDeniedException("You don't have access to perform this operation");
+    public void deleteUser(Long userId) throws AccessDeniedException, StripeException {
+        User currentUser = getCurrentUser();
+
+        boolean isAdmin = currentUser.getRole().equals(Role.SUPER_ADMIN);
+
+        if (!isAdmin) {
+            throw new AccessDeniedException("Only Admins can delete users.");
         }
+
+        if (currentUser.getId().equals(userId)) {
+            throw new IllegalArgumentException("You cannot delete your own account.");
+        }
+
+        User userToDelete = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        if (userToDelete.getCustomerId() != null) {
+
+            SubscriptionListParams params = SubscriptionListParams.builder()
+                    .setCustomer(userToDelete.getCustomerId())
+                    .build();
+
+            SubscriptionCollection subscriptions = Subscription.list(params);
+
+            for (Subscription subscription : subscriptions.getData()) {
+
+                if ("canceled".equals(subscription.getStatus()) || "incomplete_expired".equals(subscription.getStatus())) {
+                    continue;
+                }
+                subscription.cancel();
+
+            }
+        }
+
+        verificationTokenRepository.deleteByUser(userToDelete);
+
+        userRepository.delete(userToDelete);
     }
 
     public List<User> getAllAdmins() {

@@ -19,6 +19,7 @@ import Signup from "./components/Signup"
 import Subscription from "./components/Subscription"
 import Activate from "./components/Activate"
 import Unsubscribers from "./components/Unsubscribers"
+import Verification from "./components/Verification"
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
         <Route path="/signup" element={<Signup/>}/>
         <Route path="/subscription" element={<Subscription/>}/>
         <Route path="/activate" element={<Activate/>}/>
+        <Route path="/verification" element={<Verification/>}/>
         <Route path="/admin-dashboard" element={
           <ProtectedRoute allowedRole={"SUPER_ADMIN"}>
             <SuperDashboard></SuperDashboard>

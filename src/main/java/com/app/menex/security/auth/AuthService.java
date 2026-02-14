@@ -161,6 +161,9 @@ public class AuthService {
                                                 If the button doesn't work, verify using this link:<br>
                                                 <a href="%s" style="color: #6FBF73; text-decoration: none; word-break: break-all;">%s</a>
                                             </p>
+                                            <p style="margin-top: 30px; margin-bottom: 0; font-size: 14px; color: #5F6F6F;">
+                                                <b>Please note that if you didn't verify your account within 48 hours the account will be deleted</b>
+                                            </p>
                                         </td>
                                     </tr>
                                     
@@ -307,6 +310,9 @@ public class AuthService {
                                             <p style="margin-top: 30px; margin-bottom: 0; font-size: 14px; color: #5F6F6F;">
                                                 If the button doesn't work, verify using this link:<br>
                                                 <a href="%s" style="color: #6FBF73; text-decoration: none; word-break: break-all;">%s</a>
+                                            </p>
+                                            <p style="margin-top: 30px; margin-bottom: 0; font-size: 14px; color: #5F6F6F;">
+                                                <b>Please note that if you didn't verify your account within 48 hours the account will be deleted</b>
                                             </p>
                                         </td>
                                     </tr>

@@ -5,6 +5,7 @@
         "pricingNav": "Pricing",
         "login": "Login",
         "register": "Get Started",
+        "support": "Contact Us",
         "startFree": "Get Started Free",
         "hero1": "Modernize Your Restaurant with",
         "hero2": "Smart Digital Menus.",
@@ -44,6 +45,7 @@
         },
         "pricing": {
             "title": "Pricing",
+            "subtitle": "Choose a plan to start building your digital menus instantly.",
             "card": {
                 "proPlan": "Pro Plan",
                 "perMonth": "/month",
@@ -62,6 +64,39 @@
                 "badge": "BEST VALUE",
                 "perYearLabel": "1 month free trial - save 2 months"
             }
+        },
+        "subscription": {
+            "success": "Account Created Successfully!",
+            "successDesc": "You're just one step away from transforming your restaurant experience."
+        },
+        "footer": {
+            "desc": "The smartest way to manage your restaurant menus. Digital, fast, and eco-friendly.",
+            "product": "Product",
+            "features": "Features",
+            "pricing": "Pricing",
+            "support": "Support",
+            "contact": "Contact Us",
+            "FAQ": "FAQ",
+            "blog": "Our restaurants",
+            "legal": "Legal",
+            "privacy": "Privacy Policy",
+            "terms": "Terms & Conditions",
+            "copyright": "All rights reserved"
+        },
+        "account": {
+            "firstname": "First Name",
+            "lastname": "Last Name",
+            "email": "Email",
+            "password": "Password",
+            "confirmPassword": "Confirm Password",
+            "haveAccount": "Already have an account? Login",
+            "createAccount": "Create Account",
+            "createAccountLoading": "Creating account...",
+            "login": "Login",
+            "loginLoading": "Logging in...",
+            "forgotPassword": "Forgot Password?",
+            "dontHaveAccount": "Don't have an account? Signup",
+            "signup": "Signup"
         }
     },
     "ownerDashboard": {
@@ -237,6 +272,7 @@
             "pastDue": "Past Due",
             "daysRemaining": "Days Remaining",
             "trialEnd": "Your trial ends on",
+            "periodEnd": "Your current period ends on",
             "nextBillingDate": "NEXT BILLING DATE",
             "renewalAmount": "RENEWAL AMOUNT",
             "perMonth": "/month",
