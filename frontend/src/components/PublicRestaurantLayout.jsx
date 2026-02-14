@@ -4,6 +4,7 @@ import api from '../api';
 import { ArrowForward, LocationOn, Phone } from '@mui/icons-material';
 import menexLogo from "../assets/logo-png.png"
 import { useNavigate } from 'react-router-dom';
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const PublicRestaurantLayout = ({restaurant}) => {
     const navigate = useNavigate();
@@ -15,7 +16,7 @@ const PublicRestaurantLayout = ({restaurant}) => {
             <Box width={"100%"} height={"5px"} sx={{bgcolor: "primary.main", padding: 0}}/>
             <Box display={'flex'} justifyContent={'center'} mt={4}>
                 <Box component={"img"}
-                src={`http://localhost:8080/api/images/${restaurant?.logoUrl}`}
+                src={`${apiUrl}/images/${restaurant?.logoUrl}`}
                 width={"100px"} height={"100px"}
                 sx={{objectFit: "cover"}}/>
             </Box>
@@ -63,7 +64,7 @@ const PublicRestaurantLayout = ({restaurant}) => {
                             }}/>
                             <Box
                             component={"img"}
-                            src={`http://localhost:8080/api/images/${menu.imageUrl}`}
+                            src={`${apiUrl}/images/${menu.imageUrl}`}
                             width={"100%"} height={"250px"}
                             sx={{objectFit: "cover"}}/>
                             <Box px={4} minHeight={"150px"} mt={2}>

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import api from '../api';
 import { useParams } from 'react-router-dom';
 import { ArrowForward, Numbers } from '@mui/icons-material';
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const PublicMenuLayout = ({menu}) => {
 
@@ -12,7 +13,7 @@ const PublicMenuLayout = ({menu}) => {
     <>
     <Box sx={{bgcolor: "background.default"}}>
     <Box width={"100%"} height={"350px"} position={'relative'}>
-        <Box component={"img"} src={`http://localhost:8080/api/images/${menu?.imageUrl}`}
+        <Box component={"img"} src={`${apiUrl}/images/${menu?.imageUrl}`}
         width={"100%"} height={"100%"} sx={{objectFit: "cover"}}/>
         <Box position={"absolute"} top={0} left={0} width={"100%"} height={"100%"}
         sx={{bgcolor: "primary.main", opacity: "0.6"}}/>
@@ -85,7 +86,7 @@ const PublicMenuLayout = ({menu}) => {
                             />
                             <Box
                             component="img"
-                            src={`http://localhost:8080/api/images/${item.imageUrl}`}
+                            src={`${apiUrl}/images/${item.imageUrl}`}
                             width="100%"
                             height="250px"
                             sx={{ objectFit: "contained" }}
@@ -195,7 +196,7 @@ const PublicMenuLayout = ({menu}) => {
                             />
                             <Box
                             component="img"
-                            src={`http://localhost:8080/api/images/${item.imageUrl}`}
+                            src={`${apiUrl}/images/${item.imageUrl}`}
                             width="100%"
                             height="250px"
                             sx={{ objectFit: "contained" }}

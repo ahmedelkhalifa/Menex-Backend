@@ -21,7 +21,7 @@ const RestaurantOwners = () => {
   const theme = useTheme();
   const [selectedOwner, setSelectedOwner] = useState(null);
   const [role, setRole] = useState("RESTAURANT_OWNER");
-  const options = ["RESTAURANT_OWNER", "SUPER_ADMIN"];
+  const options = ["RESTAURANT_OWNER", "SUPER_ADMIN", "UNSUBSCRIBER"];
 
   const filteredOwners = owners.filter(o =>
   o.firstName.toLowerCase().includes(search.toLowerCase()) ||

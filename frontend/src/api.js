@@ -1,8 +1,9 @@
 import axios from 'axios'
 import React from 'react'
+const apiUrl = import.meta.env.VITE_API_URL;
 
     const api = axios.create({
-        baseURL: "http://localhost:8080/api"
+        baseURL: apiUrl
     });
 
     api.interceptors.request.use((config) => {

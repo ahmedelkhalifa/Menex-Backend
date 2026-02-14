@@ -1,11 +1,13 @@
-import { AccountCircle, AdminPanelSettings, Category, Fastfood, Menu, MenuBook, Person, Restaurant, SpaceDashboard, SupervisorAccount } from '@mui/icons-material'
-import { Box, Button, Divider, Drawer, FormControlLabel, FormGroup, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, Stack, Switch, Typography } from '@mui/material'
+import { AccountCircle, AdminPanelSettings, Bedtime, Category, Fastfood, Language, LightMode, MenuBook, NoAccounts, Person, Restaurant, SpaceDashboard, SupervisorAccount } from '@mui/icons-material'
+import { Box, Button, Divider, Drawer, FormControlLabel, FormGroup, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem, Paper, Stack, Switch, Typography, Menu } from '@mui/material'
 import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useThemeMode } from '../main';
 import Logo from '../assets/logo-png.png';
 import LogoDark from '../assets/logo-dark-png.png';
 import { useTranslation } from 'react-i18next';
+import i18n from '../i18n';
+
 
 const Sidebar = ({view, subname}) => {
     function handleLogout() {
@@ -16,8 +18,24 @@ const Sidebar = ({view, subname}) => {
     const location = useLocation();
     const {mode, setMode} = useThemeMode();
     const {t} = useTranslation();
+    const [anchorEl, setAnchorEl] = useState(null);
+
     function handleChange() {
         setMode((prev) => prev === "light" ? "dark" : "light");
+    }
+    const handleOpenLang = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleCloseLang = () => {
+        setAnchorEl(null);
+    };
+    function handleLangChange(lang) {
+        i18n.changeLanguage(lang);
+        localStorage.setItem("lang", lang);
+        setAnchorEl(null);
+        const isRTL = lang === "ar";
+        document.documentElement.dir = isRTL ? "rtl" : "ltr";
     }
   return (
     <>
@@ -72,6 +90,16 @@ const Sidebar = ({view, subname}) => {
                         </ListItemButton>
                       </ListItem>
                       <ListItem disablePadding>
+                        <ListItemButton onClick={() => navigate("/admin-dashboard/unsubscribers")}
+                          sx={{color: "text.primary"}}
+                          selected={location.pathname === "/admin-dashboard/unsubscribers"}>
+                          <ListItemIcon>
+                            <NoAccounts/>
+                          </ListItemIcon>
+                          <ListItemText primary={t('sidebar.unsubscribers')}/>
+                        </ListItemButton>
+                      </ListItem>
+                      <ListItem disablePadding>
                         <ListItemButton onClick={() => navigate("/admin-dashboard/admins")}
                           sx={{color: "text.primary"}}
                           selected={location.pathname === "/admin-dashboard/admins"}>
@@ -91,13 +119,40 @@ const Sidebar = ({view, subname}) => {
                           <ListItemText primary={t("sidebar.profile")}/>
                         </ListItemButton>
                       </ListItem>
-                      <FormGroup sx={{mt: 5}}>
-                        <FormControlLabel control={<Switch
-                        checked={mode === "dark"}
-                        onChange={handleChange}/>}
-                        label={t('sidebar.darkMode')}/>
-                      </FormGroup>
-                      <Button variant='contained' sx={{mt: 20, bgcolor: 'error.main'}} onClick={handleLogout}>
+                      <Box display={'flex'} alignItems={'center'} gap={2} mt={10}>
+                          <IconButton onClick={handleChange} sx={{transition: "0.2s ease-in-out"}}>
+                              {mode === "light" ? <Bedtime/> : <LightMode/>}
+                          </IconButton>
+                          <Box display="flex" alignItems="center" gap={0}>
+                            <IconButton onClick={handleOpenLang}>
+                              <Language />
+                            </IconButton>
+
+                            <Typography variant="body1" fontWeight={700}>
+                              {localStorage.getItem("lang")?.toUpperCase()}
+                            </Typography>
+
+                            <Menu
+                              anchorEl={anchorEl}
+                              open={Boolean(anchorEl)}
+                              onClose={handleCloseLang}
+                              anchorOrigin={{
+                                vertical: "bottom",
+                                horizontal: "left",
+                              }}
+                              transformOrigin={{
+                                vertical: "top",
+                                horizontal: "left",
+                              }}
+                            >
+                              <MenuItem onClick={() => handleLangChange("en")}>English</MenuItem>
+                              <MenuItem onClick={() => handleLangChange("tr")}>Türkçe</MenuItem>
+                              <MenuItem onClick={() => handleLangChange("ar")}>العربية</MenuItem>
+                            </Menu>
+
+                          </Box>
+                      </Box>
+                      <Button variant='contained' sx={{mt: 10, bgcolor: 'error.main', height: "40px"}} onClick={handleLogout} fullWidth>
                         {t("sidebar.logout")}
                       </Button>
                     </List>

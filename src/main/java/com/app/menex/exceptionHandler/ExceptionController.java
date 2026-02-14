@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -24,6 +25,24 @@ public class ExceptionController {
                 .status(HttpStatus.NOT_FOUND)
                 .build();
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(DisabledException.class)
+    public ResponseEntity<ErrorResponse> handleDisabledException(DisabledException e) {
+        ErrorResponse response = ErrorResponse.builder()
+                .message(e.getMessage())
+                .status(HttpStatus.FORBIDDEN)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException e) {
+        ErrorResponse response = ErrorResponse.builder()
+                .message("Oops... Bad credentials")
+                .status(HttpStatus.UNAUTHORIZED)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
@@ -51,15 +70,6 @@ public class ExceptionController {
                 .status(HttpStatus.BAD_REQUEST)
                 .build();
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException e) {
-        ErrorResponse response = ErrorResponse.builder()
-                .message("Oops... Bad credentials")
-                .status(HttpStatus.UNAUTHORIZED)
-                .build();
-        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(AccessDeniedException.class)

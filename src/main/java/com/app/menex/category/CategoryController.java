@@ -6,6 +6,7 @@ import com.app.menex.category.mappers.CategoryMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class CategoryController {
     private final CategoryService categoryService;
     private final CategoryMapper categoryMapper;
 
+    @PreAuthorize("hasRole('RESTAURANT_OWNER')")
     @PostMapping("/menus/{menuId}/categories")
     public ResponseEntity<CategoryDto> createCategory(@PathVariable Long menuId,
                                                       @RequestBody CreateCategoryRequest request) {
@@ -26,6 +28,7 @@ public class CategoryController {
         return new ResponseEntity<>(createdCategoryDto, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('RESTAURANT_OWNER')")
     @GetMapping("/menus/{menuId}/categories")
     public ResponseEntity<List<CategoryDto>> getCategories(@PathVariable Long menuId) {
         List<Category> categories = categoryService.getAllCategories(menuId);
@@ -33,6 +36,7 @@ public class CategoryController {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('RESTAURANT_OWNER')")
     @GetMapping("/menus/categories/{categoryId}")
     public ResponseEntity<CategoryDto> getCategory(@PathVariable Long categoryId) {
         Category category = categoryService.getCategory(categoryId);
@@ -40,6 +44,7 @@ public class CategoryController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('RESTAURANT_OWNER')")
     @PutMapping("/menus/{newMenuId}/categories/{categoryId}")
     public ResponseEntity<CategoryDto> updateCategory(@PathVariable Long categoryId,
                                                       @PathVariable Long newMenuId,
@@ -49,6 +54,7 @@ public class CategoryController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('RESTAURANT_OWNER')")
     @DeleteMapping("/menus/categories/{categoryId}")
     public ResponseEntity deleteCategory(@PathVariable Long categoryId) {
         categoryService.deleteCategory(categoryId);

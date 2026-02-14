@@ -2,6 +2,7 @@ package com.app.menex.user;
 
 import com.app.menex.enums.Role;
 import com.app.menex.security.config.AppUserDetails;
+import com.app.menex.security.verifcationToken.VerificationTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final VerificationTokenRepository verificationTokenRepository;
 
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(
@@ -40,6 +42,10 @@ public class UserService {
 
     public List<User> getAllRestaurantOwners() {
         return userRepository.findAllByRole(Role.RESTAURANT_OWNER);
+    }
+
+    public List<User> getAllUnsubscribedUsers() {
+        return userRepository.findAllByRole(Role.UNSUBSCRIBER);
     }
 
     @Transactional
@@ -78,6 +84,7 @@ public class UserService {
             if (userId.equals(current.getId())) {
                 throw new IllegalArgumentException("You can't delete yourself");
             }
+            verificationTokenRepository.deleteByUser(userRepository.findById(userId).get());
             userRepository.deleteById(userId);
         } else {
             throw new AccessDeniedException("You don't have access to perform this operation");

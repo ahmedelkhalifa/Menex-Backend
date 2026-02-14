@@ -1,4 +1,4 @@
-import { Add, Delete, DeleteOutlined, Edit, ErrorOutline, EventAvailable, EventBusy, ExpandMore, MoreHoriz, QrCode, Restaurant, SentimentDissatisfiedOutlined, Update, WebAsset, WebAssetOffOutlined } from '@mui/icons-material';
+import { Add, Delete, DeleteOutlined, Download, Edit, ErrorOutline, EventAvailable, EventBusy, ExpandMore, MoreHoriz, QrCode, Restaurant, SentimentDissatisfiedOutlined, Update, WebAsset, WebAssetOffOutlined } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Alert, Box, Button, Card, CircularProgress, Divider, Drawer, FormControl, FormControlLabel, Grid, IconButton, InputLabel, List, ListItem, ListItemButton, ListItemText, Menu, MenuItem, Modal, Paper, Select, Skeleton, Stack, Switch, Tab, Tabs, TextField, Tooltip, Typography, useTheme } from '@mui/material';
 import React, { useEffect, useState } from 'react'
@@ -8,6 +8,8 @@ import api from '../api';
 import Swal from 'sweetalert2';
 import { useTranslation } from 'react-i18next';
 import logo from '../assets/burger.webp';
+import { useThemeMode } from '../main';
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const Menus = () => {
     const [open, setOpen] = useState(false);
@@ -65,7 +67,9 @@ const Menus = () => {
         i.name.toLowerCase().includes(search.toLowerCase())
     );
     const [selectedItemId, setSelectedItemId] = useState(null);
-    const [available, setAvailable] = useState(true)
+    const [available, setAvailable] = useState(true);
+    const {mode, setMode} = useThemeMode();
+    const [deleteImg, setDeleteImg] = useState(false);
 
 
     const handleImageChange = (e) => {
@@ -191,7 +195,12 @@ const Menus = () => {
             const formdata = new FormData();
             formdata.append("name", menuName);
             formdata.append("description", menuDescription);
-            formdata.append("image", image);
+            if (image instanceof File) {
+                formdata.append("image", image);
+            }
+            if (deleteImg) {
+                formdata.append("deleteImg", true)
+            }
             const response = await api.put(`restaurants/${selectedRestaurant?.id}/menus/${selectedMenu?.id}`, formdata, {
                 headers: {
                     "Content-Type": "multipart/form-data"
@@ -199,7 +208,10 @@ const Menus = () => {
             });
             setMenus(menus.map((menu) => {
                 if (menu.id === selectedMenu?.id) {
-                    return {...menu, name: response.data.name};
+                    return {
+                    ...response.data,
+                    imageUrl: `${response.data.imageUrl}?v=${Date.now()}`
+                    };
                 }
                 return menu;
             }));
@@ -452,7 +464,9 @@ const Menus = () => {
             formData.append("name", itemName);
             formData.append("description", itemDescription);
             formData.append("price", itemPrice);
-            formData.append("image", image);
+            if (image instanceof File) {
+                formData.append("image", image);
+            }
             formData.append("currency", currency);
             const response = await api.post(`categories/${selectedCategory?.id}/menu-items`, formData, {
                 headers: {
@@ -498,8 +512,13 @@ const Menus = () => {
             formData.append("name", itemName);
             formData.append("description", itemDescription);
             formData.append("price", itemPrice);
-            formData.append("image", image);
+            if (image instanceof File) {
+                formData.append("image", image);
+            }
             formData.append("currency", currency);
+            if (deleteImg) {
+                formData.append("deleteImg", true)
+            }
             const response = await api.put(`categories/${selectedCategory?.id}/menu-items/${selectedItemId}`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data"
@@ -667,18 +686,19 @@ const Menus = () => {
         setMenuName(selectedMenu?.name);
         setMenuDescription(selectedMenu?.description);
         setMenuPreviewUrl(selectedMenu?.imageUrl);
+        setDeleteImg(false);
         try {
             const response = await api.get(`images/${selectedMenu?.imageUrl}`,
                 {
                     responseType: 'blob'
                 }
             );
-            setPreviewUrl(URL.createObjectURL(response?.data))
+            setPreviewUrl(URL.createObjectURL(response?.data));
         } catch (error) {
             console.error(error);
         }
         setImage(null);
-        setExceededSize(false)
+        setExceededSize(false);
     }
 
     async function handleOpenUpdateItem(selectedItem) {
@@ -689,13 +709,14 @@ const Menus = () => {
         setItemPrice(selectedItem?.price);
         setCurrency(selectedItem?.currency);
         setAvailable(selectedItem.available)
+        setDeleteImg(false)
         try {
             const response = await api.get(`images/${selectedItem?.imageUrl}`,
                 {
                     responseType: 'blob'
                 }
             );
-            setPreviewUrl(URL.createObjectURL(response?.data))
+            setPreviewUrl(URL.createObjectURL(response?.data));
         } catch (error) {
             console.error(error);
         }
@@ -712,6 +733,7 @@ const Menus = () => {
         setImage(null);
         setPreviewUrl(null);
         setExceededSize(false)
+        setDeleteImg(false);
     }
 
     useEffect(() => {
@@ -946,13 +968,13 @@ const Menus = () => {
                             <Box sx={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: {xs: '80%', md: '400px'}, bgcolor: 'background.paper', boxShadow: 24, p: 4, borderRadius: 1
                             }} textAlign={'center'}>
                                 <Typography variant='h6' fontWeight={600} textAlign={'center'}>
-                                    Menu QR Code
+                                    {t("menus.menuQR")}
                                 </Typography>
                                 <img src={qrUrl} alt="Menu QR Code"  width={200} height={200}/>
                                 <Button variant='contained' fullWidth sx={{mt: 1,
                                     height: "50px"}} onClick={() =>downloadQr(selectedMenu?.id)}
-                               >
-                                    Download
+                                startIcon={<Download/>}>
+                                    {t("menus.QRDownload")}
                                 </Button>
                             </Box>
                         </Modal>
@@ -1083,14 +1105,21 @@ const Menus = () => {
                                                 {previewUrl && 
                                                 <Button fullWidth variant='contained' color='warning'
                                                 onClick={() => {
-                                                    setImage(null),
-                                                    setPreviewUrl(null)
+                                                    setImage(null);
+                                                    setPreviewUrl(null);
+                                                    setDeleteImg(true);
                                                 }} sx={{mt: 1}}>
                                                 Remove image 
                                                 </Button>}
                                                 {exceededSize && 
                                                     <Alert icon={<ErrorOutline fontSize='inherit'/>}
-                                                    severity='error' sx={{width: "100%", mt:2}}>
+                                                    severity="error" sx={{ my: 2,
+                                                    bgcolor: "error.light",
+                                                    color: mode === "dark" ? "#2c0b0a" : '#EF5350',
+                                                    '& .MuiAlert-icon': {
+                                                    color: mode === "dark" ? "#2c0b0a" : '#EF5350', // Keeps the icon the bright red you like
+                                                    }
+                                                    }}>
                                                         {t("menus.createItem.exceededSize")}
                                                     </Alert>}
                                             </Box>
@@ -1165,8 +1194,9 @@ const Menus = () => {
                                                 {previewUrl && 
                                                 <Button fullWidth variant='contained' color='warning'
                                                 onClick={() => {
-                                                    setImage(null),
-                                                    setPreviewUrl(null)
+                                                    setImage(null);
+                                                    setPreviewUrl(null);
+                                                    setDeleteImg(true);
                                                 }} sx={{mt: 1}}>
                                                 Remove image 
                                                 </Button>}
@@ -1183,7 +1213,7 @@ const Menus = () => {
                                                 multiline minRows={6}/>
                                                 <Button variant="contained" sx={{mt: 2, bgcolor: 'primary.main', '&:hover': {bgcolor: 'primary.dark'},
                                             height: "50px"}} fullWidth
-                                            startIcon={loading ? <CircularProgress size={20} color="inherit"/> : <Add />}
+                                            startIcon={loading ? <CircularProgress size={20} color="inherit"/> : <Update />}
                                             onClick={handleUpdateMenu}
                                             disabled={loading}>
                                                     {loading ? t("menus.editMenu.buttonLoading") : 
@@ -1391,7 +1421,7 @@ const Menus = () => {
                                                     <Grid item size={{xs: 12, sm: 3}} display={'flex'} justifyContent={'center'}>
                                                         <Box
                                                             component="img"
-                                                            src={`http://localhost:8080/api/images/${i.imageUrl}`}
+                                                            src={`${apiUrl}/images/${i.imageUrl}`}
                                                             alt={i.name}
                                                             sx={{
                                                                 width: "100%",
@@ -1508,8 +1538,8 @@ const Menus = () => {
                                             {previewUrl && 
                                             <Button fullWidth variant='contained' color='warning'
                                             onClick={() => {
-                                                setImage(null),
-                                                setPreviewUrl(null)
+                                                setImage(null);
+                                                setPreviewUrl(null);
                                             }} sx={{mt: 1}}>
                                                Remove image 
                                             </Button>}
@@ -1612,8 +1642,9 @@ const Menus = () => {
                                             {previewUrl && 
                                             <Button fullWidth variant='contained' color='warning'
                                             onClick={() => {
-                                                setImage(null),
-                                                setPreviewUrl(null)
+                                                setImage(null);
+                                                setPreviewUrl(null);
+                                                setDeleteImg(true);
                                             }} sx={{mt: 1}}>
                                                Remove image 
                                             </Button>}
@@ -1660,7 +1691,7 @@ const Menus = () => {
                                                     </Grid>
                                                     <Button variant='contained' fullWidth
                                                     sx={{height: "40px", color: "background.default"}} color='success' startIcon={
-                                                        loading ? <CircularProgress size={20} color="inherit"/> : <Add/>
+                                                        loading ? <CircularProgress size={20} color="inherit"/> : <Update/>
                                                     } disabled={loading}
                                                     type='submit'>
                                                         {loading ? t("menus.editItem.buttonLoading") : t("menus.editItem.updateButton")}

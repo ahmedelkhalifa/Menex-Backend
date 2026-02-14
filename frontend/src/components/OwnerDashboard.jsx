@@ -382,7 +382,7 @@ const OwnerDashboard = () => {
               setSelectedRestaurant(restaurants[v]);
             }}
             sx={{ mt: 3, bgcolor: "background.paper"}}
-            renderInput={(params) => <TextField {...params} label="Restaurant" />}
+            renderInput={(params) => <TextField {...params} label={t('ownerDashboard.restaurant')} />}
             fullWidth
           />
 

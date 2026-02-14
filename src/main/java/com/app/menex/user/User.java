@@ -38,6 +38,8 @@ public class User {
     private boolean enabled;
     @Column(nullable = false)
     private String language;
+    @Column(nullable = true)
+    private String customerId;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY,
     cascade = CascadeType.ALL, orphanRemoval = true)

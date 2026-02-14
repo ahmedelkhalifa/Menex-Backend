@@ -20,4 +20,5 @@ public class RegisterResponse {
     private String token;
     private Role role;
     private LocalDateTime createdAt;
+    private String language;
 }

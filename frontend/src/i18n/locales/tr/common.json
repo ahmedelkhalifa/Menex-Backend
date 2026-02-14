@@ -84,7 +84,8 @@
         "createMenu": "Menü Oluştur",
         "viewMenus": "Menüleri Görüntüle",
         "restaurantViews": "Restoran Görüntüleme",
-        "chartTitle": "Menülerde Görüntüleme"
+        "chartTitle": "Menülerde Görüntüleme",
+        "restaurant": "Restoran"
     },
     "sidebar": {
         "ownerDashboard": "Sahip Kontrol Paneli",
@@ -96,7 +97,8 @@
         "profile": "Profil",
         "logout": "Çıkış Yap",
         "darkMode": "Karanlık Mod",
-        "admins": "Yöneticiler"
+        "admins": "Yöneticiler",
+        "unsubscribers": "Abone Olmayanlar"
     },
     "restaurants": {
         "title": "Restoranlarım",
@@ -187,7 +189,8 @@
         "errorAlert": {
             "title": "Hata",
             "updateMessage": "Profil güncellenirken bir hata oluştu. Lütfen tekrar deneyin.",
-            "fetchMessage": "Profil bilgilerini almak için bir hata oluştu. Lütfen tekrar deneyin."
+            "fetchMessage": "Profil bilgilerini almak için bir hata oluştu. Lütfen tekrar deneyin.",
+            "subscriptionMessage": "Abonelik bilgileri alınırken bir hata oluştu. Lütfen tekrar deneyin."
         },
         "successAlert": {
             "title": "Başarılı",
@@ -219,6 +222,45 @@
             "languageLabel": "Dil",
             "darkMode": "Karanlık",
             "lightMode": "Açık"
+        },
+        "subscription": {
+            "title": "Abonelik",
+            "description": "Aboneliğinizi yönetin",
+            "proPlan": "Profesyonel Plan",
+            "proPlanDesc": "Menü Yönetimi ve Analitik",
+            "freeTrial": "1 Ay İlk Deneme",
+            "monthly": "1 Ay Aboneliği",
+            "yearly": "1 Yıl Aboneliği",
+            "subscriptionDesc": "Tüm platform özelliklerini keşfedin.",
+            "subActive": "Abonelik Aktif",
+            "trialActive": "İlk Deneme Aktif",
+            "pastDue": "Önceki Ödeme Başarısız",
+            "daysRemaining": "Kalan Gün",
+            "trialEnd": "İlk deneme sona erdi",
+            "nextBillingDate": "BİR SONRAKİ FATURALANDIRMA TARİHİ",
+            "renewalAmount": "YENİLEME TUTARI",
+            "perMonth": "/ay",
+            "perYear": "/yıl",
+            "scheduledForCancel": "Aboneliğiniz dönem sonunda iptal edilecektir.",
+            "scheduledForCancel2": "Aboneliğinize devam etmek istiyorsanız, aşağıdaki \"faturalandırmayı yönet\" butonundan yeniden abone olabilirsiniz.",
+            "past_due": "Son ödemeniz başarısız oldu! Erişiminizi kaybetmemek için lütfen kartınızı güncelleyin. Sorununuz çözülmezse lütfen bizimle iletişime geçin.",
+            "manageBilling": "Faturalandırmayı Yönet",
+            "updateCard": "Kartı Güncelle",
+            "cancelSubscription": "Aboneliği İptal Et",
+            "securePayment": "GÜVENLİ ÖDEMELER",
+            "encrypted": "Stripe tarafından şifrelenmiştir.",
+            "support": "ÖNCELİKLI DESTEK",
+            "help": "7/24 Profesyonel Yardım",
+            "commitment": "Herhangi bir taahhüt yok.",
+            "cancelAnytime": "İstediğiniz zaman iptal edin",
+            "successAlert": {
+                "title": "Tamam!",
+                "message": "abonelik başarıyla iptal edildi, dönem sonuna kadar erişime sahip olacaksınız"
+            },
+            "errorAlert": {
+                "title": "Hata",
+                "message": "Abonelik iptal edilirken bir hata oluştu. Lütfen tekrar deneyin."
+            }
         }
     },
     "menus": {
@@ -343,6 +385,8 @@
             "enableSuccessMessage": "Menü başarıyla aktifleştirildi",
             "addCategorySuccessMessage": "Kategori başarıyla eklendi",
             "addItemSuccessMessage": "Ürün başarıyla eklendi"
-        }
+        },
+        "menuQR": "Menü QR kodu",
+        "QRDownload": "İndir"
     }
 }

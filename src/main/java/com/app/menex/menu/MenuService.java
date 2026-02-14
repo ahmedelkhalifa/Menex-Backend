@@ -93,7 +93,7 @@ public class MenuService {
 
     @Transactional
     public Menu updateMenu(String name, String description, Long restaurantId, Long menuId,
-                           MultipartFile image) throws IOException {
+                           MultipartFile image, Boolean deleteImg) throws IOException {
         User user = userService.getCurrentUser();
         Menu menu = menuRepository.findByIdAndRestaurantOwnerId(menuId, user.getId()).orElseThrow(
                 () -> new EntityNotFoundException("Menu with id: " + menuId + " not found")
@@ -124,7 +124,7 @@ public class MenuService {
             String resId = menu.getRestaurant().getId().toString();
             String menuPath = "menu-" + menu.getId();
             menu.setImageUrl(resId + "/" + menuPath + "/" + imageName);
-        } else {
+        } else if (Boolean.TRUE.equals(deleteImg)) {
             Path imagePath = Paths.get(uploadDir , menu.getImageUrl());
             Files.deleteIfExists(imagePath);
             menu.setImageUrl(null);

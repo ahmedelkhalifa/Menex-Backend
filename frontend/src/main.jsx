@@ -1,10 +1,15 @@
-import { StrictMode, useMemo, useState, createContext, useContext } from 'react'
+import { StrictMode, useMemo, useState, createContext, useContext, useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import './index.css'
 import "./i18n";
 import App from './App.jsx'
+import i18n from './i18n';
+import { useTranslation } from 'react-i18next';
+import { CacheProvider } from "@emotion/react";
+import createCache from "@emotion/cache";
+import rtlPlugin from "stylis-plugin-rtl";
 
 // const theme = createTheme({
 //   palette: {
@@ -90,14 +95,16 @@ const lightTheme = createTheme({
 
     error: {
       main: "#D32F2F",
-      light: "#EF5350",
+      light: "#fce4e3",
     },
 
     divider: "#E0E5E3",
   },
 
   typography: {
-    fontFamily: `"Inter", "Roboto", "Helvetica", "Arial", sans-serif`,
+    fontFamily: i18n.language === "ar"
+        ? "Cairo"
+        : `"Inter", "Roboto", "Helvetica", "Arial", sans-serif`,
     h5: {
       fontWeight: 600,
     },
@@ -189,6 +196,7 @@ const darkTheme = createTheme({
 
     error: {
       main: "#EF5350",
+      light: "#e57373",
     },
   },
 
@@ -266,21 +274,73 @@ const ThemeModeContext = createContext();
 
 export const useThemeMode = () => useContext(ThemeModeContext);
 
-const getTheme = (mode) =>
-  createTheme(mode === "dark" ? darkTheme : lightTheme);
+const createRtlCache = () =>
+  createCache({
+    key: "muirtl",
+    stylisPlugins: [rtlPlugin],
+  });
+
+const createLtrCache = () =>
+  createCache({
+    key: "muiltr"
+  });
+
+
+const getTheme = (mode, language) => {
+
+  const isArabic = language === "ar";
+
+  return createTheme({
+    ...(mode === "dark" ? darkTheme : lightTheme),
+    direction: isArabic ? "rtl" : "ltr",
+    typography: {
+    fontFamily: language === "ar"
+        ? "Cairo"
+        : `"Inter", "Roboto", "Helvetica", "Arial", sans-serif`,
+        h5: {
+          fontWeight: 600,
+        },
+        button: {
+          textTransform: "none",
+          fontWeight: 500,
+        },
+      },
+    });
+}
 
 function Root() {
+  const { i18n } = useTranslation();
   const [mode, setMode] = useState("light");
+  const [lang, setLang] = useState(i18n.language);
 
-  const theme = useMemo(() => getTheme(mode), [mode]);
+  // Listen to language changes
+  useEffect(() => {
+    const handleLanguageChanged = (lng) => setLang(lng);
+    i18n.on("languageChanged", handleLanguageChanged);
+    
+    return () => i18n.off("languageChanged", handleLanguageChanged);
+  }, [i18n]);
+
+  useEffect(() => {
+    document.body.setAttribute("dir", lang === "ar" ? "rtl" : "ltr");
+  }, [lang]);
+  
+  const cache = useMemo(() => (lang === "ar" ? createRtlCache() : createLtrCache()), [lang]);
+
+  const theme = useMemo(
+    () => getTheme(mode, lang),
+    [mode, lang]
+  );
 
   return (
+    <CacheProvider value={i18n.language === "ar" ? createRtlCache() : createLtrCache()}>
     <ThemeModeContext.Provider value={{mode, setMode}}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <App mode={mode} setMode={setMode} />
       </ThemeProvider>
     </ThemeModeContext.Provider>
+    </CacheProvider>
   );
 }
 

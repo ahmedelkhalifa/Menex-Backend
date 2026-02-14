@@ -1,5 +1,6 @@
 package com.app.menex.publicAPI;
 
+import com.app.menex.enums.Role;
 import com.app.menex.menu.Menu;
 import com.app.menex.menu.MenuRepository;
 import com.app.menex.menu.dtos.MenuDto;
@@ -29,7 +30,7 @@ public class publicAPIService {
         if (restaurant == null) {
             throw new EntityNotFoundException("Restaurant not found");
         }
-        if (!restaurant.getOwner().isEnabled())
+        if (!restaurant.getOwner().isEnabled() || restaurant.getOwner().getRole().equals(Role.UNSUBSCRIBER))
                 throw new IllegalArgumentException("Restaurant is not enabled");
         restaurant.setViews(restaurant.getViews() + 1);
         restaurantRepository.save(restaurant);
@@ -42,7 +43,8 @@ public class publicAPIService {
         Menu menu = menuRepository.findByIdAndRestaurantSlug(menuId, restaurantSlug).orElseThrow(
                 () -> new EntityNotFoundException("Menu not found")
         );
-        if (!menu.isActive() || !menu.getRestaurant().getOwner().isEnabled())
+        if (!menu.isActive() || !menu.getRestaurant().getOwner().isEnabled() ||
+                menu.getRestaurant().getOwner().getRole().equals(Role.UNSUBSCRIBER))
             throw new IllegalStateException("Menu is not active");
         menu.setViews(menu.getViews() + 1);
         menuRepository.save(menu);

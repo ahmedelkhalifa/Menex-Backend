@@ -84,7 +84,8 @@
         "createMenu": "Create Menu",
         "viewMenus": "View Menus",
         "restaurantViews": "Restaurant Views",
-        "chartTitle": "Views per menu"
+        "chartTitle": "Views per menu",
+        "restaurant": "Restaurant"
     },
     "sidebar": {
         "ownerDashboard": "Owner Dashboard",
@@ -96,7 +97,8 @@
         "profile": "Profile",
         "logout": "Logout",
         "darkMode": "Dark Mode",
-        "admins": "Admins"
+        "admins": "Admins",
+        "unsubscribers": "Unsubscribers"
     },
     "restaurants": {
         "title": "My Restaurants",
@@ -187,7 +189,8 @@
         "errorAlert": {
             "title": "Error",
             "updateMessage": "An error occurred while updating your profile. Please try again.",
-            "fetchMessage": "An error occurred while fetching your profile data. Please try again."
+            "fetchMessage": "An error occurred while fetching your profile data. Please try again.",
+            "subscriptionMessage": "An error occurred while fetching your subscription data. Please try again"
         },
         "successAlert": {
             "title": "Success",
@@ -219,6 +222,45 @@
             "languageLabel": "Language",
             "darkMode": "Dark",
             "lightMode": "Light"
+        },
+        "subscription": {
+            "title": "Subscription",
+            "description": "Manage your subscription",
+            "proPlan": "Professional Plan",
+            "proPlanDesc": "Digital Menu Management & Analytics",
+            "freeTrial": "1 Month Free Trial",
+            "monthly": "1 Month Subscription",
+            "yearly": "1 Year Subscription",
+            "subscriptionDesc": "Explore all the platforms features.",
+            "subActive": "Subscription Active",
+            "trialActive": "Trial Active",
+            "pastDue": "Past Due",
+            "daysRemaining": "Days Remaining",
+            "trialEnd": "Your trial ends on",
+            "nextBillingDate": "NEXT BILLING DATE",
+            "renewalAmount": "RENEWAL AMOUNT",
+            "perMonth": "/month",
+            "perYear": "/year",
+            "scheduledForCancel": "Your subscription will be cancelled at the end of the period.",
+            "scheduledForCancel2": "If you want to continue to the subscription resubscribe from \"Manage Billing\" button below.",
+            "past_due": "Your last payment failed! Please update your card to avoid losing access. If your problem isn't solved please contact us.",
+            "manageBilling": "Manage Billing",
+            "updateCard": "Update Card",
+            "cancelSubscription": "Cancel Subscription",
+            "securePayment": "SECURE PAYMENTS",
+            "encrypted": "Encrypted by Stripe",
+            "support": "PRIORITY SUPPORT",
+            "help": "24/7 Professional Help",
+            "commitment": "No Commitments",
+            "cancelAnytime": "Cancel at anytime",
+            "successAlert": {
+                "title": "Done!",
+                "message": "subscription cancelled successfully, you will have access till the end of the period"
+            },
+            "errorAlert": {
+                "title": "Error",
+                "message": "An error occurred while cancelling the subscription. Please try again."
+            }
         }
     },
     "menus": {
@@ -343,6 +385,8 @@
             "enableSuccessMessage": "Menu enabled successfully",
             "addCategorySuccessMessage": "Category added successfully",
             "addItemSuccessMessage": "Item added successfully"
-        }
+        },
+        "menuQR": "Menu QR Code",
+        "QRDownload": "Download"
     }
 }

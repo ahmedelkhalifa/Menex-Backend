@@ -14,6 +14,7 @@ import i18n from '../i18n'
 import { useTranslation } from 'react-i18next'
 import Sidebar from './Sidebar'
 import LandingSidebar from './LandingSideBar'
+import api from '../api'
 
 
 const Home = () => {
@@ -42,6 +43,22 @@ const Home = () => {
         i18n.changeLanguage(lang);
         localStorage.setItem("lang", lang);
         setAnchorEl(null);
+        const isRTL = lang === "ar";
+        document.documentElement.dir = isRTL ? "rtl" : "ltr";
+    }
+
+    async function handleSubscription(priceId) {
+        try {
+            const response = await api.post("subscription", {
+                priceId: priceId,
+                successUrl: window.location.origin + "/success",
+                cancelUrl: window.location.origin + "/cancel"
+            });
+            const paymentUrl = response.data;
+            window.location.href = paymentUrl;
+        } catch (error) {
+            console.error(error);
+        }
     }
 
   return (
@@ -128,7 +145,7 @@ const Home = () => {
                     onClick={() => navigate("login")}>
                         {t("landing.login")}
                     </Button>
-                    <Button variant='contained' sx={{bgcolor: "success.main", color: "#fff", height: "40px", width: "150px", fontWeight: 700}} onClick={() => navigate("get-started")}>
+                    <Button variant='contained' sx={{bgcolor: "success.main", color: "#fff", height: "40px", width: "150px", fontWeight: 700}} onClick={() => navigate("signup")}>
                         {t("landing.register")}
                     </Button>
                 </Box>
@@ -522,7 +539,7 @@ const Home = () => {
                             boxShadow: (theme) =>
                             `0px 6px 20px ${theme.palette.primary.main}80`,
                             mt: 2
-                        }} onClick={() => navigate("get-started")}>
+                        }} onClick={() => handleSubscription("price_1SzIOGRSGDklsSzW3S7Ie72I")}>
                             {t("landing.pricing.card.button")}
                         </Button>
                     </Box>
@@ -600,7 +617,7 @@ const Home = () => {
                             boxShadow: (theme) =>
                             `0px 6px 20px ${theme.palette.primary.main}80`,
                             mt: 2
-                        }} onClick={() => navigate("get-started")}>
+                        }} onClick={() => handleSubscription("price_1SzIOGRSGDklsSzWwHehWPwv")}>
                             {t("landing.pricing.card.button")}
                         </Button>
                     </Box>

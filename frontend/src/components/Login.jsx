@@ -12,6 +12,7 @@ const Login = () => {
 
     async function handleSubmit(e) {
         try {
+            sessionStorage.setItem("email", email);
             setLoading(true);
             e.preventDefault();
             const response = await api.post("/auth/login", {
@@ -27,8 +28,15 @@ const Login = () => {
             else if (response.data.role === "RESTAURANT_OWNER") {
                 window.location.href = "/owner-dashboard";
             }
+            else if (response.data.role === "UNSUBSCRIBER") {
+                window.location.href = "/subscription";
+            }
         } catch (error) {
             console.error(error);
+            if (error.response?.status === 403) {
+                window.location.href = "/activate";
+                return;
+            }
             const message = error.response?.data?.message || "Can't login, try again";
             Swal.fire({
                 title: "Oops...",

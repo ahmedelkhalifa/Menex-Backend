@@ -1,4 +1,4 @@
-import { ArrowForward, Close, Delete, Edit, Info, Menu, SentimentDissatisfied, Translate, Warning } from '@mui/icons-material'
+import { Add, ArrowForward, Close, Delete, Edit, Info, Menu, SentimentDissatisfied, Translate, Warning } from '@mui/icons-material'
 import { Alert, AppBar, Autocomplete, Box, Button, Card, Chip, CircularProgress, debounce, Dialog, Divider, Drawer, FormControl, Grid, IconButton, InputLabel, List, ListItemButton, ListItemText, Modal, OutlinedInput, Paper, Skeleton, Slide, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Toolbar, Tooltip, Typography, useTheme } from '@mui/material'
 import React, { useCallback, useEffect, useState } from 'react'
 import OwnerSidebar from './OwnerSidebar'
@@ -311,8 +311,8 @@ const Restaurants_Owner = () => {
                 {t('restaurants.description')}
               </Typography>
             </Box>
-            <Button variant='contained' sx={{width: "300px", mt: {xs: 2, md: 0}}}
-            onClick={() => setOpenCreate(true)}>
+            <Button variant='contained' sx={{width: "300px", mt: {xs: 2, md: 0}, height: "40px"}}
+            onClick={() => setOpenCreate(true)} startIcon={<Add/>}>
               {t('restaurants.createButton')}
             </Button>
           </Stack>
@@ -393,8 +393,8 @@ const Restaurants_Owner = () => {
                 <Typography variant='h5' color='text.secondary' mt={5} display={'flex'} alignItems={'center'} justifyContent={'center'}>
                   <SentimentDissatisfied sx={{color: 'text.secondary', mr: 2, fontSize: "40px"}} /> {t('restaurants.noData')}
                 </Typography>
-                <Button variant='contained' sx={{display: 'flex', alignSelf: 'center', justifySelf: 'center', mt: 1, bgcolor: "secondary.main"}}
-                onClick={() => setOpenCreate(true)}>
+                <Button variant='contained' sx={{display: 'flex', alignSelf: 'center', justifySelf: 'center', mt: 1, bgcolor: "secondary.main", height: "40px"}}
+                onClick={() => setOpenCreate(true)} startIcon={<Add/>}>
                   {t('restaurants.createButton')}
                 </Button>
               </>

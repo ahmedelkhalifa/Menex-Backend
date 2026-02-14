@@ -15,6 +15,10 @@ import NotFound from "./components/notFound"
 import Inactive from "./components/Inactive"
 import Home from "./components/Home"
 import GetStarted from "./components/GetStarted"
+import Signup from "./components/Signup"
+import Subscription from "./components/Subscription"
+import Activate from "./components/Activate"
+import Unsubscribers from "./components/Unsubscribers"
 
 function App() {
 
@@ -24,6 +28,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home/>}/>
         <Route path="/login" element={<Login/>}/>
+        <Route path="/signup" element={<Signup/>}/>
+        <Route path="/subscription" element={<Subscription/>}/>
+        <Route path="/activate" element={<Activate/>}/>
         <Route path="/admin-dashboard" element={
           <ProtectedRoute allowedRole={"SUPER_ADMIN"}>
             <SuperDashboard></SuperDashboard>
@@ -37,6 +44,11 @@ function App() {
         <Route path="/admin-dashboard/restaurant-owners" element={
           <ProtectedRoute allowedRole={"SUPER_ADMIN"}>
             <RestaurantOwners></RestaurantOwners>
+          </ProtectedRoute>
+        }/>
+        <Route path="/admin-dashboard/unsubscribers" element={
+          <ProtectedRoute allowedRole={"SUPER_ADMIN"}>
+            <Unsubscribers></Unsubscribers>
           </ProtectedRoute>
         }/>
         <Route path="/admin-dashboard/admins" element={
@@ -74,21 +86,11 @@ function App() {
             <Menus/>
           </ProtectedRoute>
         }/>
-        <Route path="/get-started" element={
-          <GetStarted/>
-        }/>
-        <Route path="/not-found" element={
-          <NotFound/>
-        }/>
-        <Route path="/inactive" element={
-          <Inactive/>
-        }/>
-        <Route path="/:restaurantSlug/:menuId" element={
-          <PublicMenu/>
-        }/>
-        <Route path="/:restaurantSlug" element={
-          <PublicRestaurant/>
-        }/>
+        <Route path="/get-started" element={<GetStarted/>}/>
+        <Route path="/not-found" element={<NotFound/>}/>
+        <Route path="/inactive" element={<Inactive/>}/>
+        <Route path="/:restaurantSlug/:menuId" element={<PublicMenu/>}/>
+        <Route path="/:restaurantSlug" element={<PublicRestaurant/>}/>
       </Routes>
     </BrowserRouter>
     </>

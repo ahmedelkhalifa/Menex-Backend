@@ -46,6 +46,14 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('SUPER_ADMIN')")
+    @GetMapping("users/unsubscribers")
+    public ResponseEntity<List<UserDto>> getAllUnsubcribers() {
+        List<User> users = userService.getAllUnsubscribedUsers();
+        List<UserDto>  userDtos = users.stream().map(userMapper::toDto).toList();
+        return  new ResponseEntity<>(userDtos, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @GetMapping("users/admins")
     public ResponseEntity<List<UserDto>> getAllAdmins() {
         List<User> users = userService.getAllAdmins();

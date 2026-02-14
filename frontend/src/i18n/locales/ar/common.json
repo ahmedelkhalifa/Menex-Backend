@@ -1,0 +1,392 @@
+{
+    "landing": {
+        "featuresNav": "الميزات",
+        "howItWorks": "كيف أبدأ",
+        "pricingNav": "التسعير",
+        "login": "تسجيل الدخول",
+        "register": "ابدأ الآن",
+        "startFree": "ابدأ الآن مجانا",
+        "hero1": "قم بتحديث مطعمك مع",
+        "hero2": "قوائم رقمية ذكية",
+        "hero-desc": "ودّع تكاليف الطباعة. حدّث أسعارك فوراً، واعرض صوراً شهية، ودع العملاء يشاهدون قوائم الطعام عبر رمز الاستجابة السريعة (QR code) بسلاسة.",
+        "watch-demo": "شاهد العرض التوضيحي",
+        "features": {
+            "title": "لماذا تختار MENEX؟",
+            "subtitle": "كل ما تحتاجه لإدارة مطعم حديث",
+            "desc": "قم بتبسيط عملياتك وتحسين تجربة العملاء من خلال مجموعتنا الشاملة من الأدوات.",
+            "feature1": {
+                "title": "أداة سهلة لإنشاء القوائم",
+                "desc": "أنشئ المنتجات، ونظّم الفئات، وارفع صورًا شهية في ثوانٍ. لا حاجة إلى أي برمجة."
+            },
+            "feature2": {
+                "title": "تحديثات فورية",
+                "desc": "نفدت الكمية من منتج معين؟ قم بتعطيله فوراً. هل تحتاج إلى تغيير السعر؟ قم بتحديثه في كل مكان بنقرة واحدة."
+            },
+            "feature3": {
+                "title": "لوحة تحليلات البيانات",
+                "desc": "تتبع الأصناف الأكثر رواجاً، وراقب معدلات المسح الضوئي، واكتسب رؤى لتحسين ربحية قائمة الطعام الخاصة بك."
+            }
+        },
+        "getStarted": {
+            "title": "ابدأ الآن في 3 خطوات بسيطة",
+            "step1": {
+                "title": "انشئ حسابا",
+                "desc": "قم بالتسجيل وإنشاء مطعمك بالمعلومات الأساسية والشعار."
+            },
+            "step2": {
+                "title": "تخصيص القوائم",
+                "desc": "أضف فئاتك، وأصنافك الشهية، وأسعارك، وصورك التي تثير الشهية."
+            },
+            "step3": {
+                "title": "انشئ ال QR",
+                "desc": "قم بتنزيل رمز الاستجابة السريعة الفريد الخاص بك، واطبعه على طاولاتك، وابدأ في تقديم الطعام!"
+            }
+        },
+        "pricing": {
+            "title": "التسعير",
+            "card": {
+                "proPlan": "الخطة الاحترافية",
+                "perMonth": "/شهر",
+                "perYear": "/سنة",
+                "free-trial": "شهر تجريبي مجاني",
+                "cancellation": "قم بالإلغاء في أي وقت، لا تكاليف خفية",
+                "features": {
+                    "1": "إنشاء مطاعم غير محدود",
+                    "2": "إنشاء قوائم غير محدود",
+                    "3": "إنشاء فئات وأصناف غير محدود",
+                    "4": "إنشاء رموز استجابة سريعة غير محدودة",
+                    "5": "دعم فني 24/7",
+                    "6": "تحليلات احترافية"
+                },
+                "button": "ابدأ الفترة التجريبية",
+                "badge": "أفضل قيمة",
+                "perYearLabel": "شهر تجريبي مجاني - وفّر قيمة شهرين"
+            }
+        }
+    },
+    "ownerDashboard": {
+        "title": "لوحة التحكم",
+        "description": "نظرة عامة على الوضع الحالي",
+        "stats": "إحصائيات سريعة",
+        "views": "المشاهدات",
+        "viewsDetails": "المشاهدات لكل مطعم",
+        "totalViewsLabel": "إجمالي المشاهدات",
+        "menusViews": "مشاهدات القوائم",
+        "restaurantsViews": "مشاهدات المطاعم",
+        "statsDescription": "هنا بعض الاحصائيات عن مطاعمك وقوائمك",
+        "restaurantsCountLabel": "عدد المطاعم",
+        "menusCountLabel": "عدد القوائم",
+        "categoriesCountLabel": "عدد الفئات",
+        "itemsCountLabel": "عدد المنتجات",
+        "quickActions": "إجراءات سريعة",
+        "createRestaurant": "إنشاء مطعم",
+        "viewRestaurants": "رؤية المطاعم",
+        "createMenu": "إضافة قائمة",
+        "viewMenus": "رؤية القوائم",
+        "restaurantViews": "مشاهدات المطاعم",
+        "chartTitle": "المشاهدات لكل قائمة",
+        "restaurant": "المطعم"
+    },
+    "sidebar": {
+        "ownerDashboard": "لوحة التحكم",
+        "adminDashboard": "لوحة التحكم",
+        "restaurantOwners": "أصحاب المطاعم",
+        "dashboard": "لوحة التحكم",
+        "restaurants": "المطاعم",
+        "menus": "منشئ القوائم",
+        "profile": "الملف الشخصي",
+        "logout": "تسجيل خروج",
+        "darkMode": "الوضع الداكن",
+        "admins": "المديرين",
+        "unsubscribers": "غير المشتركين"
+    },
+    "restaurants": {
+        "title": "مطاعمي",
+        "description": "أجرِ كل العمليات على مطاعمك",
+        "search": "بحث...",
+        "createButton": "إنشاء مطعم",
+        "noData": "لا يوجد مطاعم، قم بإنشاء مطعم",
+        "table": {
+            "name": "الاسم",
+            "address": "العنوان",
+            "actions": "العمليات",
+            "edit": "تعديل",
+            "delete": "حذف",
+            "slug": "الاسم المختصر (مسار عنوان URL)",
+            "details": "التفاصيل"
+        },
+        "create": {
+            "title": "إنشاء مطعم",
+            "update": "تحديث مطعم",
+            "mainLabel": "البيانات الأساسية",
+            "nameLabel": "الاسم",
+            "addressLabel": "العنوان",
+            "phoneLabel": "رقم الهاتف",
+            "logoLabel": "تحميل شعار (اختياري)",
+            "themeLabel": "السمات",
+            "primaryColorLabel": "اللون الأساسي",
+            "secondaryColorLabel": "اللون الثانوي",
+            "textPrimaryColorLabel": "لون النص الأساسي",
+            "textSecondaryColorLabel": "لون النص الثانوي",
+            "backgroundLabel": "الخلفية",
+            "backgroundCardLabel": "خلفية البطاقات",
+            "fontLabel": "الخط",
+            "alert": "الحجم الأقصى للصورة 2 MB",
+            "submitButton": "إنشاء",
+            "submitButtonLoading": "جارٍ إنشاء المطعم...",
+            "updateButton": "تحديث",
+            "updateButtonLoading": "جارٍ تحديث المطعم...",
+            "updateSuccessMessage": "تم تحديث المطعم بنجاح!",
+            "successTitle": "تم بنجاح!",
+            "createSuccessMessage": "تم إنشاء المطعم بنجاح"
+        },
+        "details": {
+            "title": "تفاصيل المطعم",
+            "mainInfo": "البيانات الأساسية",
+            "nameLabel": "الاسم",
+            "slugLabel": "الاسم المختصر",
+            "addressLabel": "العنوان",
+            "phoneLabel": "رقم الهاتف",
+            "themeInfo": "بيانات السمات",
+            "primaryColorLabel": "اللون الأساسي",
+            "secondaryColorLabel": "اللون الثانوي",
+            "textPrimaryColorLabel": "لون النص الأساسي",
+            "textSecondaryColorLabel": "لون النص الثانوي",
+            "fontLabel": "الخط",
+            "menusInfo": "بيانات القوائم",
+            "menusCountLabel": "عدد القوائم",
+            "categoriesCountLabel": "عدد الفئات",
+            "itemsCountLabel": "عدد المنتجات"
+        },
+        "errorAlert": {
+            "title": "حدث خطأ!",
+            "message": "حدث خطأ أثناء جلب بيانات المطاعم، يرجى المحاولة مرة أخرى",
+            "updateErrorMessage": "حدث خطأ أثناء تحديث المطعم. يرجى المحاولة مرة أخرى",
+            "createErrorMessage": "حدث خطأ أثناء إنشاء المطعم. يرجى المحاولة مرة أخرى"
+        },
+        "deleteAlert": {
+            "title": "هل أنت متأكد؟",
+            "message": "لن تتمكن من التراجع عن هذا!\nسيتم حذف جميع القوائم وعناصر القوائم المرتبطة بها.",
+            "confirmButtonText": "نعم، احذف الآن!",
+            "cancelButtonText": "إلغاء",
+            "deletedTitle": "تم الحذف!",
+            "deletedMessage": "تم حذف المطعم بنجاح!",
+            "errorTitle": "حدث خطأ!",
+            "errorMessage": "حدث خطأ أثناء حذف المطعم. يرجى المحاولة مرة أخرى"
+        }
+    },
+    "profile": {
+        "role": "الدور",
+        "superAdmin": "مدير النظام",
+        "restaurantOwner": "صاحب مطعم",
+        "basicInfo": "البيانات الشخصية",
+        "firstnameLabel": "الاسم الأول",
+        "lastnameLabel": "الاسم الأخير",
+        "emailLabel": "البريد الإلكتروني",
+        "editButton": "تعديل الملف الشخصي",
+        "updateButton": "تحديث",
+        "cancel": "إلغاء",
+        "errorAlert": {
+            "title": "حدث خطأ",
+            "updateMessage": "حدث خطأ أثناء تحديث الملف الشخصي. يرجى المحاولة مرة أخرى.",
+            "fetchMessage": "حدث خطأ أثناء جلب بيانات الملف الشخصي. يرجى المحاولة مرة أخرى.",
+            "subscriptionMessage": "حدث خطأ أثناء جلب بيانات الاشتراك. يرجى المحاولة مرة أخرى"
+        },
+        "successAlert": {
+            "title": "تم بنجاح!",
+            "message": "تم تحديث بياناتك بنجاح!"
+        },
+        "security": {
+            "title": "الأمان",
+            "changePasswordTitle": "تغيير كلمة المرور",
+            "changePasswordDescription": "لتغيير كلمة المرور قم بإدخال كلمة المرور الحالية وكلمة المرور الجديدة.",
+            "currentPasswordLabel": "كلمة المرور الحالية",
+            "newPasswordLabel": "كلمة المرور الجديدة",
+            "confirmNewPasswordLabel": "تأكيد كلمة المرور الجديدة",
+            "changePasswordButton": "تغيير كلمة المرور",
+            "changePasswordButtonLoading": "يتم تغيير كلمة المرور...",
+            "passwordMismatchMessage": "كلمة المرور الجديدة وتأكيد كلمة المرور لا يتوافقان",
+            "logout": "تسجيل خروج",
+            "errorAlert": {
+                "title": "حدث خطأ",
+                "message": "حدث خطأ أثناء تغيير كلمة المرور، أعد المحاولة لاحقا"
+            },
+            "successAlert": {
+                "title": "تم بنجاح!",
+                "message": "تم تغيير كلمة المرور بنجاح!"
+            }
+        },
+        "preferences": {
+            "title": "التفضيلات",
+            "darkModeLabel": "الوضع الداكن",
+            "languageLabel": "اللغة",
+            "darkMode": "داكن",
+            "lightMode": "فاتح"
+        },
+        "subscription": {
+            "title": "الاشتراكات",
+            "description": "قم بإدراة اشتراكك",
+            "proPlan": "الخطة الاحترافية",
+            "proPlanDesc": "إدارة القوائم الرقمية والتحليلات",
+            "freeTrial": "شهر تجريبي مجاني",
+            "monthly": "اشتراك شهري",
+            "yearly": "اشتراك سنوي",
+            "subscriptionDesc": "استكشف جميع ميزات المنصة",
+            "subActive": "اشتراك نشط",
+            "trialActive": "فترة تجريبية",
+            "pastDue": "دفع متأخر",
+            "daysRemaining": "أيام متبقية",
+            "trialEnd": "فترتك التجريبية تنتهي في",
+            "nextBillingDate": "موعد الدفع القادم",
+            "renewalAmount": "مبلغ التجديد",
+            "perMonth": "/شهر",
+            "perYear": "/سنة",
+            "scheduledForCancel": "سيتم إلغاء اشتراكك في نهاية الفترة.",
+            "scheduledForCancel2": "إذا كنت تريد متابعة الاشتراك فأعد الاشتراك من خلال زر \"إدارة الفواتير\" أدناه.",
+            "past_due": "فشلت عملية الدفع الأخيرة! يُرجى تحديث بيانات بطاقتك لتجنب فقدان الوصول. إذا استمرت المشكلة، يُرجى التواصل معنا.",
+            "manageBilling": "إدارة الفواتير",
+            "updateCard": "تحديث البطاقة",
+            "cancelSubscription": "إلغاء الاشتراك",
+            "securePayment": "دفع آمن",
+            "encrypted": "تم تشفيره بواسطة stripe",
+            "support": "الدعم الفني",
+            "help": "دعم احترافي 24/7",
+            "commitment": "لا التزامات",
+            "cancelAnytime": "قم بإلغاء الاشتراك في أي وقت",
+            "successAlert": {
+                "title": "تم بنجاح!",
+                "message": "تم إلغاء الاشتراك بنجاح، ستتمتع بصلاحيات الوصول حتى نهاية الفترة"
+            },
+            "errorAlert": {
+                "title": "حدث خطأ",
+                "message": "حدث خطأ أثناء إلغاء الاشتراك. يرجى المحاولة مرة أخرى."
+            }
+        }
+    },
+    "menus": {
+        "title": "منشئ القوائم",
+        "description": "أدر وخصص قوائم مطعمك",
+        "currentRestaurantLabel": "المطعم الحالى",
+        "selectRestaurantLabel": "اختر مطعما",
+        "noRestaurantsLabel": "لا يوجد مطاعم",
+        "noMenusLabel": "لا توجد قوائم",
+        "noCategoriesLabel": "لا توجد فئات",
+        "noItemsLabel": "لا توجد منتجات",
+        "previewQRLabel": "معاينة QR",
+        "menusLabel": "القوائم",
+        "categoriesLabel": "الفئات",
+        "itemsLabel": "المنتجات في",
+        "createMenu": {
+            "title": "أضافة قائمة",
+            "nameLabel": "اسم القائمة",
+            "descriptionLabel": "الوصف",
+            "button": "أضافة القائمة",
+            "buttonLoading": "جارٍ إضافة القائمة...",
+            "errorAlert": {
+                "title": "حدث خطأ",
+                "message": "حدث خطأ أثناء إضافة القائمة. يرجى المحاولة مرة أخرى."
+            },
+            "successAlert": {
+                "title": "تم بنجاح!",
+                "message": "تم إضافة القائمة بنجاح!"
+            }
+        },
+        "createCategory": {
+            "title": "أضافة فئة",
+            "nameLabel": "اسم الفئة",
+            "button": "أضافة الفئة",
+            "buttonLoading": "جارٍ إضافة الفئة..."
+        },
+        "createItem": {
+            "title": "إضافة منتج",
+            "nameLabel": "اسم المنتج",
+            "priceLabel": "السعر",
+            "descriptionLabel": "الوصف",
+            "uploadImageLabel": "تحميل صورة (اختياري)",
+            "recommendedSizeLabel": "الحجم الموصى به للصورة (300x200)",
+            "button": "إضافة المنتج",
+            "buttonLoading": "جارٍ إضافة المنتج...",
+            "exceededSize": "الحجم الأقصى للصورة 2 MB",
+            "availableLabel": "متوفر",
+            "unavailableLabel": "غير متوفر"
+        },
+        "menuOperationsLabel": "العمليات",
+        "editMenu": {
+            "title": "تعديل القائمة",
+            "otherOpsLabel": "عمليات أخرى",
+            "deleteButton": "حذف القائمة",
+            "deleteButtonLoading": "جارٍ حذف القائمة...",
+            "nameLabel": "اسم القائمة",
+            "button": "تحديث",
+            "buttonLoading": "جارٍ تحديث القائمة...",
+            "activeLabel": "نشط",
+            "inactiveLabel": "غير نشط",
+            "disableButton": "تعطيل القائمة",
+            "enableButton": "تفعيل القائمة",
+            "deleteTitle": "هل أنت متأكد؟",
+            "deleteMessage": "لن تتمكن من التراجع عن هذا!\nسيتم حذف كافة عناصر القائمة المقترنة.",
+            "confirmDelete": "نعم، احذف الآن!",
+            "cancelDelete": "إلغاء"
+        },
+        "editCategory": {
+            "title": "تعديل الفئة",
+            "nameLabel": "اسم الفئة",
+            "button": "تحديث",
+            "buttonLoading": "جارٍ تحديث الفئة...",
+            "deleteButton": "حذف الفئة",
+            "deleteButtonLoading": "جارٍ حذف الفئة...",
+            "deleteTitle": "هل أنت متأكد؟",
+            "deleteMessage": "لن تتمكن من التراجع عن هذا!\nسيتم حذف كافة عناصر القائمة المقترنة.",
+            "confirmDelete": "نعم، احذف الآن!",
+            "cancelDelete": "إلغاء"
+        },
+        "editItem": {
+            "updateLabel": "تعديل المنتج",
+            "nameLabel": "اسم المنتج",
+            "updateButton": "تحديث",
+            "buttonLoading": "جارٍ تحديث المنتج...",
+            "deleteButton": "حذف المنتج",
+            "deleteButtonLoading": "جارٍ حذف المنتج...",
+            "deleteTitle": "هل أنت متأكد؟",
+            "deleteMessage": "لن تتمكن من التراجع عن هذا",
+            "confirmDelete": "نعم، احذف الآن!",
+            "cancelDelete": "إلغاء"
+        },
+        "errorAlert": {
+            "title": "خطأ!",
+            "message": "حدث خطأ ما",
+            "fetchMenusMessage": "حدث خطأ أثناء جلب القوائم. يرجى المحاولة مرة أخرى",
+            "fetchRestaurantsMessage": "حدث خطأ أثناء جلب المطاعم. يرجى المحاولة مرة أخرى",
+            "fetchCategoriesMessage": "حدث خطأ أثناء جلب الفئات. يرجى المحاولة مرة أخرى",
+            "fetchItemsMessage": "حدث خطأ أثناء جلب المنتجات. يرجى المحاولة مرة أخرى",
+            "updateErrorMessage": "حدث خطأ أثناء تحديث القائمة. يرجى المحاولة مرة أخرى.",
+            "updateCategoryErrorMessage": "حدث خطأ أثناء تحديث الفئة. يرجى المحاولة مرة أخرى.",
+            "updateItemErrorMessage": "حدث خطأ أثناء تحديث المنتج. يرجى المحاولة مرة أخرى.",
+            "deleteErrorMessage": "حدث خطأ أثناء حذف القائمة. يرجى المحاولة مرة أخرى",
+            "deleteCategoryErrorMessage": "حدث خطأ أثناء حذف الفئة. يرجى المحاولة مرة أخرى",
+            "deleteItemErrorMessage": "حدث خطأ أثناء حذف المنتج. يرجى المحاولة مرة أخرى",
+            "disableErrorMessage": "حدث خطأ أثناء تعطيل القائمة. يرجى المحاولة مرة أخرى",
+            "enableErrorMessage": "حدث خطأ أثناء تفعيل القائمة. يرجى المحاولة مرة أخرى",
+            "addCategoryErrorMessage": "حدث خطأ أثناء إضافة الفئة. يرجى المحاولة مرة أخرى",
+            "QRErrorMessage": "حدث خطأ أثناء إنشاء QR. يرجى المحاولة مرة أخرى",
+            "noMenuSelected": "لا قائمة تم اختيارها",
+            "noCategorySelected": "لا فئة تم اختيارها",
+            "addItemErrorMessage": "حدث خطأ أثناء إضافة المنتج. يرجى المحاولة مرة أخرى"
+        },
+        "successAlert": {
+            "title": "تم بنجاح!",
+            "updateSuccessMessage": "تم تحديث القائمة بنجاح",
+            "updateCategorySuccessMessage": "تم تحديث الفئة بنجاح",
+            "updateItemSuccessMessage": "تم تحديث المنتج بنجاح",
+            "deleteSuccessMessage": "تم حذف القائمة بنجاح",
+            "deleteCategorySuccessMessage": "تم حذف الفئة بنجاح",
+            "deleteItemMessage": "تم حذف المنتج بنجاح",
+            "disableSuccessMessage": "تم تعطيل القائمة بنجاح",
+            "enableSuccessMessage": "تم تفعيل القائمة بنجاح",
+            "addCategorySuccessMessage": "تم إضافة الفئة بنجاح",
+            "addItemSuccessMessage": "تم إضافة المنتج بنجاح"
+        },
+        "menuQR": "رمز الاستجابة السريع",
+        "QRDownload": "تحميل"
+    }
+}

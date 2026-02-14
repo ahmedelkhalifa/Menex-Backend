@@ -33,14 +33,21 @@ public class SecurityConfig {
     private final AppUserDetailsService appUserDetailsService;
     private final JwtAuthFilter jwtAuthFilter;
     private final UserRepository userRepository;
+    @Value("${menex.frontendURL}")
+    private String frontendURL;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(
                 authorizeRequests -> authorizeRequests
+                        .requestMatchers("/api/auth/verify").permitAll()
+                        .requestMatchers("/api/auth/resend-email").permitAll()
                         .requestMatchers("/api/auth/login").permitAll()
+                        .requestMatchers("/api/auth/signup").permitAll()
                         .requestMatchers("/api/images/**").permitAll()
                         .requestMatchers("/api/public/**").permitAll()
+                        .requestMatchers("/api/webhooks/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/subscription/**").permitAll()
                         .anyRequest().authenticated())
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(s -> s.sessionCreationPolicy
@@ -48,7 +55,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(configurationSource ->
                 {
                     CorsConfiguration corsConfiguration = new CorsConfiguration();
-                    corsConfiguration.addAllowedOrigin("http://localhost:5173");
+                    corsConfiguration.addAllowedOrigin(frontendURL);
                     corsConfiguration.addAllowedHeader("*");
                     corsConfiguration.addAllowedMethod("*");
                     corsConfiguration.setAllowCredentials(true);

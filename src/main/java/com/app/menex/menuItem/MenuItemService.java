@@ -86,7 +86,8 @@ public class MenuItemService {
 
     @Transactional
     public MenuItem updateMenuItem(Long itemId, String name, String description,
-                                   BigDecimal price, MultipartFile image, Long categoryId, Currency currency) throws IOException {
+                                   BigDecimal price, MultipartFile image, Long categoryId, Currency currency,
+                                   Boolean deleteImg) throws IOException {
         MenuItem item = menuItemRepository.findById(itemId).orElseThrow(
                 () -> new EntityNotFoundException("Item with id: " + itemId + "not found")
         );
@@ -107,7 +108,7 @@ public class MenuItemService {
             }
             Files.copy(image.getInputStream(), itemPath, StandardCopyOption.REPLACE_EXISTING);
             item.setImageUrl(resPath + "/" + menuPath + "/" + fileName);
-        } else {
+        } else if (Boolean.TRUE.equals(deleteImg)) {
             Path itemPath = Paths.get(uploadDir).resolve(item.getImageUrl());
             Files.deleteIfExists(itemPath);
             item.setImageUrl(null);

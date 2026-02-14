@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,6 +26,7 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
     private final RestaurantMapper restaurantMapper;
 
+    @PreAuthorize("hasRole('RESTAURANT_OWNER')")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<RestaurantDto> createRestaurant(
             @RequestPart("data") CreateRestaurantRequest request,
@@ -41,6 +43,7 @@ public class RestaurantController {
         return new ResponseEntity<>(restaurantDto, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('RESTAURANT_OWNER')")
     @GetMapping("/{id}")
     public ResponseEntity<RestaurantDto> getRestaurant(@PathVariable Long id) {
         Restaurant restaurant = restaurantService.getRestaurant(id);
@@ -48,6 +51,7 @@ public class RestaurantController {
         return new ResponseEntity<>(restaurantDto, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('RESTAURANT_OWNER')")
     @GetMapping
     public ResponseEntity<List<RestaurantDto>> getAllRestaurantsForCurrentUser() {
         List<Restaurant> restaurants = restaurantService.getAllRestaurantsForCurrentUser();
@@ -55,6 +59,7 @@ public class RestaurantController {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('RESTAURANT_OWNER')")
     @PutMapping("/{id}")
     public ResponseEntity<RestaurantDto> updateRestaurant(
             @RequestPart("data") CreateRestaurantRequest request,
@@ -71,6 +76,7 @@ public class RestaurantController {
         return new ResponseEntity<>(restaurantDto, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('RESTAURANT_OWNER')")
     @DeleteMapping("/{id}")
     public ResponseEntity deleteRestaurant(@PathVariable Long id) throws IOException {
         restaurantService.deleteRestaurant(id);
