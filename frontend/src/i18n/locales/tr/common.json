@@ -53,7 +53,7 @@
                 "free-trial": "1 ay ücretsiz deneme",
                 "cancellation": "İstediğiniz zaman iptal edebilirsiniz. Gizli ücret yok.",
                 "features": {
-                    "1": "Sınırsız restoran açma olanağı.",
+                    "1": "3 restorana kadar açma olanağı.",
                     "2": "Sınırsız menü oluşturma.",
                     "3": "Sınırsız Menü Seçeneği ve Kategori",
                     "4": "Sınırsız sayıda QR kod oluşturma imkanı.",
@@ -63,7 +63,9 @@
                 "button": "Ücretsiz Deneme Başlat",
                 "badge": "EN İYİ FİYAT",
                 "perYearLabel": "1 ay ücretsiz deneme - 2 ay tasarruflu"
-            }
+            },
+            "noCard": "Kredi kartınız yok mu? Ücretsiz deneme sürümü için bizimle iletişime geçin ve restoranınız için Menex'in avantajlarını deneyimleyin.",
+            "contactUs": "Bize Ulaş"
         },
         "subscription": {
             "success": "Hesap başarıyla oluşturuldu!",
@@ -97,6 +99,10 @@
             "forgotPassword": "Şifreni mi unuttun?",
             "dontHaveAccount": "Hesabın yok mu? Kaydol.",
             "signup": "Kaydol"
+        },
+        "cta": {
+            "title": "Menünüzü dijitalleştirmeye hazır mısınız?",
+            "desc": "MENEX ile zaman ve para kazanmaya başlayın. Ücretsiz deneme sürümünüzü şimdi başlatın."
         }
     },
     "ownerDashboard": {
@@ -173,7 +179,13 @@
             "updateButtonLoading": "Restoranınız güncelleniyor...",
             "updateSuccessMessage": "Restoran başarıyla güncellendi!",
             "successTitle": "Tamam!",
-            "createSuccessMessage": "Restoran başarıyla oluşturuldu!"
+            "createSuccessMessage": "Restoran başarıyla oluşturuldu!",
+            "previewLabel": "Önizleme",
+            "menuName": "Menü Adı",
+            "menuDescription": "Menü açıklaması burada görüntülenecektir, müşteriler menüyü açtıklarında göreceklerdir. Restoranınızı, uzmanlık alanlarınızı veya müşterilerinizle paylaşmak istediğiniz herhangi bir bilgiyi tanımlamak için kullanabilirsiniz.",
+            "menuViewButton": "Menüyü Görüntüle",
+            "active": "Aktif",
+            "menuItems": "5 ürün"
         },
         "details": {
             "title": "Restoran Detayları",
@@ -339,7 +351,7 @@
             "priceLabel": "Fiyat",
             "descriptionLabel": "Açıklama",
             "uploadImageLabel": "Resim Yükle",
-            "recommendedSizeLabel": "(Önerilen Boyut 200x200)",
+            "recommendedSizeLabel": "(Önerilen Boyut 300x200)",
             "button": "Ürün Ekle",
             "buttonLoading": "Ürün ekleniyor...",
             "exceededSize": "Bir resim için maksimum boyut 2MB'dir.",
@@ -353,8 +365,8 @@
             "deleteButton": "Menüyü Sil",
             "deleteButtonLoading": "Menü siliniyor...",
             "nameLabel": "Menü Adı",
-            "updateButton": "Güncelle",
-            "updateButtonLoading": "Menü güncelleniyor...",
+            "button": "Güncelle",
+            "buttonLoading": "Menü güncelleniyor...",
             "activeLabel": "Aktif",
             "inactiveLabel": "Pasif",
             "disableButton": "Menüyü Pasifleştir",
@@ -424,5 +436,52 @@
         },
         "menuQR": "Menü QR kodu",
         "QRDownload": "İndir"
+    },
+    "activate": {
+        "title": "E-postanızı Kontrol Edin",
+        "desc1": "Aktivasyon bağlantısını şuraya gönderdik:",
+        "desc2": "Hesabınızı doğrulamak için lütfen bağlantıya tıklayın.",
+        "btn": "Yeniden Gönder",
+        "emailNotRecieved": "E-posta almadınız mı?",
+        "checkSpam": "Spam klasörünüzü kontrol edin."
+    },
+    "verification": {
+        "invalidToken": "Geçersiz jeton",
+        "invalidTokenDesc": "Jeton geçersiz, Jeton aşağıdaki nedenlerden biri için geçersiz olabilir:",
+        "reasons": {
+            "1": "Jeton bozuk biçimlendirilmiş.",
+            "2": "Jeton değiştirilmiş.",
+            "3": "Jeton zaten hesap doğrulaması için kullanılmış.",
+            "4": "Jeton, mevcut olmayan bir kullanıcıyla ilişkilendirilmiş.",
+            "5": "Kayıt olduktan sonra 48 saat içinde doğrulama yapmadınız, tekrar kayıt olmanız gerekecek."
+        },
+        "expired": "Jeton süresi dolmuş",
+        "expiredDesc": "Jeton artık geçerli değil. Yeni doğrulama jetonu almak için lütfen tekrar giriş yapın ve \"Yeniden Gönder\" düğmesine tıklayın.",
+        "verified": "Hesabınız doğrulandı",
+        "verifiedDesc": "Hesabınız başarıyla doğrulandı.\nMenülerinizi dijitleştirmek için bir adım uzaktasınız",
+        "subscribeNow": "Şimdi Abone Ol"    
+    },
+    "contact": {
+        "backToHome": "Ana Sayfaya Dön",
+        "title": "Dijital Dönüşümeye Başlayın",
+        "desc": "Restoranınız için en iyi kurulumu sağlamak amacıyla, hesap yöneticilerimiz kayıt işlemlerini bizzat kendileri yürütmektedir. Menünüzün ilk günden itibaren mükemmel olması için üst düzey bir başlangıç ​​hizmeti sunuyoruz.",
+        "features": {
+            "1": "Hesap oluşturmak",
+            "2": "İlk restoranınızı özelleştirmek",
+            "3": "7/24 Öncelikli Destek"
+        },
+        "cta": "Anında başlamak için yukarıdaki kodu tarayın veya aşağıdaki düğmeye tıklayın.",
+        "ctaButton": "WhatsApp'ta Sohbet Edin",
+        "note": "Hızlı yanıt",
+        "haveAccount": "Zaten hesabınız var mı?",
+        "login": "Giriş Yap",
+        "allRightsReserved": "Her hakkı saklıdır"
+    },
+    "subscription": {
+        "success": "Abonelik Başarılı!",
+        "successDesc": "Ücretsiz deneme süreniz artık aktif! Lütfen hesabınıza giriş yapın ve ",
+        "menexPro": "Menex Pro'nun ",
+        "lastWord": "avantajlarından yararlanmaya başlayın.",
+        "successDesc2": "Herhangi bir sorunuz varsa veya yardıma ihtiyacınız olursa, destek ekibimizle iletişime geçmekten çekinmeyin. Aboneliğinizden en iyi şekilde yararlanmanıza yardımcı olmak için buradayız."
     }
 }

@@ -32,7 +32,6 @@ public class RestaurantController {
             @RequestPart("data") CreateRestaurantRequest request,
             @RequestPart(value = "logo", required = false) MultipartFile logo
             ) throws IOException {
-        System.out.println("I'm here");
         Restaurant createdRestaurant = restaurantService.createRestaurant(
                 request.getName(), request.getAddress(), request.getPhone(), request.getPrimaryColor(),
                 request.getSecondaryColor(), request.getTextPrimary(),

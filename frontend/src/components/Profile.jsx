@@ -23,7 +23,8 @@ const Profile = () => {
         lastName: "",
         email: "",
         role: "",
-        language: "en"
+        language: "en",
+        isCustomer: false
     });
     const [fixedName, setFixedName] = useState({
         firstName: "",
@@ -233,7 +234,8 @@ const Profile = () => {
                     lastName: response.data.lastName,
                     email: response.data.email,
                     role: localStorage.getItem("role"),
-                    language: response.data.language
+                    language: response.data.language,
+                    isCustomer: response.data.customer ? true : false
                 };
                 setUser(userData);
                 setFixedName(userData);
@@ -260,6 +262,17 @@ const Profile = () => {
             window.location.href = "/login";
             }
         }
+        const updateDirection = (lng) => {
+        const isRTL = lng === "ar";
+        document.documentElement.dir = isRTL ? "rtl" : "ltr";
+        document.documentElement.lang = lng;
+        };
+        validateToken();
+        updateDirection(i18n.resolvedLanguage);
+        getProfile();
+    },[])
+
+    useEffect(() => {
         async function getSubscription() {
             try {
                 setLoading(true);
@@ -296,18 +309,10 @@ const Profile = () => {
                 setLoading(false);
             }
         }
-        const updateDirection = (lng) => {
-        const isRTL = lng === "ar";
-        document.documentElement.dir = isRTL ? "rtl" : "ltr";
-        document.documentElement.lang = lng;
-        };
-        validateToken();
-        updateDirection(i18n.resolvedLanguage);
-        getProfile();
-        if (localStorage.getItem("role") === "RESTAURANT_OWNER") {
+        if (localStorage.getItem("role") === "RESTAURANT_OWNER" && user.isCustomer == true) {
             getSubscription();
         }
-    },[])
+    }, [user]);
     
     const {t} = useTranslation();
   return (
@@ -327,17 +332,17 @@ const Profile = () => {
             }
         }}>
           {localStorage.getItem("role") === "RESTAURANT_OWNER" ? (
-            <OwnerSidebar view={"phone"}/>
+            <OwnerSidebar view={"phone"} userId={user?.id}/>
           ) : (
-            <Sidebar view={"phone"}/>
+            <Sidebar view={"phone"} userId={user?.id}/>
           )}
         </Drawer>
       </Box>
       <Box display={'flex'} bgcolor={"background.default"} gap={2}>
         {localStorage.getItem("role") === "RESTAURANT_OWNER" ? (
-            <OwnerSidebar view={"desktop"}/>
+            <OwnerSidebar view={"desktop"} userId={user.id}/>
           ) : (
-            <Sidebar view={"desktop"}/>
+            <Sidebar view={"desktop"} userId={user?.id}/>
           )}
         <Box flex={5} p={5} mt={{xs: 8, md: 0}}>
             <Box>
@@ -436,7 +441,7 @@ const Profile = () => {
                 </>
                 )}  
             </Paper>
-            {localStorage.getItem("role") === "RESTAURANT_OWNER" && (
+            {(localStorage.getItem("role") === "RESTAURANT_OWNER" && subscription !== null) && (
                 <Paper elevation={3} sx={{p: loading ? 0 : 3, bgcolor: 'background.paper', mt: 3}}>
                 {loading ? (
                     <Skeleton variant="rectangular" width="100%" height={"150px"} />
@@ -622,7 +627,7 @@ const Profile = () => {
                 )}  
             </Paper>
             )}
-            {localStorage.getItem("role") === "RESTAURANT_OWNER" && (
+            {(localStorage.getItem("role") === "RESTAURANT_OWNER" && subscription !== null) && (
             <Grid container spacing={2} mt={3}>
                 <Grid size={{xs: 12, md: 4}} sx={{ display: "flex" }}>
                     <Card sx={{width: "100%", display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2, py: 2, px: 4, flexGrow: 1}}>
@@ -744,7 +749,7 @@ const Profile = () => {
                         </Typography>
                         <FormControl fullWidth sx={{mt: 1}}>
                             <Select
-                                value={user.language}
+                                value={i18n.language}
                                 onChange={(e) => handleLanguageChange(e)}
                                 displayEmpty
                                 fullWidth

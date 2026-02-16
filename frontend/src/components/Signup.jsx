@@ -94,7 +94,8 @@ const Signup = () => {
                             type='text'
                             value={firstname}
                             onChange={(e) => setFirstname(e.target.value)}
-                            sx={{color: "text.primary"}} required/>
+                            sx={{color: "text.primary"}} required
+                            autoComplete='off'/>
                         </FormControl>
                     </Box>
                     <Box sx={{width: '100%'}}>
@@ -107,7 +108,8 @@ const Signup = () => {
                             type='text'
                             value={lastname}
                             onChange={(e) => setLastname(e.target.value)}
-                            sx={{color: "text.primary"}} required/>
+                            sx={{color: "text.primary"}} required
+                            autoComplete='off'/>
                         </FormControl>
                     </Box>
                 </Stack>
@@ -123,7 +125,8 @@ const Signup = () => {
                             type='email'
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            sx={{color: "text.primary"}} required/>
+                            sx={{color: "text.primary"}} required
+                            autoComplete='off'/>
                         </FormControl>
                     </Box>
                 </Stack>

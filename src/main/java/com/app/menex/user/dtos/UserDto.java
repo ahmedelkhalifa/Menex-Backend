@@ -16,4 +16,5 @@ public class UserDto {
     private String email;
     private String language;
     private boolean enabled;
+    private boolean isCustomer;
 }

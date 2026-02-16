@@ -20,6 +20,7 @@ import Subscription from "./components/Subscription"
 import Activate from "./components/Activate"
 import Unsubscribers from "./components/Unsubscribers"
 import Verification from "./components/Verification"
+import Success from "./components/Success"
 
 function App() {
 
@@ -30,9 +31,18 @@ function App() {
         <Route path="/" element={<Home/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/signup" element={<Signup/>}/>
-        <Route path="/subscription" element={<Subscription/>}/>
         <Route path="/activate" element={<Activate/>}/>
         <Route path="/verification" element={<Verification/>}/>
+        <Route path="/subscription" element={
+          <ProtectedRoute allowedRole={"UNSUBSCRIBER"}>
+            <Subscription/>
+          </ProtectedRoute>
+        }/>
+        <Route path="/success" element={
+          // <ProtectedRoute allowedRole={"RESTAURANT_OWNER"}>
+            <Success/>
+          // </ProtectedRoute>
+        }/>
         <Route path="/admin-dashboard" element={
           <ProtectedRoute allowedRole={"SUPER_ADMIN"}>
             <SuperDashboard></SuperDashboard>
@@ -88,7 +98,7 @@ function App() {
             <Menus/>
           </ProtectedRoute>
         }/>
-        <Route path="/get-started" element={<GetStarted/>}/>
+        <Route path="/contact-us" element={<GetStarted/>}/>
         <Route path="/not-found" element={<NotFound/>}/>
         <Route path="/inactive" element={<Inactive/>}/>
         <Route path="/:restaurantSlug/:menuId" element={<PublicMenu/>}/>

@@ -8,8 +8,9 @@ import Logo from '../assets/logo-png.png';
 import LogoDark from '../assets/logo-dark-png.png';
 import { useTranslation } from 'react-i18next';
 import i18n from '../i18n';
+import api from '../api';
 
-const OwnerSidebar = ({view, subname}) => {
+const OwnerSidebar = ({view, subname, userId}) => {
     function handleLogout() {
         localStorage.clear();
         window.location.href = "/login"
@@ -30,12 +31,19 @@ const OwnerSidebar = ({view, subname}) => {
     const handleCloseLang = () => {
         setAnchorEl(null);
     };
-    function handleLangChange(lang) {
+    async function handleLangChange(lang) {
         i18n.changeLanguage(lang);
         localStorage.setItem("lang", lang);
         setAnchorEl(null);
         const isRTL = lang === "ar";
         document.documentElement.dir = isRTL ? "rtl" : "ltr";
+        if (userId) {
+          try {
+            const response = await api.put(`users/${userId}/updateLanguage?language=${lang}`);
+          } catch (error) {
+            console.log(error);
+          }
+        } 
     }
   return (
     <>
@@ -109,7 +117,7 @@ const OwnerSidebar = ({view, subname}) => {
                             </IconButton>
 
                             <Typography variant="body1" fontWeight={700}>
-                              {localStorage.getItem("lang")?.toUpperCase()}
+                              {i18n.language?.toUpperCase()}
                             </Typography>
 
                             <Menu

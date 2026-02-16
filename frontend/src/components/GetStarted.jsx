@@ -33,7 +33,7 @@ const GetStarted = () => {
                 component={"label"} onClick={() => navigate("/")}>
                     <ArrowBack/>
                     <Typography>
-                        Back to Home
+                        {t("contact.backToHome")}
                     </Typography>
                 </Box>
             </Container>
@@ -47,13 +47,13 @@ const GetStarted = () => {
                             bgcolor: "primary.light", display: 'flex', justifyContent: "center",
                             alignItems: "center"
                         }}>
-                            <RocketLaunch sx={{color: "primary.main"}}/>
+                            <RocketLaunch sx={{color: mode === "light" ? "primary.main" : "#fff"}}/>
                         </Box>
                         <Typography variant='h4' fontWeight={900} color='text.primary'>
-                            Start Your Digital Transformation
+                            {t("contact.title")}
                         </Typography>
                         <Typography variant='body1' color='text.secondary' lineHeight={1.6}>
-                            To ensure the best setup for your restaurant, our account managers handle the registration personally. We provide a white-glove onboarding service to get your menu perfect from day one.
+                            {t("contact.desc")}
                         </Typography>
                         <Box my={2}>
                             <Box display={'flex'} alignItems={'center'} gap={1} sx={{
@@ -61,7 +61,7 @@ const GetStarted = () => {
                             }}>
                                 <CheckCircle/>
                                 <Typography>
-                                    Create Account
+                                    {t("contact.features.1")}
                                 </Typography>
                             </Box>
                             <Box display={'flex'} alignItems={'center'} gap={1} sx={{
@@ -69,7 +69,7 @@ const GetStarted = () => {
                             }} mt={1}>
                                 <CheckCircle/>
                                 <Typography>
-                                    Customize your first restaurant
+                                    {t("contact.features.2")}
                                 </Typography>
                             </Box>
                             <Box display={'flex'} alignItems={'center'} gap={1} sx={{
@@ -77,7 +77,7 @@ const GetStarted = () => {
                             }} mt={1}>
                                 <CheckCircle/>
                                 <Typography>
-                                    24/7 Priority Support
+                                    {t("contact.features.3")}
                                 </Typography>
                             </Box>
                         </Box>
@@ -89,20 +89,20 @@ const GetStarted = () => {
                             sx={{objectFit: "contain"}} mt={3}/>
                         </Box>
                         <Typography variant='body1' color='text.secondary' textAlign={'center'}>
-                            Scan the code above or click the button below to start instantly.
+                            {t("contact.cta")}
                         </Typography>
                         <Button onClick={() => navigate("https://wa.link/vxvfu4")}
                             variant='contained' sx={{height: "50px", fontWeight: 600,
                                 fontSize: 17, boxShadow: (theme) =>
                         `0px 6px 20px ${theme.palette.primary.main}80`
                             }} startIcon={<WhatsApp/>}>
-                            Chat On WhatsApp
+                            {t("contact.ctaButton")}
                         </Button>
                         <Box display={'flex'} justifyContent={'center'} alignItems={'center'}
                         gap={1}>
                             <Circle sx={{color: "primary.main", fontSize: 12}}/>
                             <Typography variant='body2' color='text.secondary'>
-                                Fast response
+                                {t("contact.note")}
                             </Typography>
                         </Box>
                     </Box>
@@ -114,15 +114,15 @@ const GetStarted = () => {
         gap={2}>
             <Box display={'flex'} alignItems={'center'} justifyContent={'center'} gap={1}>
                 <Typography variant='body1' color='text.secondary'>
-                    Already have an account?
+                    {t("contact.haveAccount")}
                 </Typography>
                 <Typography variant='body1' fontWeight={800} color='primary.main'
-                component={"a"} href='/login' sx={{textDecoration: 'none'}}>
-                    Login
+                component={'label'} onClick={() => navigate("/login")} sx={{textDecoration: 'none'}}>
+                    {t("contact.login")}
                 </Typography>
             </Box>
             <Typography variant='body2' color='text.secondary'>
-                {new Date().getFullYear()} © MENEX. All rights reserved.
+                {new Date().getFullYear()} © MENEX. {t("contact.allRightsReserved")}.
             </Typography>
         </Box>
     </Box>

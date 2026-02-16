@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import i18n from '../i18n';
 
 
-const Sidebar = ({view, subname}) => {
+const Sidebar = ({view, subname, userId}) => {
     function handleLogout() {
         localStorage.clear();
         window.location.href = "/login"
@@ -30,12 +30,19 @@ const Sidebar = ({view, subname}) => {
     const handleCloseLang = () => {
         setAnchorEl(null);
     };
-    function handleLangChange(lang) {
+    async function handleLangChange(lang) {
         i18n.changeLanguage(lang);
         localStorage.setItem("lang", lang);
         setAnchorEl(null);
         const isRTL = lang === "ar";
         document.documentElement.dir = isRTL ? "rtl" : "ltr";
+        if (userId) {
+          try {
+            const response = await api.put(`users/${userId}/updateLanguage?language=${lang}`);
+          } catch (error) {
+            console.log(error);
+          }
+        }
     }
   return (
     <>
@@ -129,7 +136,7 @@ const Sidebar = ({view, subname}) => {
                             </IconButton>
 
                             <Typography variant="body1" fontWeight={700}>
-                              {localStorage.getItem("lang")?.toUpperCase()}
+                              {i18n.language?.toUpperCase()}
                             </Typography>
 
                             <Menu
@@ -149,7 +156,6 @@ const Sidebar = ({view, subname}) => {
                               <MenuItem onClick={() => handleLangChange("tr")}>Türkçe</MenuItem>
                               <MenuItem onClick={() => handleLangChange("ar")}>العربية</MenuItem>
                             </Menu>
-
                           </Box>
                       </Box>
                       <Button variant='contained' sx={{mt: 10, bgcolor: 'error.main', height: "40px"}} onClick={handleLogout} fullWidth>

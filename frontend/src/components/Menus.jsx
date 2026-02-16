@@ -186,6 +186,10 @@ const Menus = () => {
             setOpenOperations(false);
         } finally {
             setLoading(false);
+            setSelectedMenu(null);
+            setMenuName("");
+            setMenuDescription("");
+            setMenuPreviewUrl(null);
         }
     }
 
@@ -1229,7 +1233,7 @@ const Menus = () => {
                                         <Box mt={2}>
                                             {selectedMenu?.active ? (
                                                 <Button variant='contained' fullWidth
-                                                sx={{height: '40px', bgcolor: 'error.light'
+                                                sx={{height: '40px', bgcolor: 'error.main'
                                                     ,color: "#fff"
                                                 }} startIcon={<WebAssetOffOutlined/>}
                                                 onClick={handleDisableMenu}>

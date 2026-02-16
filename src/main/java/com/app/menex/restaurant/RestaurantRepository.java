@@ -17,4 +17,6 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
     List<Restaurant> findAllByOwnerIdOrderByIdAsc(Long id);
 
     Optional<Restaurant> findByIdAndOwnerId(Long restaurantId, Long ownerId);
+
+    long countByOwnerId(Long id);
 }

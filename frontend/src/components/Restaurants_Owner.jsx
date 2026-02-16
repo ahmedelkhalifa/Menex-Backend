@@ -1,4 +1,4 @@
-import { Add, ArrowForward, Close, Delete, Edit, Info, Menu, SentimentDissatisfied, Translate, Warning } from '@mui/icons-material'
+import { Add, ArrowForward, Close, Delete, Edit, Info, Menu, SentimentDissatisfied, Translate, Update, Warning } from '@mui/icons-material'
 import { Alert, AppBar, Autocomplete, Box, Button, Card, Chip, CircularProgress, debounce, Dialog, Divider, Drawer, FormControl, Grid, IconButton, InputLabel, List, ListItemButton, ListItemText, Modal, OutlinedInput, Paper, Skeleton, Slide, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Toolbar, Tooltip, Typography, useTheme } from '@mui/material'
 import React, { useCallback, useEffect, useState } from 'react'
 import OwnerSidebar from './OwnerSidebar'
@@ -460,7 +460,7 @@ const Restaurants_Owner = () => {
                               inputProps={{ pattern: "[0-9+ ]*" }}
                               required/>
                             </FormControl>
-                            <Button variant='contained' fullWidth sx={{mt: 2, bgcolor: "secondary.main", color: "background.default"}} component="label">
+                            <Button variant='contained' fullWidth sx={{mt: 2, bgcolor: "secondary.main", color: "background.default", height: "50px"}} component="label">
                               {logo ? logo.name : t('restaurants.create.logoLabel')}
                               <input type="file"
                               hidden
@@ -552,11 +552,11 @@ const Restaurants_Owner = () => {
                           </Box>
                           <Box flex={1}>
                           <Typography variant='h5' textAlign={'center'} mt={3}>
-                              Preview
+                              {t('restaurants.create.previewLabel')}
                             </Typography>
                             <Paper elevation={1} sx={{width: "100%", position: 'relative', overflow: 'hidden', cursor: 'pointer', mt: 2, bgcolor: backgroundCard,
                             }}>
-                                <Chip label="active"  sx={{position: 'absolute', top: "5%", right: "5%", fontWeight: 600,
+                                <Chip label={t('restaurants.create.active')}  sx={{position: 'absolute', top: "5%", right: "5%", fontWeight: 600,
                                     bgcolor: background,
                                     color: main,
                                     fontSize: "16px",
@@ -570,10 +570,10 @@ const Restaurants_Owner = () => {
                                 sx={{objectFit: "cover"}}/>
                                 <Box px={4} minHeight={{xs: "75px", md: "150px"}} mt={2}>
                                     <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} width={"100%"}>
-                                        <Typography variant='h5' fontWeight={600} textAlign={'center'} fontSize={{xs: 18, md: 24}} fontFamily={font}>
-                                            Menu Name
+                                        <Typography variant='h5' fontWeight={600} color={textMain} textAlign={'center'} fontSize={{xs: 18, md: 24}} fontFamily={font}>
+                                            {t('restaurants.create.menuName')}
                                         </Typography>
-                                        <Chip label={`5 items`} sx={{fontFamily: font}}/>
+                                        <Chip label={t('restaurants.create.menuItems')} sx={{fontFamily: font}}/>
                                     </Box>
                                     <Typography variant='body1' color={textSecondary} 
                                     textAlign={{xs: 'center', md: 'left'}} mt={2}
@@ -584,22 +584,22 @@ const Restaurants_Owner = () => {
                                         overflow: "hidden",
                                         textOverflow: "ellipsis",
                                     }} fontSize={{xs: 12, md: 14}} fontFamily={font}>
-                                        Try the best doner wraps from our specialized team, best doner wraps in all around the island.
+                                        {t('restaurants.create.menuDescription')}
                                     </Typography>
                                 </Box>
                                 <Box px={4} py={3}>
                                     <Button endIcon={<ArrowForward/>} fullWidth variant='contained'
                                     sx={{color: background, height: "40px", bgcolor: main, fontFamily: font}}>
-                                        View Menu
+                                        {t('restaurants.create.menuViewButton')}
                                     </Button>
                                 </Box>
                             </Paper>
                           </Box>
                           </Stack>
                       </Stack>
-                      <Button variant='contained' sx={{mt: 3, width: '50%'}} type='submit'
-                      startIcon={loading && <CircularProgress size={20}
-                      sx={{color: background}}/>} disabled={loading}>
+                      <Button variant='contained' sx={{mt: 3, width: '50%', height: "50px"}} type='submit'
+                      startIcon={loading ? <CircularProgress size={20}
+                      sx={{color: background}}/> : <Add/>} disabled={loading}>
                         {loading ? t('restaurants.create.submitButtonLoading') : t('restaurants.create.submitButton')}
                       </Button>
                     </Box>
@@ -667,7 +667,7 @@ const Restaurants_Owner = () => {
                               inputProps={{ pattern: "[0-9+ ]*" }}
                               required/>
                             </FormControl>
-                            <Button variant='contained' fullWidth sx={{mt: 2, bgcolor: "secondary.main", color: "background.default"}} component="label">
+                            <Button variant='contained' fullWidth sx={{mt: 2, bgcolor: "secondary.main", color: "background.default", height: "50px"}} component="label">
                               {logo ? logo.name : t('restaurants.create.logoLabel')}
                               <input type="file"
                               hidden
@@ -759,11 +759,11 @@ const Restaurants_Owner = () => {
                           </Box>
                           <Box flex={1}>
                           <Typography variant='h5' textAlign={'center'} mt={3}>
-                              Preview
+                              {t('restaurants.create.previewLabel')}
                             </Typography>
                             <Paper elevation={1} sx={{width: "100%", position: 'relative', overflow: 'hidden', cursor: 'pointer', mt: 2, bgcolor: backgroundCard,
                             }}>
-                                <Chip label="active"  sx={{position: 'absolute', top: "5%", right: "5%", fontWeight: 600,
+                                <Chip label={t('restaurants.create.active')}  sx={{position: 'absolute', top: "5%", right: "5%", fontWeight: 600,
                                     bgcolor: background,
                                     color: main,
                                     fontSize: "16px",
@@ -777,11 +777,11 @@ const Restaurants_Owner = () => {
                                 sx={{objectFit: "cover"}}/>
                                 <Box px={4} minHeight={{xs: "75px", md: "150px"}} mt={2}>
                                     <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} width={"100%"}>
-                                        <Typography variant='h5' fontWeight={600} textAlign={'center'} fontSize={{xs: 18, md: 24}} fontFamily={font}
+                                        <Typography variant='h5' fontWeight={600} color={textMain} textAlign={'center'} fontSize={{xs: 18, md: 24}} fontFamily={font}
                                         sx={{color: textMain}}>
-                                            Menu Name
+                                            {t('restaurants.create.menuName')}
                                         </Typography>
-                                        <Chip label={`5 items`} sx={{fontFamily: font}}/>
+                                        <Chip label={t('restaurants.create.menuItems')} sx={{fontFamily: font}}/>
                                     </Box>
                                     <Typography variant='body1' color={textSecondary} 
                                     textAlign={{xs: 'center', md: 'left'}} mt={2}
@@ -792,22 +792,22 @@ const Restaurants_Owner = () => {
                                         overflow: "hidden",
                                         textOverflow: "ellipsis",
                                     }} fontSize={{xs: 12, md: 14}} fontFamily={font}>
-                                        Try the best doner wraps from our specialized team, best doner wraps in all around the island.
+                                        {t('restaurants.create.menuDescription')}
                                     </Typography>
                                 </Box>
                                 <Box px={4} py={3}>
                                     <Button endIcon={<ArrowForward/>} fullWidth variant='contained'
                                     sx={{color: background, height: "40px", bgcolor: main, fontFamily: font}}>
-                                        View Menu
+                                        {t('restaurants.create.menuViewButton')}
                                     </Button>
                                 </Box>
                             </Paper>
                           </Box>
                           </Stack>
                       </Stack>
-                      <Button variant='contained' sx={{mt: 3, width: '50%'}} type='submit'
-                      startIcon={loading && <CircularProgress size={20}
-                      sx={{color: "background.default"}}/>} disabled={loading}>
+                      <Button variant='contained' sx={{mt: 3, width: '50%', height: "50px"}} type='submit'
+                      startIcon={loading ? <CircularProgress size={20}
+                      sx={{color: "background.default"}}/> : <Update/>} disabled={loading}>
                         {loading ? t('restaurants.create.updateButtonLoading') : t('restaurants.create.updateButton')}
                       </Button>
                     </Box>

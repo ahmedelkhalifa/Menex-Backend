@@ -7,6 +7,7 @@ import api from '../api'
 import logo from "../assets/logo-png.png"
 import logoDark from "../assets/logo-dark-png.png"
 import i18n from '../i18n'
+import { useNavigate } from 'react-router-dom'
 
 const Subscription = () => {
 
@@ -14,8 +15,13 @@ const Subscription = () => {
     const {mode, setMode} = useThemeMode();
     const [anchorEl, setAnchorEl] = useState(null);
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const open = Boolean(anchorEl);
+
+    const handleFooterClick = (section) => {
+        navigate("/", { state: { scrollTo: section } });
+    };
 
     const handleOpenLang = (event) => {
         setAnchorEl(event.currentTarget);
@@ -369,10 +375,14 @@ const Subscription = () => {
                                 </Typography>
                                 <Box display={'flex'} flexDirection={{xs: "row", md: "column"}} gap={3}
                                 mt={2}>
-                                    <Typography variant='body1' color='text.secondary'>
+                                    <Typography variant='body1' color='text.secondary'
+                                    component={"label"} onClick={() => handleFooterClick("features")}
+                                    sx={{cursor: 'pointer'}}>
                                         {t("landing.footer.features")}
                                     </Typography>
-                                    <Typography variant='body1' color='text.secondary'>
+                                    <Typography variant='body1' color='text.secondary'
+                                    component={"label"} onClick={() => handleFooterClick("pricing")}
+                                    sx={{cursor: 'pointer'}}>
                                         {t("landing.footer.pricing")}
                                     </Typography>
                                     <Typography variant='body1' color='text.secondary'>
@@ -389,7 +399,9 @@ const Subscription = () => {
                                 </Typography>
                                 <Box display={'flex'} flexDirection={{xs: "row", md: "column"}} gap={3}
                                 mt={2}>
-                                    <Typography variant='body1' color='text.secondary'>
+                                    <Typography variant='body1' color='text.secondary'
+                                    component={"label"} onClick={() => navigate("/contact-us")}
+                                    sx={{cursor: 'pointer'}}>
                                         {t("landing.footer.contact")}
                                     </Typography>
                                     <Typography variant='body1' color='text.secondary'>

@@ -1,19 +1,18 @@
 import { Box, Button, Card, Container, Divider, Drawer, Grid, IconButton, Menu, MenuItem, Paper, Stack, Typography } from '@mui/material'
 import {Analytics, ArrowForward, Bedtime, ChangeCircleOutlined, CheckCircle, Facebook, HowToReg, Instagram, Language, LightMode, Login, MenuBook, PlayArrow, Restaurant, Restore, Star, Start, SupportAgent, VerifiedUser} from "@mui/icons-material"
 import MenuIcon from '@mui/icons-material/Menu'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import background from "../assets/white-wall-textures.jpg"
 import backgroundDark from "../assets/black-texture.jpg"
 import logo from "../assets/logo-png.png"
 import logoDark from "../assets/logo-dark-png.png"
 import phone from "../assets/phone.jpg"
 import phone2 from "../assets/phone2.jpg"
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useThemeMode } from '../main'
 import i18n from '../i18n'
 import { useTranslation } from 'react-i18next'
 import Sidebar from './Sidebar'
-import LandingSidebar from './LandingSideBar'
 import api from '../api'
 
 
@@ -24,6 +23,26 @@ const Home = () => {
     const [anchorEl, setAnchorEl] = useState(null);
     const {t} = useTranslation();
     const [openDrawer, setOpenDrawer] = useState(false);
+    const location = useLocation();
+
+    useEffect(() => {
+        let timeoutId;
+
+        if (location.state && location.state.scrollTo) {
+            const element = document.getElementById(location.state.scrollTo);
+            
+            if (element) {
+                timeoutId = setTimeout(() => {
+                    element.scrollIntoView({ behavior: "smooth" });
+                }, 100);
+            }
+        }
+        return () => {
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+        };
+    }, [location]);
 
     const open = Boolean(anchorEl);
 
@@ -53,13 +72,13 @@ const Home = () => {
     <Box width={"100%"} height={"100vh"} position={"relative"} overflow={"hidden"}>
         <Box width={"100%"} height={"100px"} position={"absolute"} top={0} left={0} sx={{
             bgcolor: "background.paper", px: 10, py: 2
-        }} zIndex={100} display={{xs: "flex", md: "flex"}} justifyContent={{xs: "center", md: "space-between"}} alignItems={'center'}>
+        }} zIndex={100} display={{xs: "flex", md: "flex"}} justifyContent={{xs: "center", lg: "space-between"}} alignItems={'center'}>
             <Box component={'img'} src={mode === "light" ? logo : logoDark} width={"200px"} height={"60px"}
             sx={{objectFit: "contain"}}/>
-            <IconButton sx={{display: {xs: 'block', md: "none"}, position: "absolute", top: "30%", left: "10%"}} onClick={() => setOpenDrawer(true)}>
+            <IconButton sx={{display: {xs: 'block', lg: "none"}, position: "absolute", top: "30%", left: "10%"}} onClick={() => setOpenDrawer(true)}>
                 <MenuIcon/>
             </IconButton>
-            <Box gap={7} alignItems={'center'} display={{xs: "none", md: "flex"}}>
+            <Box gap={7} alignItems={'center'} display={{xs: "none", lg: "flex"}}>
                 <Box display={'flex'} gap={3} alignItems={'center'}>
                     <Typography variant='body1' color='text.secondary' fontWeight={600}
                     component={"a"} href='#features' sx={{textDecoration: 'none', cursor: 'pointer',
@@ -86,6 +105,14 @@ const Home = () => {
                         }}}>
                         {t("landing.pricingNav")}
                     </Typography>
+                    <Typography variant='body1' color='text.secondary' fontWeight={600}
+                    component={"label"} onClick={() => navigate("/contact-us")} sx={{textDecoration: 'none', cursor: 'pointer',
+                        transition: "0.2s ease-in-out",
+                        '&:hover': {
+                            color: "primary.main"
+                        }}}>
+                        {t("landing.support")}
+                    </Typography>
                 </Box>
                 <Box display={'flex'} alignItems={'center'} gap={2}>
                     <IconButton onClick={handleChange} sx={{transition: "0.2s ease-in-out"}}>
@@ -97,9 +124,7 @@ const Home = () => {
                             <Language/>
                         </IconButton>
                         <Typography variant='body1' fontWeight={700} color='text.primary'>
-                            {i18n.language === "en" && "EN"}
-                            {i18n.language === "tr" && "TR"}
-                            {i18n.language === "ar" && "AR"}
+                            {i18n.language?.toUpperCase()}
                         </Typography>
                     </Box>
                     <Menu
@@ -179,7 +204,7 @@ const Home = () => {
                             endIcon={<ArrowForward/>} onClick={() => navigate("signup")}>
                                 {t("landing.startFree")}
                             </Button>
-                            <Button variant='contained' sx={{height: "60px", width: "fit-content", color: "text.primary", fontSize: 20, bgcolor: "background.default", fontWeight: 700, px: 4}}
+                            <Button variant='contained' sx={{height: "60px", width: "fit-content", color: "text.primary", fontSize: {xs: 16, md: 20}, bgcolor: "background.default", fontWeight: 700, px: 4}}
                             startIcon={<PlayArrow sx={{bgcolor: "success.main", borderRadius: "50%",
                                 color: "#fff"
                             }}/>}>
@@ -230,6 +255,14 @@ const Home = () => {
                         }
                     }} onClick={() => setOpenDrawer(false)} textAlign={'center'}>
                         {t("landing.pricingNav")}
+                    </Typography>
+                    <Typography variant='body1' color='text.secondary' fontWeight={600}
+                    component={"label"} onClick={() => navigate("/contact-us")} textAlign={'center'} sx={{textDecoration: 'none', cursor: 'pointer',
+                        transition: "0.2s ease-in-out",
+                        '&:hover': {
+                            color: "primary.main"
+                        }}}>
+                        {t("landing.support")}
                     </Typography>
                     <Box display={'flex'} alignItems={'center'} gap={2} justifyContent={'center'}>
                         <IconButton onClick={handleChange} sx={{transition: "0.2s ease-in-out"}}>
@@ -652,6 +685,14 @@ const Home = () => {
                     </Card>
                 </Grid>
             </Grid>
+            <Typography variant='body1' color='primary.main' fontWeight={700} mt={4} textAlign={'center'}>
+                {t("landing.pricing.noCard")}
+            </Typography>
+            <Button variant='outlined' color='primary' sx={{mt: 2, mx: "auto", display: "block",
+                fontSize: 18, fontWeight: 600, height: "50px", width: "200px",
+            }} onClick={() => navigate("contact-us")}>
+                {t("landing.pricing.contactUs")}
+            </Button>
         </Container>
     </Box>
 
@@ -659,13 +700,13 @@ const Home = () => {
     <Box id="cta" py={10} sx={{bgcolor: "primary.light"}}>
         <Container maxWidth="lg">
             <Box display={'flex'} flexDirection={'column'} alignItems={'center'} gap={2}>
-                <Typography variant='h4' fontWeight={700} textAlign={'center'}>
-                    Ready to digitize your menu? 
+                <Typography variant='h4' fontWeight={700} textAlign={'center'} color={mode === "light" ? "text.primary" : "background.default"}>
+                    {t("landing.cta.title")} 
                 </Typography>
-                <Typography variant='body1' textAlign={'center'} color='text.secondary'>
-                    Start saving time and money with MENEX. No credit card required for the free trial.
+                <Typography variant='body1' textAlign={'center'} color={mode === "light" ? "text.secondary" : "background.default"}>
+                    {t("landing.cta.desc")}
                 </Typography>
-                <Button variant='contained' sx={{height: "50px", color: "#fff",
+                <Button variant='contained' sx={{height: "50px", color: "background.default",
                     boxShadow: (theme) =>
                             `0px 6px 20px ${theme.palette.primary.main}80`,
                     fontSize: 18, fontWeight: 600
@@ -706,10 +747,12 @@ const Home = () => {
                             </Typography>
                             <Box display={'flex'} flexDirection={{xs: "row", md: "column"}} gap={3}
                             mt={2}>
-                                <Typography variant='body1' color='text.secondary'>
+                                <Typography variant='body1' color='text.secondary'
+                                component={"a"} href="#features" sx={{textDecoration: 'none'}}>
                                     {t("landing.footer.features")}
                                 </Typography>
-                                <Typography variant='body1' color='text.secondary'>
+                                <Typography variant='body1' color='text.secondary'
+                                component={"a"} href="#pricing" sx={{textDecoration: 'none'}}>
                                     {t("landing.footer.pricing")}
                                 </Typography>
                                 <Typography variant='body1' color='text.secondary'>
@@ -726,7 +769,9 @@ const Home = () => {
                             </Typography>
                             <Box display={'flex'} flexDirection={{xs: "row", md: "column"}} gap={3}
                             mt={2}>
-                                <Typography variant='body1' color='text.secondary'>
+                                <Typography variant='body1' color='text.secondary'
+                            component={"label"} onClick={() => navigate("/contact-us")}
+                            sx={{cursor: "pointer"}}>
                                     {t("landing.footer.contact")}
                                 </Typography>
                                 <Typography variant='body1' color='text.secondary'>

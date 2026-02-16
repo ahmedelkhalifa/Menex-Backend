@@ -8,6 +8,7 @@ import com.github.slugify.Slugify;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,10 @@ public class RestaurantService {
                                        MultipartFile logo) throws IOException {
 
         User user = userService.getCurrentUser();
+        long currentCount = restaurantRepository.countByOwnerId(user.getId());
+        if (currentCount >= 3) {
+            throw new BadRequestException("You have reached the limit of 3 restaurants");
+        }
 
         Slugify slugify = new Slugify();
         String baseSlug = slugify.slugify(name.toLowerCase());

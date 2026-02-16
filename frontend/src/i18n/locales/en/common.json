@@ -53,7 +53,7 @@
                 "free-trial": "1 month free trial",
                 "cancellation": "Cancel anytime. No hidden fees.",
                 "features": {
-                    "1": "Unlimited restaurant creation.",
+                    "1": "Up to 3 restaurants creation.",
                     "2": "Unlimited menu creation.",
                     "3": "Unlimited Menu Items & Categories",
                     "4": "Unlimited QR code generations.",
@@ -63,7 +63,9 @@
                 "button": "Start Free Trial",
                 "badge": "BEST VALUE",
                 "perYearLabel": "1 month free trial - save 2 months"
-            }
+            },
+            "noCard": "Don't have a credit card? Contact us to get a free trial and experience the benefits of Menex for your restaurant.",
+            "contactUs": "Contact Us"
         },
         "subscription": {
             "success": "Account Created Successfully!",
@@ -97,6 +99,10 @@
             "forgotPassword": "Forgot Password?",
             "dontHaveAccount": "Don't have an account? Signup",
             "signup": "Signup"
+        },
+        "cta": {
+            "title": "Ready to digitize your menu?",
+            "desc": "Start saving time and money with MENEX. Start your free trial now."
         }
     },
     "ownerDashboard": {
@@ -173,7 +179,13 @@
             "updateButtonLoading": "Updating your restaurant...",
             "updateSuccessMessage": "Restaurant updated successfully!",
             "successTitle": "Done!",
-            "createSuccessMessage": "Restaurant created successfully!"
+            "createSuccessMessage": "Restaurant created successfully!",
+            "previewLabel": "Preview",
+            "menuName": "Menu Name",
+            "menuDescription": "Menu Description will be displayed here, customers will see it when they open the menu. You can use it to describe your restaurant, your specialties, or any information you want to share with your customers.",
+            "menuViewButton": "View Menu",
+            "active": "Active",
+            "menuItems": "5 items"
         },
         "details": {
             "title": "Restaurant Details",
@@ -339,7 +351,7 @@
             "priceLabel": "Price",
             "descriptionLabel": "Description",
             "uploadImageLabel": "Upload Image",
-            "recommendedSizeLabel": "(recommended size 200x200)",
+            "recommendedSizeLabel": "(recommended size 300x200)",
             "button": "Add Item",
             "buttonLoading": "Adding item...",
             "exceededSize": "The maximum size for an image is 2MB",
@@ -424,5 +436,52 @@
         },
         "menuQR": "Menu QR Code",
         "QRDownload": "Download"
+    },
+    "activate": {
+        "title": "Check Your Email",
+        "desc1": "We've sent an activation link to",
+        "desc2": "Please click the link to verify your account.",
+        "btn": "Resend Email",
+        "emailNotRecieved": "Didn't recieve an email?",
+        "checkSpam": "Check your spam folder."
+    },
+    "verification": {
+        "invalidToken": "Invalid token",
+        "invalidTokenDesc": "The token is invalid, the token may be invalid for one of the following reasons:",
+        "reasons": {
+            "1": "The token is malformed.",
+            "2": "The token is tampered.",
+            "3": "The token is already used to verify the account.",
+            "4": "The token is assigned with non-existing user.",
+            "5": "You didn't verify within 48 hours after registration, you will need to sign up again"
+        },
+        "expired": "Token is expired",
+        "expiredDesc": "The token is now expired, To have new verification token please try to login again and click \"Resend Email\" button.",
+        "verified": "Your account is verified",
+        "verifiedDesc": "Your account has been verified successfully.\nYou are one step away from degitizing your menus",
+        "subscribeNow": "SUBSCRIBE NOW"
+    },
+    "contact": {
+        "backToHome": "Back to Home",
+        "title": "Start Your Digital Transformation",
+        "desc": "To ensure the best setup for your restaurant, our account managers handle the registration personally. We provide a white-glove onboarding service to get your menu perfect from day one.",
+        "features": {
+            "1": "Create Account",
+            "2": "Customize your first restaurant",
+            "3": "24/7 Priority Support"
+        },
+        "cta": "Scan the code above or click the button below to start instantly.",
+        "ctaButton": "Chat On WhatsApp",
+        "note": "Fast response",
+        "haveAccount": "Already have an account?",
+        "login": "Login",
+        "allRightsReserved": "All rights reserved"
+    },
+    "subscription": {
+        "success": "Subscription Successful!",
+        "successDesc": "Your Free trial is now active! Please login to your account and start enjoying your ",
+        "menexPro": "MENEX Pro ",
+        "lastWord": "benefits.",
+        "successDesc2": "If you have any questions or need assistance, feel free to contact our support team. We're here to help you make the most out of your subscription."
     }
 }

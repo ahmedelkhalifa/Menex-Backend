@@ -146,12 +146,12 @@ const Activate = () => {
           </Box>
           <Typography variant='h4' fontWeight={800} textAlign={"center"} mt={2}
           color='primary.dark'>
-            Check Your Email
+            {t("activate.title")}
           </Typography>
           <Typography variant='body1' color='text.secondary' textAlign={'center'}>
-            We've sent an activation link to <br/>
+            {t("activate.desc1")} <br/>
             <b>{sessionStorage.getItem("email")}</b><br/>
-            Please click the link to verify your account.
+            {t("activate.desc2")}
           </Typography>
           <Button variant='contained' sx={{
             bgcolor: "primary.main",
@@ -161,13 +161,13 @@ const Activate = () => {
             px: 4,
             width: "fit-content",
             mt: 2,
-            fontSize: "18px"
+            fontSize: {xs: "14px", md: "18px"}
           }} startIcon={loading ? <CircularProgress size={20}/> : <Send/>}
           onClick={resendEmail} disabled={loading}>
-            Resend Email
+            {t("activate.btn")}
           </Button>
           <Typography variant='body1' color='text.secondary' mt={2} textAlign={'center'}>
-            Didn't recieve an email? <b>Check your spam folder.</b>
+            {t("activate.emailNotRecieved")} <b>{t("activate.checkSpam")}</b>
           </Typography>
         </Card>
       </Box>

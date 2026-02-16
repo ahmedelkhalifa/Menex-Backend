@@ -4,11 +4,12 @@ import logo from "../assets/logo-png.png"
 import logoDark from "../assets/logo-dark-png.png"
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useThemeMode } from '../main'
-import { Bedtime, Check, Clear, Email, LabelImportant, Language, LightMode, Send, SupportAgent } from '@mui/icons-material'
+import { Bedtime, Check, Circle, Clear, Email, LabelImportant, Language, LightMode, Send, SupportAgent } from '@mui/icons-material'
 import { useTranslation } from 'react-i18next'
 import Swal from 'sweetalert2'
 import api from '../api'
 import i18n from '../i18n'
+import { I18n } from 'i18n'
 
 
 const Verification = () => {
@@ -17,7 +18,7 @@ const Verification = () => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [verified, setVerified] = useState(false);
+  const [verified, setVerified] = useState(true);
   const [error, setError] = useState("");
 
 
@@ -45,6 +46,7 @@ const Verification = () => {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+    i18n.changeLanguage(localStorage.getItem("lang") || "en");
     
     if (params.get('verified') === 'true') {
         setVerified(true);
@@ -138,16 +140,51 @@ const Verification = () => {
           </Box>
           <Typography variant='h4' fontWeight={800} textAlign={"center"} mt={2}
           color={verified ? "primary.dark" : "error.main"}>
-            {verified ? "Your account is verified" : (
-                error === "expired" ? "Token is expired" : "Invalid token"
+            {verified ? t("verification.verified") : (
+                error === "expired" ? t("verification.expired") : t("verification.invalidToken")
             )}
           </Typography>
           <Typography variant='body1' color='text.secondary' textAlign={'center'}>
-            {verified ? "Your account has been verified successfully.\nYou are one step away from degitizing your menus" : (
-                error === "expired" ? "The token is now expired, To have new verification token please try to login again and click \"Resend Email\" button." : 
-                "The token is invalid, For security reasons you will need to create your account again."
+            {verified ? t("verification.verifiedDesc") : (
+                error === "expired" ? t("verification.expiredDesc") : t("verification.invalidTokenDesc")
             )}
           </Typography>
+          {error === "invalid" && (
+            <>
+            <Box display={'flex'} flexDirection={"column"} gap={1} mt={2}>
+              <Box display={'flex'} alignItems={"center"} gap={1}>
+                <Circle sx={{color: "text.secondary", fontSize: 12}}/>
+                <Typography variant='body2' color='text.secondary'>
+                  {t("verification.reasons.1")}
+                </Typography>
+              </Box>
+              <Box display={'flex'} alignItems={"center"} gap={1}>
+                <Circle sx={{color: "text.secondary", fontSize: 12}}/>
+                <Typography variant='body2' color='text.secondary'>
+                  {t("verification.reasons.2")}
+                </Typography>
+              </Box>
+              <Box display={'flex'} alignItems={"center"} gap={1}>
+                <Circle sx={{color: "text.secondary", fontSize: 12}}/>
+                <Typography variant='body2' color='text.secondary'>
+                  {t("verification.reasons.3")}
+                </Typography>
+              </Box>
+              <Box display={'flex'} alignItems={"center"} gap={1}>
+                <Circle sx={{color: "text.secondary", fontSize: 12}}/>
+                <Typography variant='body2' color='text.secondary'>
+                  {t("verification.reasons.4")}
+                </Typography>
+              </Box>
+              <Box display={'flex'} alignItems={"center"} gap={1}>
+                <Circle sx={{color: "text.secondary", fontSize: 12}}/>
+                <Typography variant='body2' color='text.secondary'>
+                  {t("verification.reasons.5")}
+                </Typography>
+              </Box>
+            </Box>
+            </>
+          )}
           {verified && (
             <Button variant='contained' sx={{
                 bgcolor: "primary.main",
@@ -160,7 +197,7 @@ const Verification = () => {
                 fontSize: "18px"
             }} startIcon={<LabelImportant/>}
             onClick={() => navigate("/subscription")}>
-                SUBSCRIBE NOW
+                {t("verification.subscribeNow")}
             </Button>
           )}
         </Card>

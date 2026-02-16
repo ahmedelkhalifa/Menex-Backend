@@ -11,7 +11,7 @@ const PublicMenuLayout = ({menu}) => {
 
   return (
     <>
-    <Box sx={{bgcolor: "background.default"}}>
+    <Box sx={{bgcolor: "background.default", pb: 10}} minHeight={"100vh"}>
     <Box width={"100%"} height={"350px"} position={'relative'}>
         <Box component={"img"} src={`${apiUrl}/images/${menu?.imageUrl}`}
         width={"100%"} height={"100%"} sx={{objectFit: "cover"}}/>
@@ -165,7 +165,7 @@ const PublicMenuLayout = ({menu}) => {
                 </Typography>
                 <Chip label={`${menu.categories[tabValue - 1].menuItemsCount} items`}/>
             </Box>
-            <Grid container spacing={2} my={3}>
+            <Grid container spacing={2} mt={3}>
                 {menu.menuItems
                     .filter(item => item.categoryId === menu.categories[tabValue - 1].id)
                     .map(item => (
