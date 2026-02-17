@@ -1,4 +1,4 @@
-package com.app.menex.subscription;
+package com.app.menex.subscriptionStripe;
 
 import com.app.menex.user.User;
 import com.app.menex.user.UserRepository;
@@ -12,7 +12,6 @@ import com.stripe.param.SubscriptionListParams;
 import com.stripe.param.SubscriptionUpdateParams;
 import com.stripe.param.checkout.SessionCreateParams;
 import lombok.RequiredArgsConstructor;
-import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
 @Service

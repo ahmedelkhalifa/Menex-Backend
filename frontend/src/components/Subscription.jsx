@@ -42,22 +42,22 @@ const Subscription = () => {
         const isRTL = lang === "ar";
         document.documentElement.dir = isRTL ? "rtl" : "ltr";
     }
-  async function handleSubscription(priceId) {
-      try {
-        setLoading(true);
-        const response = await api.post("subscription", {
-            priceId: priceId,
-            successUrl: window.location.origin + "/success",
-            cancelUrl: window.location.origin + "/cancel"
-        });
-        const paymentUrl = response.data;
-        window.location.href = paymentUrl;
-      } catch (error) {
-          console.error(error);
-      } finally {
-        setLoading(false);
-      }
-  }
+//   async function handleSubscription(priceId) {
+//       try {
+//         setLoading(true);
+//         const response = await api.post("subscription", {
+//             priceId: priceId,
+//             successUrl: window.location.origin + "/success",
+//             cancelUrl: window.location.origin + "/cancel"
+//         });
+//         const paymentUrl = response.data;
+//         window.location.href = paymentUrl;
+//       } catch (error) {
+//           console.error(error);
+//       } finally {
+//         setLoading(false);
+//       }
+//   }
   return (
     <>
     <Box>
@@ -165,7 +165,7 @@ const Subscription = () => {
                         sx={{bgcolor: "primary.light", px: 2, py: 1, borderRadius: 2}}>
                             <Star fontSize='12' sx={{color: mode === "light" ? "primary.main" : "#fff"}}/>
                             <Typography variant='body1' sx={{color: mode === "light" ? "primary.main" : "#fff"}}>
-                                {t("landing.pricing.card.free-trial")}
+                                {t("landing.pricing.card.noCard")}
                             </Typography>
                         </Box>
                         <Typography variant='body1' color='text.secondary' width={{xs: "80%", md: "95%"}}
@@ -214,7 +214,7 @@ const Subscription = () => {
                                 boxShadow: (theme) =>
                                 `0px 6px 20px ${theme.palette.primary.main}80`,
                                 mt: 2
-                            }} onClick={() => handleSubscription("price_1SzIOGRSGDklsSzW3S7Ie72I")}
+                            }} onClick={() => navigate("/payment")}
                             disabled={loading} startIcon={loading && <CircularProgress size={20}/>}>
                                 {t("landing.pricing.card.button")}
                             </Button>
@@ -294,7 +294,7 @@ const Subscription = () => {
                                 boxShadow: (theme) =>
                                 `0px 6px 20px ${theme.palette.primary.main}80`,
                                 mt: 2
-                            }} onClick={() => handleSubscription("price_1SzIOGRSGDklsSzWwHehWPwv")}
+                            }} onClick={() => navigate("/payment")}
                             disabled={loading} startIcon={loading && <CircularProgress size={20}/>}>
                                 {t("landing.pricing.card.button")}
                             </Button>

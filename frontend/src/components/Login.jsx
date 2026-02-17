@@ -85,7 +85,7 @@ const Login = () => {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             sx={{color: "text.primary"}}
-                            autoComplete='off'/>
+                            autoComplete='off' required/>
                         </FormControl>
                     </Box>
                 </Stack>
@@ -101,7 +101,7 @@ const Login = () => {
                             type='password'
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            sx={{color: "text.primary"}}/>
+                            sx={{color: "text.primary"}} required/>
                         </FormControl>
                     </Box>
                 </Stack>

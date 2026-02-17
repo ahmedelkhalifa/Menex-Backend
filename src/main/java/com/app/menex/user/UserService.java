@@ -1,6 +1,7 @@
 package com.app.menex.user;
 
 import com.app.menex.enums.Role;
+import com.app.menex.payment.repository.UserSubscriptionRespository;
 import com.app.menex.security.config.AppUserDetails;
 import com.app.menex.security.verifcationToken.VerificationTokenRepository;
 import com.stripe.exception.StripeException;
@@ -25,6 +26,7 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
     private final VerificationTokenRepository verificationTokenRepository;
+    private final UserSubscriptionRespository userSubscriptionRespository;
 
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(
@@ -99,25 +101,8 @@ public class UserService {
         User userToDelete = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
-        if (userToDelete.getCustomerId() != null) {
-
-            SubscriptionListParams params = SubscriptionListParams.builder()
-                    .setCustomer(userToDelete.getCustomerId())
-                    .build();
-
-            SubscriptionCollection subscriptions = Subscription.list(params);
-
-            for (Subscription subscription : subscriptions.getData()) {
-
-                if ("canceled".equals(subscription.getStatus()) || "incomplete_expired".equals(subscription.getStatus())) {
-                    continue;
-                }
-                subscription.cancel();
-
-            }
-        }
-
         verificationTokenRepository.deleteByUser(userToDelete);
+        userSubscriptionRespository.deleteByUser(userToDelete);
 
         userRepository.delete(userToDelete);
     }

@@ -510,7 +510,7 @@ const Home = () => {
                     sx={{bgcolor: "primary.light", px: 2, py: 1, borderRadius: 2}}>
                         <Star fontSize='12' sx={{color: mode === "light" ? "primary.main" : "#fff"}}/>
                         <Typography variant='body1' sx={{color: mode === "light" ? "primary.main" : "#fff"}}>
-                            {t("landing.pricing.card.free-trial")}
+                            {t("landing.pricing.card.noCard")}
                         </Typography>
                     </Box>
                     <Typography variant='body1' color='text.secondary' width={{xs: "80%", md: "95%"}}

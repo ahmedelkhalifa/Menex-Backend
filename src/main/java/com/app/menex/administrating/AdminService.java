@@ -37,13 +37,14 @@ public class AdminService {
 
     public DashboardDetails getAdminDashboardDetails(){
         List<User> users = userRepository.findAllByRole(Role.RESTAURANT_OWNER);
+        List<User> unsubscribedUsers = userRepository.findAllByRole(Role.UNSUBSCRIBER);
         List<Restaurant> restaurants = restaurantRepository.findAll();
         List<Menu> menus = menuRepository.findAll();
         List<Category> categories = categoryRepository.findAll();
         List<MenuItem> menuItems = menuItemRepository.findAll();
         List<User> admins = userRepository.findAllByRole(Role.SUPER_ADMIN);
         return DashboardDetails.builder()
-                .usersCount(users.size())
+                .usersCount(users.size() +  unsubscribedUsers.size())
                 .restaurantsCount(restaurants.size())
                 .categoriesCount(categories.size())
                 .menuItemsCount(menuItems.size())

@@ -1,4 +1,4 @@
-package com.app.menex.subscription;
+package com.app.menex.subscriptionStripe;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

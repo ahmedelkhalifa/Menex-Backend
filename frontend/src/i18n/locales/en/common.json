@@ -6,7 +6,7 @@
         "login": "Login",
         "register": "Get Started",
         "support": "Contact Us",
-        "startFree": "Get Started Free",
+        "startFree": "Get Started Now",
         "hero1": "Modernize Your Restaurant with",
         "hero2": "Smart Digital Menus.",
         "hero-desc": "Say goodbye to printing costs. Update your prices instantly, showcase delicious photos, and let customers see menus via QR code seamlessly.",
@@ -50,7 +50,7 @@
                 "proPlan": "Pro Plan",
                 "perMonth": "/month",
                 "perYear": "/year",
-                "free-trial": "1 month free trial",
+                "noCard": "No credit card required",
                 "cancellation": "Cancel anytime. No hidden fees.",
                 "features": {
                     "1": "Up to 3 restaurants creation.",
@@ -60,11 +60,11 @@
                     "5": "Priority Support (24/7)",
                     "6": "Advanced Analytics"
                 },
-                "button": "Start Free Trial",
+                "button": "Start Now",
                 "badge": "BEST VALUE",
-                "perYearLabel": "1 month free trial - save 2 months"
+                "perYearLabel": "No credit card required - save 2 months"
             },
-            "noCard": "Don't have a credit card? Contact us to get a free trial and experience the benefits of Menex for your restaurant.",
+            "noCard": "Having troubles? Contact us to get your account and experience the benefits of Menex for your restaurant.",
             "contactUs": "Contact Us"
         },
         "subscription": {
@@ -289,14 +289,14 @@
             "renewalAmount": "RENEWAL AMOUNT",
             "perMonth": "/month",
             "perYear": "/year",
-            "scheduledForCancel": "Your subscription will be cancelled at the end of the period.",
-            "scheduledForCancel2": "If you want to continue to the subscription resubscribe from \"Manage Billing\" button below.",
-            "past_due": "Your last payment failed! Please update your card to avoid losing access. If your problem isn't solved please contact us.",
+            "expiringSoon": "Your subscription is expiring soon.",
+            "expiringSoonDesc": "Please check the email we sent you for renewal instructions to avoid losing access to your account.",
+            "past_due": "User didn't pay the renewal fee, subscription is past due.",
             "manageBilling": "Manage Billing",
             "updateCard": "Update Card",
             "cancelSubscription": "Cancel Subscription",
             "securePayment": "SECURE PAYMENTS",
-            "encrypted": "Encrypted by Stripe",
+            "encrypted": "Secure payments with Bank Transfer (Havale/EFT)",
             "support": "PRIORITY SUPPORT",
             "help": "24/7 Professional Help",
             "commitment": "No Commitments",
@@ -483,5 +483,10 @@
         "menexPro": "MENEX Pro ",
         "lastWord": "benefits.",
         "successDesc2": "If you have any questions or need assistance, feel free to contact our support team. We're here to help you make the most out of your subscription."
+    },
+    "payment": {
+        "title": "Activate Your Subscription",
+        "desc": "Ready to transform your menu? We offer secure local bank transfer (Havale/EFT)options for our customers to ensure you lowest cost.\nChat with an agent to receive the payment details and activate your account immediately.",
+        "btn": "Chat with Sales"
     }
 }

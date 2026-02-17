@@ -276,7 +276,7 @@ const Profile = () => {
         async function getSubscription() {
             try {
                 setLoading(true);
-                const response = await api.get("subscription/status");
+                const response = await api.get("payment/subscription");
                 setSubscription(response.data);
                     const endDate = new Date(response.data.currentPeriodEnd * 1000);
                     const today = new Date();
@@ -291,7 +291,7 @@ const Profile = () => {
 
                     setExpirationDate(fullDateString);
                     setNextBillingDate(fullBillingDateString)
-                    setStart(new Date(response.data.currentPeriodStart * 1000));
+                    setStart(new Date(response.data.subscriptionStart * 1000));
                     setEnd(new Date(response.data.currentPeriodEnd * 1000));
                     setToday(new Date());       
                 console.log(response.data);
@@ -309,7 +309,7 @@ const Profile = () => {
                 setLoading(false);
             }
         }
-        if (localStorage.getItem("role") === "RESTAURANT_OWNER" && user.isCustomer == true) {
+        if (localStorage.getItem("role") === "RESTAURANT_OWNER") {
             getSubscription();
         }
     }, [user]);
@@ -481,14 +481,14 @@ const Profile = () => {
                     gap={1}>
                         <Box display={'flex'} alignItems={'center'} justifyContent={'center'}>
                             <Circle sx={{color:
-                            subscription?.status === "past_due" ? (mode === "dark" ? "#2c0b0a" : '#EF5350') : 'primary.main', fontSize: 16}}/>
+                            subscription?.status === "CANCELLED" ? (mode === "dark" ? "#2c0b0a" : '#EF5350') : 'primary.main', fontSize: 16}}/>
                         </Box>
                         <Typography variant='body1' fontWeight={700} color={
-                            subscription?.status === "past_due" ? (mode === "dark" ? "#2c0b0a" : '#EF5350') : 'primary.main'
+                            subscription?.status === "CANCELLED" ? (mode === "dark" ? "#2c0b0a" : '#EF5350') : 'primary.main'
                         }>
                             {loading || !subscription ? <Skeleton variant='text' width={"100%"}/> : 
                             (subscription?.status === "trialing" ? t("profile.subscription.trialActive") : (
-                                subscription?.status === "active" ? t("profile.subscription.subActive") : t("profile.subscription.pastDue")
+                                subscription?.status === "ACTIVE" ? t("profile.subscription.subActive") : t("profile.subscription.pastDue")
                             ))}
                         </Typography>
                     </Box>
@@ -575,10 +575,10 @@ const Profile = () => {
                         </Box>
                     </Box>  
                     )}
-                    {subscription?.isScheduledForCancel && (
+                    {daysRemaining < 5 && (
                         <Typography variant='body1' color='warning' mt={1} fontWeight={800}>
-                            {t("profile.subscription.scheduledForCancel")} <br/>
-                            {t("profile.subscription.scheduledForCancel2")}
+                            {t("profile.subscription.expiringSoon")} <br/>
+                            {t("profile.subscription.expiringSoonDesc")}
                         </Typography>
                     )}
                     {subscription?.status === "past_due" && (
@@ -592,36 +592,6 @@ const Profile = () => {
                             {t("profile.subscription.past_due")}
                         </Alert>
                     )}
-                </Box>
-                <Box mt={3} display={'flex'} alignItems={'center'} justifyContent={'space-between'}
-                flexDirection={{xs: "column", md: "row"}} gap={{xs: 2, md: 0}}>
-                    <Box display={'flex'} alignItems={'center'} gap={2}
-                    flexDirection={{xs: "column", md: "row"}} width={{xs: "100%", md: "fit-content"}}>
-                        <Button variant='contained' startIcon={<AttachMoney/>}
-                        sx={{height: "40px", p: 3, color: "#fff", bgcolor: "primary.main",
-                            boxShadow: mode === "light" && ((theme) =>
-                            `0px 6px 20px ${theme.palette.primary.main}80`),
-                            width: {
-                            xs: '100%',
-                            md: 'auto'
-                            }}} onClick={handleManagePayment}>
-                            {t("profile.subscription.manageBilling")}
-                        </Button>
-                        <Button variant='contained' startIcon={<CreditCard/>}
-                        sx={{height: "40px", p: 3, color: "text.primary", bgcolor: "background.paper",
-                            
-                            border: "1px solid", borderColor: "text.primary",
-                            width: {
-                            xs: '100%',
-                            md: 'auto'
-                            }}} onClick={handleUpdateCard}>
-                            {t("profile.subscription.updateCard")}
-                        </Button>
-                    </Box>
-                    <Button variant={mode === "dark" ? "contained" : "outlined"} startIcon={<Cancel/>}
-                    sx={{height: "40px", p: 3, bgcolor: mode === "dark" && "error.main", '&:hover': {color: "error.dark"}, color: mode === "light" ? "error.main" : "#fff", borderColor: "error.main", width: {xs: "100%", md: "fit-content"}}} onClick={handleSubscriptionCancel}>
-                        {t("profile.subscription.cancelSubscription")}
-                    </Button>
                 </Box>
                 </>
                 )}  

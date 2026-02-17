@@ -1,4 +1,4 @@
-package com.app.menex.subscription;
+package com.app.menex.subscriptionStripe;
 
 import com.app.menex.enums.Role;
 import com.app.menex.user.User;

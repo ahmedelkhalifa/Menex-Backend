@@ -1,4 +1,4 @@
-package com.app.menex.subscription;
+package com.app.menex.subscriptionStripe;
 
 import com.app.menex.user.User;
 import com.app.menex.user.UserService;
@@ -10,7 +10,6 @@ import com.stripe.param.billingportal.SessionCreateParams;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;

@@ -1,12 +1,17 @@
-import {Category, Delete, DisabledByDefault, Edit, Fastfood, Menu, MenuBook, Person, PersonOff, Restaurant, SentimentDissatisfied, SpaceDashboard, SupervisorAccount } from '@mui/icons-material'
-import { Autocomplete, Box, Button, Card, CircularProgress, Divider, Drawer, FormControl, IconButton, InputLabel, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Modal, OutlinedInput, Paper, Skeleton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography, useTheme } from '@mui/material'
+import {AttachMoney, Category, Circle, Delete, DisabledByDefault, Edit, Event, Fastfood, Menu, MenuBook, Payments, Person, PersonOff, Restaurant, SentimentDissatisfied, SpaceDashboard, Subscriptions, SupervisorAccount, WorkspacePremium } from '@mui/icons-material'
+import { Autocomplete, Box, Button, Card, CircularProgress, Divider, Drawer, FormControl, IconButton, InputLabel, LinearProgress, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Modal, OutlinedInput, Paper, Skeleton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography, useTheme } from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import api from "../api"
 import Swal from 'sweetalert2';
 import Sidebar from './Sidebar';
+import { useTranslation } from 'react-i18next';
+import { useThemeMode } from '../main';
 
 const RestaurantOwners = () => {
+
+  const {t} = useTranslation();
+  const {mode, setMode} = useThemeMode();
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -22,6 +27,108 @@ const RestaurantOwners = () => {
   const [selectedOwner, setSelectedOwner] = useState(null);
   const [role, setRole] = useState("RESTAURANT_OWNER");
   const options = ["RESTAURANT_OWNER", "SUPER_ADMIN", "UNSUBSCRIBER"];
+  const [subscription, setSubscription] = useState(null);
+  const [openSubscription, setOpenSubscription] = useState(false);
+  const [expirationDate, setExpirationDate] = useState("");
+  const [daysRemaining, setDaysRemaining] = useState(null);
+  const [start, setStart] = useState(0);
+  const [end, setEnd] = useState(0);
+  const [today, setToday] = useState(0);
+
+  const totalDuration = end - start;
+  const timeRemaining = end - today;
+
+  const elapsed = totalDuration - timeRemaining;
+  const progress = Math.min(Math.max((elapsed / totalDuration) * 100, 0), 100);
+
+  const [nextBillingDate, setNextBillingDate] = useState("");
+
+  const getOrdinal = (day) => {
+        if (day > 3 && day < 21) return 'th';
+        switch (day % 10) {
+            case 1:  return "st";
+            case 2:  return "nd";
+            case 3:  return "rd";
+            default: return "th";
+        }
+    };
+
+  async function handleRenew(days) {
+    try {
+      setLoading(true);
+      await api.put("payment/renewal", {
+        userId: selectedOwner.id,
+        days: days
+      });
+      setOpenSubscription(false);
+      Swal.fire({
+        title: "Done",
+        text: "Subscription renewed successfully.",
+        icon: "success",
+        showCloseButton: true,
+        background: theme.palette.background.default,
+        color: theme.palette.text.primary
+      });
+    } catch (error) {
+      console.error(error.response.data);
+      const message = error.response?.data?.message || "An error occurred.";
+      Swal.fire({
+        title: "Error",
+        text: message,
+        icon: "error",
+        showCloseButton: true,
+        background: theme.palette.background.default,
+        color: theme.palette.text.primary
+      });
+    } finally {
+      setLoading(false);
+      setSubscription(null);
+      setDaysRemaining(null);
+      setExpirationDate("");
+      setNextBillingDate("");
+      setStart(0);
+      setEnd(0);
+      setToday(0);
+    }
+  }
+
+  const handleGetSubscriptions = async (ownerId) => {
+    try {
+      setLoading(true);
+      const response = await api.get(`payment/subscription/${ownerId}`);
+      setSubscription(response.data);
+      const endDate = new Date(response.data.currentPeriodEnd * 1000);
+      const today = new Date();
+      const diffInMs = endDate - today;
+      const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+      setDaysRemaining(diffInDays);
+      const month = new Intl.DateTimeFormat('en-US', { month: 'long' }).format(endDate);
+      const day = endDate.getDate();
+      const year = endDate.getFullYear();
+      const fullDateString = `${month} ${day - 1}${getOrdinal(day)}, ${year}`;
+      const fullBillingDateString = `${month} ${day}${getOrdinal(day)}, ${year}`;
+      setExpirationDate(fullDateString);
+      setNextBillingDate(fullBillingDateString)
+      setStart(new Date(response.data.subscriptionStart * 1000));
+      setEnd(new Date(response.data.currentPeriodEnd * 1000));
+      setToday(new Date());
+    } catch (error) {
+      console.error(error.response?.data);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function handleCloseSubscription() {
+    setOpenSubscription(false);
+    setSubscription(null);
+    setDaysRemaining(null);
+    setExpirationDate("");
+    setNextBillingDate("");
+    setStart(0);
+    setEnd(0);
+    setToday(0);
+  }
 
   const filteredOwners = owners.filter(o =>
   o.firstName.toLowerCase().includes(search.toLowerCase()) ||
@@ -161,6 +268,42 @@ const RestaurantOwners = () => {
         background: theme.palette.background.default,
         color: theme.palette.text.primary
       });
+    }
+  }
+
+  async function handleDeActivate() {
+    try {
+      setLoading(true);
+      await api.put(`payment/revoke/${selectedOwner.id}`);
+      setOpenSubscription(false);
+      Swal.fire({
+        title: "Done",
+        text: "Subscription deactivated successfully.",
+        icon: "success",
+        showCloseButton: true,
+        background: theme.palette.background.default,
+        color: theme.palette.text.primary
+      });
+    } catch (error) {
+      console.error(error.response.data);
+      const message = error.response?.data?.message || "an error occurred."
+      Swal.fire({
+        title: "Error",
+        text: message,
+        icon: "error",
+        showCloseButton: true,
+        background: theme.palette.background.default,
+        color: theme.palette.text.primary
+      });
+    } finally {
+      setLoading(false);
+      setSubscription(null);
+      setDaysRemaining(null);
+      setExpirationDate("");
+      setNextBillingDate("");
+      setStart(0);
+      setEnd(0);
+      setToday(0);
     }
   }
 
@@ -424,6 +567,16 @@ const RestaurantOwners = () => {
                                         </IconButton>
                                         )}
                                       </Tooltip>
+                                      <Tooltip>
+                                        <IconButton
+                                        onClick={() => {;
+                                          setOpenSubscription(true);
+                                          setSelectedOwner(owner);
+                                          handleGetSubscriptions(owner.id);
+                                        }}>
+                                          <Subscriptions sx={{color: "primary.main"}}></Subscriptions>
+                                        </IconButton>
+                                      </Tooltip>
                                     </TableCell>
                                   </TableRow>
                                 ))}
@@ -433,6 +586,180 @@ const RestaurantOwners = () => {
 
                         )
                       )}
+            <Modal
+            open={openSubscription}
+            onClose={handleCloseSubscription}
+            sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+              <Paper elevation={3} sx={{p: loading ? 0 : 3, bgcolor: 'background.paper', width: "80%"}}>
+                  {loading ? (
+                      <Skeleton variant="rectangular" width="100%" height={"150px"} />
+                  ) : (
+                  <>
+                  {subscription && (
+                  <>
+                  <Typography variant='h5' color='text.primary' fontWeight={600} mb={1}>
+                      {t("profile.subscription.title")}
+                  </Typography>
+                  <Divider sx={{borderWidth: 1, borderColor: 'divider', mb: 2}}></Divider>
+                  <Box display={'flex'} alignItems={{xs: "flex-start", md: 'center'}} justifyContent={'space-between'} gap={{xs: 2, md: 0}}
+                  py={3} flexDirection={{xs: "column", md: "row"}}>
+                      <Box>
+                          <Box display={'flex'} alignItems={'center'} gap={2}>
+                              <Box width={'50px'} height={"50px"} sx={{bgcolor: "primary.light"}}
+                              display={'flex'} justifyContent={'center'} alignItems={'center'}
+                              borderRadius={1}>
+                                  <WorkspacePremium sx={{color: mode === "light" ? "primary.main" : "background.default", fontSize: 30}}/>
+                              </Box>
+                              <Box>
+                                  <Typography variant='h5' fontWeight={600} color='text.primary'>
+                                      {t("profile.subscription.proPlan")}
+                                  </Typography>
+                                  <Typography variant='body1' color='text.secondary'>
+                                      {t("profile.subscription.proPlanDesc")}
+                                  </Typography>
+                              </Box>
+                          </Box>
+                      </Box>
+                      <Box sx={{bgcolor: (theme) => subscription?.status === "CANCELLED" 
+                              ? theme.palette.error.light
+                              : theme.palette.primary.light
+                          , borderRadius: 3}}
+                      display={'flex'} alignItems={'center'} justifyContent={'center'} p={2}
+                      gap={1}>
+                          <Box display={'flex'} alignItems={'center'} justifyContent={'center'}>
+                              <Circle sx={{color:
+                              subscription?.status === "CANCELLED" ? (mode === "dark" ? "#2c0b0a" : '#EF5350') : 'primary.main', fontSize: 16}}/>
+                          </Box>
+                          <Typography variant='body1' fontWeight={700} color={
+                              subscription?.status === "CANCELLED" ? (mode === "dark" ? "#2c0b0a" : '#EF5350') : 'primary.main'
+                          }>
+                              {loading || !subscription ? <Skeleton variant='text' width={"100%"}/> : 
+                              (subscription?.status === "trialing" ? t("profile.subscription.trialActive") : (
+                                  subscription?.status === "ACTIVE" ? t("profile.subscription.subActive") : t("profile.subscription.pastDue")
+                              ))}
+                          </Typography>
+                      </Box>
+                  </Box>
+                  <Divider sx={{borderWidth: 1, borderColor: 'divider', mb: 2}}></Divider>
+                  <Box>
+                      <Typography variant='h6' fontWeight={600} color='text.primary'>
+                          {subscription?.status === "trialing" ? t("profile.subscription.freeTrial") :
+                          (subscription?.interval === "month" ? 
+                              t("profile.subscription.monthly") :
+                              t("profile.subscription.yearly")
+                          )}
+                      </Typography>
+                      <Box display={'flex'} justifyContent={'space-between'} alignItems={{xs: "flex-start", md: 'center'}} flexDirection={{xs: "column", md: "row"}}
+                      gap={{xs: 2, md: 0}}>
+                          <Typography variant='body1' color='text.secondary' sx={{fontStyle: 'italic'}}>
+                              {t("profile.subscription.subscriptionDesc")}
+                          </Typography>
+                          <Box display={'flex'} alignItems={'center'} gap={1}>
+                              <Typography variant='h5' fontWeight={700} color='primary.main'>
+                                  {loading || !daysRemaining ? <Skeleton variant='text' width={"100%"}/> : `${daysRemaining}`}
+                              </Typography>
+                              <Typography>
+                                  {t("profile.subscription.daysRemaining")}
+                              </Typography>
+                          </Box>
+                      </Box>
+                      <LinearProgress
+                      variant="determinate" 
+                      value={progress} 
+                      sx={{ 
+                          height: 10, 
+                          borderRadius: 5,
+                          backgroundColor: 'background.default',
+                          '& .MuiLinearProgress-bar': {
+                              backgroundColor: progress > 80 ? '#f44336' : 'primary.main', // Turns red if close to end
+                          },
+                          mt: 2
+                      }} 
+                      />
+                      <Typography variant='body1' color='text.secondary' mt={1}>
+                          {loading || !expirationDate ? <Skeleton variant='text' width={"100%"}/> : `${subscription?.status === "trialing" ? 
+                              t("profile.subscription.trialEnd") :
+                              t("profile.subscription.periodEnd")
+                          } ${expirationDate}`}
+                      </Typography>
+                      {!subscription?.isScheduledForCancel && (
+                          <Box width={"100%"} sx={{bgcolor: mode === "dark" ? "#1B3F2A" : "primary.light", border:
+                          "1px solid", borderColor: "primary.main", borderRadius: 1
+                      }} display={'flex'} alignItems={{xs: "flex-start", md: "center"}} p={4} mt={2}
+                      flexDirection={{xs: "column", md: "row"}} gap={{xs: 2, md: 0}}>
+                          <Box display={'flex'} gap={2} alignItems={'flex-start'} flex={1}>
+                              <Event sx={{color: mode === "dark" ? "#8FD19E" : "primary.main"}}/>
+                              <Box>
+                                  <Typography variant='body2' fontWeight={600} color={
+                                      mode === "dark" ? "#8FD19E" : "text.secondary"
+                                  }>
+                                      {t("profile.subscription.nextBillingDate")}
+                                  </Typography>
+                                  <Typography variant='h6' fontWeight={800} color='text.primary'>
+                                      {loading || !nextBillingDate ? <Skeleton variant='text' width={"100%"}/> : nextBillingDate}
+                                  </Typography>
+                              </Box>
+                          </Box>
+                          <Box display={'flex'} gap={2} alignItems={'flex-start'} flex={1}>
+                              <Payments sx={{color: mode === "dark" ? "#8FD19E" : "primary.main"}}/>
+                              <Box>
+                                  <Typography variant='body2' fontWeight={600} color={
+                                      mode === "dark" ? "#8FD19E" : "text.secondary"
+                                  }>
+                                      {t("profile.subscription.renewalAmount")}
+                                  </Typography>
+                                  <Typography variant='h6' fontWeight={800} color='text.primary'
+                                  display={'inline-block'}>
+                                      {loading || !subscription ? <Skeleton variant='text' width={"100%"} sx={{display: 'inline-block'}}/> : (subscription.amount).toFixed(2) + "$"}
+                                      <Typography variant='body1' color={
+                                      mode === "dark" ? "#8FD19E" : "text.secondary"
+                                  } display={'inline-block'}>
+                                          {loading || !subscription ? "" : 
+                                          (subscription?.interval === "month" ? t("profile.subscription.perMonth") : t("profile.subscription.perYear"))}
+                                      </Typography>
+                                  </Typography>
+                              </Box>
+                          </Box>
+                      </Box>  
+                      )}
+                      {subscription?.isScheduledForCancel && (
+                          <Typography variant='body1' color='warning' mt={1} fontWeight={800}>
+                              {t("profile.subscription.scheduledForCancel")} <br/>
+                              {t("profile.subscription.scheduledForCancel2")}
+                          </Typography>
+                      )}
+                      {subscription?.status === "past_due" && (
+                          <Alert severity="error" sx={{ my: 2,
+                              bgcolor: "error.light",
+                              color: mode === "dark" ? "#2c0b0a" : '#EF5350',
+                              '& .MuiAlert-icon': {
+                              color: mode === "dark" ? "#2c0b0a" : '#EF5350', // Keeps the icon the bright red you like
+                              }
+                            }}>
+                              {t("profile.subscription.past_due")}
+                          </Alert>
+                      )}
+                  </Box>
+                  </>
+                  )}
+                  </>
+                  )}
+                  <Box display={'flex'} alignItems={'center'} gap={1} mt={3}>
+                    <Button variant='contained' sx={{height: "50px", width: "150px"}}
+                    onClick={() => handleRenew(30)}>
+                      Renew 1 month
+                    </Button>
+                    <Button variant='contained' sx={{height: "50px", width: "150px"}}
+                    onClick={() => handleRenew(365)}>
+                      Renew 1 year
+                    </Button>
+                    <Button variant='contained' color='error' sx={{height: "50px", width: "150px"}}
+                    onClick={handleDeActivate}>
+                      DeActivate
+                    </Button>
+                  </Box>  
+              </Paper>
+            </Modal>         
             <Modal
             open={openUpdate}
             onClose={() => setOpenUpdate(false)}

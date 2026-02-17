@@ -21,6 +21,7 @@ import Activate from "./components/Activate"
 import Unsubscribers from "./components/Unsubscribers"
 import Verification from "./components/Verification"
 import Success from "./components/Success"
+import Payment from "./components/Payment"
 
 function App() {
 
@@ -38,11 +39,16 @@ function App() {
             <Subscription/>
           </ProtectedRoute>
         }/>
-        <Route path="/success" element={
+        <Route path="/payment" element={
+          <ProtectedRoute allowedRole={"UNSUBSCRIBER"}>
+            <Payment/>
+          </ProtectedRoute>
+        }/>
+        {/* <Route path="/success" element={
           // <ProtectedRoute allowedRole={"RESTAURANT_OWNER"}>
             <Success/>
           // </ProtectedRoute>
-        }/>
+        }/> */}
         <Route path="/admin-dashboard" element={
           <ProtectedRoute allowedRole={"SUPER_ADMIN"}>
             <SuperDashboard></SuperDashboard>
