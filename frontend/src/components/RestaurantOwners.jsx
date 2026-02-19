@@ -746,15 +746,15 @@ const RestaurantOwners = () => {
                   )}
                   <Box display={'flex'} alignItems={'center'} gap={1} mt={3}>
                     <Button variant='contained' sx={{height: "50px", width: "150px"}}
-                    onClick={() => handleRenew(30)}>
+                    onClick={() => handleRenew(30)} disabled={loading}>
                       Renew 1 month
                     </Button>
                     <Button variant='contained' sx={{height: "50px", width: "150px"}}
-                    onClick={() => handleRenew(365)}>
+                    onClick={() => handleRenew(365)} disabled={loading}>
                       Renew 1 year
                     </Button>
                     <Button variant='contained' color='error' sx={{height: "50px", width: "150px"}}
-                    onClick={handleDeActivate}>
+                    onClick={handleDeActivate} disabled={loading}>
                       DeActivate
                     </Button>
                   </Box>  

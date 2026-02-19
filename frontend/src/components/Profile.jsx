@@ -8,11 +8,13 @@ import Swal from 'sweetalert2';
 import Sidebar from './Sidebar';
 import i18n from '../i18n';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 
 const Profile = () => {
     const theme = useTheme();
     const {mode, setMode} = useThemeMode();
+    const navigate = useNavigate();
     function handleChange() {
         setMode((prev) => prev === "light" ? "dark" : "light");
     }
@@ -613,7 +615,14 @@ const Profile = () => {
                     </Card>
                 </Grid>
                 <Grid size={{xs: 12, md: 4}} sx={{ display: "flex" }}>
-                    <Card sx={{width: "100%", display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2, py: 2, px: 4, flexGrow: 1}}>
+                    <Card sx={{width: "100%", display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2, py: 2, px: 4, flexGrow: 1, cursor: 'pointer',
+                    transition: "0.3s ease",
+                        "&:hover": {
+                            transform: "translateY(-5px)",
+                            bgcolor: "background.default",
+                            boxShadow: (theme) => `0 6px 20px ${theme.palette.primary.main}50`
+                        }
+                    }} component={"label"} onClick={() => navigate("/contact-us")}>
                         <SupportAgent sx={{color: "primary.main"}}/>
                         <Box>
                             <Typography variant='body1' color='text.primary' fontWeight={700}>

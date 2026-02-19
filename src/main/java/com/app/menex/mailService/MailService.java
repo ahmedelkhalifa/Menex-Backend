@@ -158,7 +158,7 @@ public class MailService {
 
                             <tr>
                                 <td style="padding: 40px; color: #2E3A3A; font-size: 16px; line-height: 1.6;">
-                                    <h3 style="margin-top: 0; margin-bottom: 20px; font-weight: 600; font-size: 20px; color: #d32f2f;">⚠️ Action Required</h3>
+                                    <h3 style="margin-top: 0; margin-bottom: 20px; font-weight: 600; font-size: 20px; color: #d32f2f;">Action Required</h3>
                                     
                                     <p style="margin: 0 0 20px 0;">Hello <strong>%s</strong>,</p>
                                     

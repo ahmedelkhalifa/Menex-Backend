@@ -22,6 +22,7 @@ import Unsubscribers from "./components/Unsubscribers"
 import Verification from "./components/Verification"
 import Success from "./components/Success"
 import Payment from "./components/Payment"
+import TermsOfUse from "./components/TermsOfUse"
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
         <Route path="/signup" element={<Signup/>}/>
         <Route path="/activate" element={<Activate/>}/>
         <Route path="/verification" element={<Verification/>}/>
+        <Route path="/terms" element={<TermsOfUse/>}/>
         <Route path="/subscription" element={
           <ProtectedRoute allowedRole={"UNSUBSCRIBER"}>
             <Subscription/>

@@ -25,7 +25,7 @@ const RestaurantOwners = () => {
   const [search, setSearch] = useState("");
   const theme = useTheme();
   const [selectedOwner, setSelectedOwner] = useState(null);
-  const [role, setRole] = useState("RESTAURANT_OWNER");
+  const [role, setRole] = useState("UNSUBSCRIBER");
   const options = ["RESTAURANT_OWNER", "SUPER_ADMIN", "UNSUBSCRIBER"];
   const [subscription, setSubscription] = useState(null);
   const [openSubscription, setOpenSubscription] = useState(false);
@@ -105,7 +105,7 @@ const RestaurantOwners = () => {
           lastname,
           email,
           password,
-          role: "RESTAURANT_OWNER"
+          role: "UNSUBSCRIBER"
         }
       );
       setOwners(o => [...o, response.data]);
@@ -246,6 +246,13 @@ const RestaurantOwners = () => {
       });
     } finally {
       setLoading(false);
+      setSubscription(null);
+      setDaysRemaining(null);
+      setExpirationDate("");
+      setNextBillingDate("");
+      setStart(0);
+      setEnd(0);
+      setToday(0);
     }
   }
 
@@ -278,6 +285,13 @@ const RestaurantOwners = () => {
       });
     } finally {
       setLoading(false);
+      setSubscription(null);
+      setDaysRemaining(null);
+      setExpirationDate("");
+      setNextBillingDate("");
+      setStart(0);
+      setEnd(0);
+      setToday(0);
     }
   }
 
@@ -723,19 +737,19 @@ const RestaurantOwners = () => {
                   )}
                   <Box display={'flex'} alignItems={'center'} gap={1} mt={3}>
                     <Button variant='contained' sx={{height: "50px", width: "150px"}}
-                    onClick={() => handleActivate(30)} disabled={subscription !== null}>
+                    onClick={() => handleActivate(30)} disabled={subscription !== null || loading}>
                       Activate 1 month
                     </Button>
                     <Button variant='contained' sx={{height: "50px", width: "150px"}}
-                    onClick={() => handleActivate(365)} disabled={subscription !== null}>
+                    onClick={() => handleActivate(365)} disabled={subscription !== null || loading}>
                       Activate 1 year
                     </Button>
                     <Button variant='contained' sx={{height: "50px", width: "150px"}}
-                    onClick={() => handleRenew(30)} disabled={subscription === null}>
+                    onClick={() => handleRenew(30)} disabled={subscription === null || loading}>
                       Renew 1 month
                     </Button>
                     <Button variant='contained' sx={{height: "50px", width: "150px"}}
-                    onClick={() => handleRenew(365)} disabled={subscription === null}>
+                    onClick={() => handleRenew(365)} disabled={subscription === null || loading}>
                       Renew 1 year
                     </Button>
                   </Box>  

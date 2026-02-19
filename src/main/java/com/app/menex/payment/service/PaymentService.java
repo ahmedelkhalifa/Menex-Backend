@@ -157,6 +157,30 @@ public class PaymentService {
         }
     }
 
+//    @PostConstruct
+//    private void createDummyUser() {
+//        User user = User.builder()
+//                .firstName("Ahmed")
+//                .lastName("Elkhalifa")
+//                .email("ahmed.elkhalifa@final.edu.tr")
+//                .role(Role.RESTAURANT_OWNER)
+//                .enabled(true)
+//                .language("en")
+//                .password(passwordEncoder.encode("ahmed123"))
+//                .build();
+//        userRepository.save(user);
+//        LocalDateTime now = LocalDateTime.now();
+//        UserSubscription userSubscription = UserSubscription.builder()
+//                .user(user)
+//                .startDate(now)
+//                .endDate(now.plusMinutes(2))
+//                .status(SubscriptionStatus.ACTIVE)
+//                .amount(30 == 30 ? PRICE_MONTHLY : PRICE_YEARLY)
+//                .interval(30 == 30 ? intervalMonth : intervalYear)
+//                .build();
+//        repository.save(userSubscription);
+//    }
+
     @Scheduled(cron = "0 0 0 * * ?") // Runs at midnight
     @Transactional // Keeps the session open for updates
     public void checkRoles() {
@@ -176,6 +200,7 @@ public class PaymentService {
                         sub.getUser().getFirstName(),
                         sub.getEndDate()
                 );
+                System.out.println("expired mail sent");
             } catch (Exception e) {
                 System.err.println("Failed to send expired email: " + e.getMessage());
             }

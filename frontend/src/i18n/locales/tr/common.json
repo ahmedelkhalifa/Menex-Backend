@@ -483,5 +483,65 @@
         "menexPro": "Menex Pro'nun ",
         "lastWord": "avantajlarından yararlanmaya başlayın.",
         "successDesc2": "Herhangi bir sorunuz varsa veya yardıma ihtiyacınız olursa, destek ekibimizle iletişime geçmekten çekinmeyin. Aboneliğinizden en iyi şekilde yararlanmanıza yardımcı olmak için buradayız."
+    },
+    "termsOfUse": {
+        "pageTitle": "Kullanım Koşulları",
+        "lastUpdated": "Son Güncelleme: 18 Şubat 2026",
+        "intro": {
+        "welcome": "<strong>MENEX Dijital Menü</strong> (\"MENEX\", \"biz\" veya \"bizim\") hizmetlerine hoş geldiniz. Web sitemize, mobil uygulamamıza veya dijital menü hizmetlerimize (topluca \"Hizmet\") erişerek veya kullanarak, siz (\"Kullanıcı\", \"Restoran Sahibi\" veya \"Siz\") bu Kullanım Koşulları (\"Koşullar\") ile bağlı olmayı kabul etmiş olursunuz.",
+        "warning": "<strong>LÜTFEN BU KOŞULLARI DİKKATLİCE OKUYUNUZ. BU HİZMET YALNIZCA TİCARİ KULLANIM İÇİNDİR.</strong>"
+        },
+        "section1": {
+        "title": "1. Genel Hükümler",
+        "entity": "<strong>1.1. Yasal Varlık:</strong> Hizmet, <strong>MENEX Dijital Menü</strong> tarafından işletilmektedir.",
+        "eligibility": "<strong>1.2. Sadece Ticari Kullanım:</strong> Hizmeti kullanarak, bir ticari işletme veya yetkili bir işletme temsilcisi olduğunuzu beyan edersiniz. Bu Hizmet bireysel tüketiciler için değildir.",
+        "jurisdiction": "<strong>1.3. Yargı Yetkisi:</strong> Bu Koşullar, <strong>Kuzey Kıbrıs Türk Cumhuriyeti (KKTC)</strong> yasaları altında faaliyet gösteren yasal olarak bağlayıcı bir anlaşma teşkil eder."
+        },
+        "section2": {
+        "title": "2. Hesap ve Veri Gizliliği",
+        "creation": "<strong>2.1. Hesap Oluşturma:</strong> Kayıt sırasında doğru, güncel ve eksiksiz bilgi sağlamayı kabul edersiniz.",
+        "privacy": "<strong>2.2. Gizlilik ve Veri Koruma:</strong> Gizliliğinize saygı duyuyoruz. Kişisel verileriniz ve menü verileriniz KKTC veri koruma standartlarına uygun olarak işlenmektedir. Verilerinizi üçüncü taraflara satmıyoruz.",
+        "security": "<strong>2.3. Güvenlik:</strong> Hesap giriş bilgilerinizi korumaktan siz sorumlusunuz. Herhangi bir yetkisiz kullanım durumunda derhal MENEX'i bilgilendiriniz."
+        },
+        "section3": {
+        "title": "3. Hizmet, Fikri Mülkiyet ve Abonelik",
+        "nature": "<strong>3.1. Hizmetin Niteliği:</strong> MENEX, dijital menüler için bir SaaS platformu sağlar. Fiziksel baskı veya restoran yönetim hizmetleri sunmamaktayız.",
+        "ip": "<strong>3.2. Fikri Mülkiyet (Yazılım):</strong> Hizmet; kodu, tasarımı, logoları ve yazılım mimarisi dahil olmak üzere MENEX'in münhasır mülkiyetindedir. İşletmeniz için platformu kullanmanız adına size sınırlı, münhasır olmayan bir lisans verilir.",
+        "maintenance": "<strong>3.3. Bakım ve Kesinti:</strong> Yüksek erişilebilirlik hedeflesek de, güncellemeler veya teknik nedenlerle geçici kesintiler yaşanabilir (Hizmet \"Olduğu Gibi\" sunulur).",
+        "pricing": "<strong>3.4. Abonelik Süresi:</strong> Abonelikler kararlaştırılan süre (örn. Aylık/Yıllık) için ön ödemelidir. Yenileme işlemi de <strong>Banka Havalesi</strong> yoluyla yapılır ve yenileme öncesinde satış ekibiyle iletişime geçmeniz için bilgilendirilirsiniz. Hizmet kesintisini önlemek için zamanında ödeme yapmaktan siz sorumlusunuz."
+        },
+        "section4": {
+        "title": "4. Ödemeler ve İptal",
+        "method": "<strong>4.1. Ödeme Yöntemi:</strong> Ödemeler <strong>Doğrudan Banka Transferi (Havale/EFT)</strong> ile yapılır. Erişim, yalnızca ödeme hesaplarımıza başarıyla geçtikten sonra verilir.",
+        "noRefund": "<strong>4.2. İade Yok Politikası (B2B):</strong> Bir B2B (İşletmeden İşletmeye) hizmeti olarak, <strong>TÜM SATIŞLAR NİHAİDİR</strong>. Yasaların izin verdiği azami ölçüde, MENEX kısmi kullanımlar için iade sunmamaktadır.",
+        "cancellation": "<strong>4.3. İptal ve Hak Kaybı:</strong> İstediğiniz zaman iptal edebilirsiniz. <strong>ÖNEMLİ:</strong> İptal işlemi, premium erişimin <strong>derhal geri alınmasına</strong> ve kalan abonelik süresinin kaybedilmesine neden olur. İptal üzerine hizmet fatura döneminin sonuna kadar devam etmez."
+        },
+        "section5": {
+        "title": "5. İçerik ve Yasaklı Öğeler",
+        "ownership": "<strong>5.1. İçerik Mülkiyeti:</strong> Menü fotoğraflarınızın ve metinlerinizin mülkiyeti sizde kalır. Bu içeriği adınıza görüntülemesi için MENEX'e lisans verirsiniz.",
+        "monitoring": "<strong>5.2. İçerik Denetimi:</strong> MENEX tüm kullanıcı içeriğini aktif olarak izlemez, ancak tespit edilmesi veya raporlanması durumunda politikalarımızı ihlal eden içeriği inceleme ve kaldırma hakkını saklı tutar.",
+        "prohibited": "<strong>5.3. Yasaklı Öğeler Politikası (Helal Uyumluluğu):</strong> Platform standartlarımızı korumak amacıyla, şunları listelemeniz <strong>kesinlikle yasaktır</strong>:<br><ul><li><strong>Alkollü İçecekler:</strong> Her türlü sarhoş edici içki.</li><li><strong>Domuz Ürünleri:</strong> Domuz eti veya türevlerini içeren gıdalar.</li><li><strong>Yasadışı Öğeler:</strong> KKTC yasalarınca yasaklanmış maddeler.</li></ul><br>İhlaller derhal askıya alınma ile sonuçlanacaktır."
+        },
+        "section6": {
+        "title": "6. Sorumluluk ve Tazminat",
+        "accuracy": "<strong>6.1. Menü Doğruluğu:</strong> Menü içeriğiniz, fiyatlarınız ve alerjen uyarılarınızdan tamamen siz sorumlusunuz. MENEX, menünüzden kaynaklanan sağlık sorunlarından sorumlu değildir.",
+        "limitation": "<strong>6.2. Sorumluluk Sınırı:</strong> MENEX, dolaylı zararlar, kâr kaybı, iş kesintisi veya makul kontrolün ötesindeki olaylardan (örn. savaş, doğal afetler vb.) sorumlu tutulamaz. Toplam sorumluluk, son <strong>1 yıllık</strong> abonelik için ödenen ücreti aşamaz.",
+        "indemnification": "<strong>6.3. Tazminat:</strong> Hizmeti kullanımınızdan veya bu Koşulları ihlal etmenizden kaynaklanan her türlü talep, yasal ücret veya zarara karşı MENEX'i tazmin etmeyi ve zarar görmesini engellemeyi kabul edersiniz."
+        },
+        "section7": {
+        "title": "7. Fesih",
+        "rights": "<strong>7.1. Fesih Hakları:</strong> Bu Koşulları <strong>ihlal etmeniz</strong>, Hizmeti kötüye kullanmanız veya geçerli ücretleri ödememeniz durumunda erişiminizi askıya alma veya feshetme hakkımızı saklı tutarız.",
+        "consequences": "<strong>7.2. Sonuçlar:</strong> İhlal nedeniyle fesih durumunda, Hizmeti kullanım lisansınız derhal sona erer ve hiçbir iade yapılmaz."
+        },
+        "section8": {
+        "title": "8. Uyuşmazlık Çözümü",
+        "amicable": "<strong>8.1. Dostane Çözüm:</strong> Herhangi bir anlaşmazlığı gayri resmi olarak çözmek için önce support@menex.com adresinden bizimle iletişime geçmeyi kabul edersiniz.",
+        "jurisdiction": "<strong>8.2. Geçerli Hukuk ve Yargı Yetkisi:</strong> Bu Koşullar <strong>KKTC</strong> yasalarına tabidir. Çözülemeyen anlaşmazlıklar <strong>Girne</strong> mahkemelerinin münhasır yargı yetkisine tabi olacaktır."
+        },
+        "footer": {
+        "changes": "Bu Koşulları herhangi bir zamanda değiştirme hakkımız saklıdır. Kullanıma devam edilmesi, değişikliklerin kabul edildiği anlamına gelir.",
+        "contact": "<strong>Bize Ulaşın:</strong><br>E-posta: support@menex.com<br>Konum: Girne, KKTC"
+        }
     }
+
 }

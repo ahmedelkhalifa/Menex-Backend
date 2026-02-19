@@ -8,7 +8,7 @@ import logo from "../assets/logo-png.png"
 import logoDark from "../assets/logo-dark-png.png"
 import phone from "../assets/phone.jpg"
 import phone2 from "../assets/phone2.jpg"
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useThemeMode } from '../main'
 import i18n from '../i18n'
 import { useTranslation } from 'react-i18next'
@@ -791,7 +791,13 @@ const Home = () => {
                                 <Typography variant='body1' color='text.secondary'>
                                     {t("landing.footer.privacy")}
                                 </Typography>
-                                <Typography variant='body1' color='text.secondary'>
+                                <Typography
+                                component={Link}
+                                to="/terms"
+                                variant="body1"
+                                color="text.secondary"
+                                sx={{ cursor: "pointer", textDecoration: "none" }}
+                                onClick={() => window.scrollTo(0, 0)}>
                                     {t("landing.footer.terms")}
                                 </Typography>
                             </Box>

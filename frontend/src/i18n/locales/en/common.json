@@ -488,5 +488,64 @@
         "title": "Activate Your Subscription",
         "desc": "Ready to transform your menu? We offer secure local bank transfer (Havale/EFT)options for our customers to ensure you lowest cost.\nChat with an agent to receive the payment details and activate your account immediately.",
         "btn": "Chat with Sales"
+    },
+    "termsOfUse": {
+        "pageTitle": "Terms of Use",
+        "lastUpdated": "Last Updated: February 18, 2026",
+        "intro": {
+        "welcome": "Welcome to <strong>MENEX Digital Menus</strong> (\"MENEX\", \"we\", \"our\", or \"us\"). By accessing or using our website, mobile application, or digital menu services (collectively, the \"Service\"), you (\"User\", \"Restaurant Owner\", or \"you\") agree to be bound by these Terms of Use (\"Terms\").",
+        "warning": "<strong>PLEASE READ THESE TERMS CAREFULLY. THIS SERVICE IS INTENDED FOR BUSINESS USE ONLY.</strong>"
+        },
+        "section1": {
+        "title": "1. General Provisions",
+        "entity": "<strong>1.1. Legal Entity:</strong> The Service is operated by <strong>MENEX Digital Menus</strong>.",
+        "eligibility": "<strong>1.2. Business Use Only:</strong> By using the Service, you represent that you are a business entity or an authorized representative of a business. This Service is not intended for individual consumers.",
+        "jurisdiction": "<strong>1.3. Jurisdiction:</strong> These Terms constitute a legally binding agreement operating under the laws of the <strong>Turkish Republic of Northern Cyprus (TRNC)</strong>."
+        },
+        "section2": {
+        "title": "2. Account & Data Privacy",
+        "creation": "<strong>2.1. Account Registration:</strong> You agree to provide accurate, current, and complete information during registration.",
+        "privacy": "<strong>2.2. Privacy & Data Protection:</strong> We respect your privacy. Your personal data and menu data are processed in accordance with TRNC data protection standards. We do not sell your data to third parties.",
+        "security": "<strong>2.3. Security:</strong> You are responsible for safeguarding your account credentials. Notify MENEX immediately of any unauthorized use."
+        },
+        "section3": {
+        "title": "3. Service, IP & Subscription",
+        "nature": "<strong>3.1. Nature of Service:</strong> MENEX provides a SaaS platform for digital menus. We do not provide physical printing or restaurant management services.",
+        "ip": "<strong>3.2. Intellectual Property (Software):</strong> The Service, including its code, design, logos, and software architecture, is the exclusive property of MENEX. You are granted a limited, non-exclusive license to use the platform for your business.",
+        "maintenance": "<strong>3.3. Maintenance & Downtime:</strong> While we aim for high availability, temporary interruptions may occur for updates or technical reasons (\"As Is\" basis).",
+        "pricing": "<strong>3.4. Subscription Term:</strong> Subscriptions are prepaid for the agreed duration (e.g., Monthly/Yearly). Renewal is also through <strong>Bank Transfer</strong>, and you will be notified before renewal to contact the sales for renewal. You are responsible for ensuring timely payment to avoid service disruption."
+        },
+        "section4": {
+        "title": "4. Payments & Cancellation",
+        "method": "<strong>4.1. Payment Method:</strong> Payments are made via <strong>Direct Bank Transfer (Havale/EFT)</strong>. Access is granted only after funds have successfully cleared in our accounts.",
+        "noRefund": "<strong>4.2. Business Policy - No Refunds:</strong> As a B2B service, <strong>ALL SALES ARE FINAL</strong>. To the maximum extent permitted by law, MENEX does not offer refunds for partial use.",
+        "cancellation": "<strong>4.3. Cancellation & Forfeiture:</strong> You may cancel at any time. <strong>IMPORTANT:</strong> Cancellation results in the <strong>immediate revocation</strong> of premium access and forfeiture of any remaining subscription time. Service does not continue until the end of the billing cycle upon cancellation."
+        },
+        "section5": {
+        "title": "5. Content & Restricted Items",
+        "ownership": "<strong>5.1. Content Ownership:</strong> You retain ownership of your menu photos and text. You grant MENEX a license to display this content on your behalf.",
+        "monitoring": "<strong>5.2. Content Monitoring:</strong> MENEX does not actively monitor all user content but reserves the right to review and remove content that violates our policies upon detection or report.",
+        "prohibited": "<strong>5.3. Restricted Items Policy (Halal Compliance):</strong> To maintain our platform standards, you are <strong>strictly prohibited</strong> from listing:<br><ul><li><strong>Alcoholic Beverages:</strong> Any intoxicating drinks.</li><li><strong>Pork Products:</strong> Pork or pork derivatives.</li><li><strong>Illegal Items:</strong> Substances prohibited by TRNC law.</li></ul><br>Violations will result in immediate suspension."
+        },
+        "section6": {
+        "title": "6. Liability & Indemnification",
+        "accuracy": "<strong>6.1. Menu Accuracy:</strong> You are solely responsible for your menu content, prices, and allergen warnings. MENEX is not liable for health issues arising from your menu.",
+        "limitation": "<strong>6.2. Limitation of Liability:</strong> MENEX shall not be liable for indirect damages, loss of profits, business interruption or events beyond reasonable control (e.g. war, natural disasters, etc.), total liability shall not exceed the fees paid in the last <strong>1 year</strong> subscription.",
+        "indemnification": "<strong>6.3. Indemnification:</strong> You agree to indemnify and hold MENEX harmless from any claims, legal fees, or damages arising from your use of the Service or your violation of these Terms."
+        },
+        "section7": {
+        "title": "7. Termination",
+        "rights": "<strong>7.1. Termination Rights:</strong> We reserve the right to suspend or terminate your access if you <strong>breach these Terms</strong>, misuse the Service, or fail to pay applicable fees.",
+        "consequences": "<strong>7.2. Consequences:</strong> Upon termination for breach, your license to use the Service ends immediately, and no refunds will be issued."
+        },
+        "section8": {
+        "title": "8. Dispute Resolution",
+        "amicable": "<strong>8.1. Amicable Resolution:</strong> You agree to first contact support@menex.com to attempt to resolve any disputes informally.",
+        "jurisdiction": "<strong>8.2. Governing Law & Jurisdiction:</strong> These Terms are governed by the laws of the <strong>TRNC</strong>. Any unresolved disputes shall be subject to the exclusive jurisdiction of the courts in <strong>Kyrenia (Girne)</strong>."
+        },
+        "footer": {
+        "changes": "We reserve the right to modify these Terms at any time. Continued use constitutes acceptance.",
+        "contact": "<strong>Contact Us:</strong><br>Email: support@menex.com<br>Location: Kyrenia, TRNC"
+        }
     }
 }
