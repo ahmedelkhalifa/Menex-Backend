@@ -23,4 +23,5 @@ public class RestaurantDto {
     private Integer categoriesCount;
     private Integer menuItemsCount;
     private ThemeDto theme;
+    private String description;
 }

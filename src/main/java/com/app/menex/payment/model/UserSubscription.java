@@ -33,6 +33,9 @@ public class UserSubscription {
     private BigDecimal amount;
     @Column(nullable = false, name = "billing_interval")
     private String interval;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Plan plan;
 
     @Override
     public boolean equals(Object o) {

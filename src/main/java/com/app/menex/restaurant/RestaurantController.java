@@ -3,6 +3,9 @@ package com.app.menex.restaurant;
 import com.app.menex.restaurant.dtos.CreateRestaurantRequest;
 import com.app.menex.restaurant.dtos.RestaurantDto;
 import com.app.menex.restaurant.mappers.RestaurantMapper;
+import com.app.menex.user.User;
+import com.app.menex.user.UserRepository;
+import com.app.menex.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,24 +28,32 @@ public class RestaurantController {
 
     private final RestaurantService restaurantService;
     private final RestaurantMapper restaurantMapper;
+    private final UserRepository  userRepository;
+    private final UserService userService;
 
-    @PreAuthorize("hasRole('RESTAURANT_OWNER')")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<RestaurantDto> createRestaurant(
             @RequestPart("data") CreateRestaurantRequest request,
             @RequestPart(value = "logo", required = false) MultipartFile logo
             ) throws IOException {
+        User user;
+        if (request.getUserId() != null) {
+            user = userRepository.findById(request.getUserId()).orElseThrow(
+                    () -> new AccessDeniedException("User not found")
+            );
+        } else {
+            user = userService.getCurrentUser();
+        }
         Restaurant createdRestaurant = restaurantService.createRestaurant(
                 request.getName(), request.getAddress(), request.getPhone(), request.getPrimaryColor(),
                 request.getSecondaryColor(), request.getTextPrimary(),
                 request.getTextSecondary(), request.getBackground(), request.getBackgroundCard(),
-                request.getFont(), logo
+                request.getFont(), logo, user.getId(), request.getDescription()
         );
         RestaurantDto restaurantDto = restaurantMapper.toDto(createdRestaurant);
         return new ResponseEntity<>(restaurantDto, HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('RESTAURANT_OWNER')")
     @GetMapping("/{id}")
     public ResponseEntity<RestaurantDto> getRestaurant(@PathVariable Long id) {
         Restaurant restaurant = restaurantService.getRestaurant(id);
@@ -50,7 +61,6 @@ public class RestaurantController {
         return new ResponseEntity<>(restaurantDto, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('RESTAURANT_OWNER')")
     @GetMapping
     public ResponseEntity<List<RestaurantDto>> getAllRestaurantsForCurrentUser() {
         List<Restaurant> restaurants = restaurantService.getAllRestaurantsForCurrentUser();
@@ -58,7 +68,13 @@ public class RestaurantController {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('RESTAURANT_OWNER')")
+    @GetMapping("/admin")
+    public ResponseEntity<List<RestaurantDto>> getAllRestaurants() {
+        List<Restaurant> restaurants = restaurantService.getAllRestaurants();
+        List<RestaurantDto> dtos = restaurants.stream().map(restaurantMapper::toDto).toList();
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<RestaurantDto> updateRestaurant(
             @RequestPart("data") CreateRestaurantRequest request,
@@ -69,13 +85,12 @@ public class RestaurantController {
                 request.getName(), request.getAddress(), request.getPhone(), request.getPrimaryColor(),
                 request.getSecondaryColor(), request.getTextPrimary(),
                 request.getTextSecondary(), request.getBackground(), request.getBackgroundCard(),
-                request.getFont(), logo, id
+                request.getFont(), logo, id, request.getDescription()
         );
         RestaurantDto restaurantDto = restaurantMapper.toDto(updatedRestaurant);
         return new ResponseEntity<>(restaurantDto, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('RESTAURANT_OWNER')")
     @DeleteMapping("/{id}")
     public ResponseEntity deleteRestaurant(@PathVariable Long id) throws IOException {
         restaurantService.deleteRestaurant(id);

@@ -1,5 +1,5 @@
 import {AttachMoney, Category, Circle, Delete, DisabledByDefault, Edit, Event, Fastfood, Menu, MenuBook, Payments, Person, PersonOff, Restaurant, SentimentDissatisfied, SpaceDashboard, Subscriptions, SupervisorAccount, WorkspacePremium } from '@mui/icons-material'
-import { Alert, Autocomplete, Box, Button, Card, CircularProgress, Divider, Drawer, FormControl, IconButton, InputLabel, LinearProgress, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Modal, OutlinedInput, Paper, Skeleton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography, useTheme } from '@mui/material'
+import { Alert, Autocomplete, Box, Button, Card, CircularProgress, Divider, Drawer, FormControl, IconButton, InputLabel, LinearProgress, List, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem, Modal, OutlinedInput, Paper, Select, Skeleton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography, useTheme } from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import api from "../api"
@@ -12,6 +12,7 @@ const RestaurantOwners = () => {
 
   const {t} = useTranslation();
   const {mode, setMode} = useThemeMode();
+  const [plan, setPlan] = useState("STARTER");
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -39,7 +40,7 @@ const RestaurantOwners = () => {
   const timeRemaining = end - today;
 
   const elapsed = totalDuration - timeRemaining;
-  const isExpired = subscription?.status !== 'ACTIVE'; 
+  const isExpired = subscription?.status !== 'ACTIVE' || timeRemaining <= 0; 
   const progress = Math.min(Math.max((elapsed / totalDuration) * 100, 0), 100);
 
   const finalProgress = isExpired ? 100 : progress;
@@ -51,6 +52,7 @@ const RestaurantOwners = () => {
       setLoading(true);
       const response = await api.get(`payment/subscription/${ownerId}`);
       setSubscription(response.data);
+      setPlan(response.data.plan);
       const endDate = new Date(response.data.currentPeriodEnd * 1000);
       const today = new Date();
       const diffInMs = endDate - today;
@@ -222,7 +224,8 @@ const RestaurantOwners = () => {
       setLoading(true);
       await api.post("payment/activate", {
         userId: selectedOwner.id,
-        days: days
+        days: days,
+        plan: plan
       });
       setOpenSubscription(false);
       Swal.fire({
@@ -261,7 +264,8 @@ const RestaurantOwners = () => {
       setLoading(true);
       await api.put("payment/renewal", {
         userId: selectedOwner.id,
-        days: days
+        days: days,
+        plan: plan
       });
       setOpenSubscription(false);
       Swal.fire({
@@ -408,10 +412,10 @@ const RestaurantOwners = () => {
           <Stack direction={{xs: 'column', sm: 'row'}} gap={2} alignItems={{xs: 'left', sm: 'center'}}>
             <Box flex={2}>
               <Typography variant='h4' fontWeight={700} color='text.primary'>
-                Restaurant Owners
+                Unsubscribed Users
               </Typography>
               <Typography variant='body1' color='text.secondary'>
-                Perform all the operations on the system users (Restaurant owners)
+                Perform all the operations on the system unsubscribed users.
               </Typography>
             </Box>
             <Button variant='contained' sx={{flex: 1}} onClick={() => {
@@ -420,7 +424,7 @@ const RestaurantOwners = () => {
               setLastName("");
               setEmail("");
               }}>
-              Create Owner
+              Create User
             </Button>
           </Stack>
           <Modal
@@ -429,7 +433,7 @@ const RestaurantOwners = () => {
           sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
             <Card sx={{p: 5, width: '500px'}}>
               <Typography variant='h4' fontSize={30} fontWeight={700} color='text.primary'>
-                Create new restaurant owner:
+                Create new User:
               </Typography>
               <Divider sx={{mt:3, borderBottomWidth: 3, borderColor: "text.primary"}}></Divider>
               <form action="#" onSubmit={handleCreate}>
@@ -600,7 +604,9 @@ const RestaurantOwners = () => {
                               </Box>
                               <Box>
                                   <Typography variant='h5' fontWeight={600} color='text.primary'>
-                                      {t("profile.subscription.proPlan")}
+                                      {subscription?.plan === "PRO" ? t("profile.subscription.proPlan") : (
+                                        subscription?.plan === "STARTER" ? t("profile.subscription.starterPlan") : t("profile.subscription.enterprisePlan")
+                                      )}
                                   </Typography>
                                   <Typography variant='body1' color='text.secondary'>
                                       {t("profile.subscription.proPlanDesc")}
@@ -667,12 +673,14 @@ const RestaurantOwners = () => {
                           mt: 2
                       }} 
                       />
-                      <Typography variant='body1' color='text.secondary' mt={1}>
-                          {subscription?.status !== "CANCELLED" && (loading || !expirationDate ? <Skeleton variant='text' width={"100%"}/> : `${subscription?.status === "trialing" ? 
-                              t("profile.subscription.trialEnd") :
-                              t("profile.subscription.periodEnd")
-                          } ${expirationDate}`)}
-                      </Typography>
+                      {(!isExpired) && (
+                        <Typography variant='body1' color='text.secondary' mt={1}>
+                            {subscription?.status !== "CANCELLED" && (loading || expirationDate === null ? <Skeleton variant='text' width={"100%"}/> : `${subscription?.status === "trialing" ? 
+                                t("profile.subscription.trialEnd") :
+                                t("profile.subscription.periodEnd")
+                            } ${expirationDate}`)}
+                        </Typography>
+                      )}
                       {!subscription?.status === "CANCELLED" && (
                           <Box width={"100%"} sx={{bgcolor: mode === "dark" ? "#1B3F2A" : "primary.light", border:
                           "1px solid", borderColor: "primary.main", borderRadius: 1
@@ -736,6 +744,12 @@ const RestaurantOwners = () => {
                   </>
                   )}
                   <Box display={'flex'} alignItems={'center'} gap={1} mt={3}>
+                    <Select onChange={(e) => setPlan(e.target.value)}
+                      value={plan} sx={{width: '150px'}}>
+                      <MenuItem value={"PRO"} disabled={plan === "ENTERPRISE"}>Pro</MenuItem>
+                      <MenuItem value={"STARTER"} disabled={plan === "ENTERPRISE" || plan === "PRO"}>Starter</MenuItem>
+                      <MenuItem value={"ENTERPRISE"}>Enterprise</MenuItem>
+                    </Select>
                     <Button variant='contained' sx={{height: "50px", width: "150px"}}
                     onClick={() => handleActivate(30)} disabled={subscription !== null || loading}>
                       Activate 1 month

@@ -25,4 +25,6 @@ public class CreateRestaurantRequest {
     private String background;
     private String backgroundCard;
     private String font;
+    private Long userId;
+    private String description;
 }

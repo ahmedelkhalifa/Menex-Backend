@@ -47,6 +47,10 @@ const TermsOfUse = () => {
   const [openDrawer, setOpenDrawer] = useState(false); // Added missing state for mobile menu
   const open = Boolean(anchorEl);
   const { t } = useTranslation();
+
+  const handleFooterClick = (section) => {
+    navigate("/", { state: { scrollTo: section } });
+  };
   
   const handleOpenLang = (event) => {
       setAnchorEl(event.currentTarget);
@@ -76,7 +80,9 @@ const TermsOfUse = () => {
           bgcolor: "background.paper", px: {xs: 2, md: 10}, py: 2, borderBottom: 1, borderColor: "divider"
       }} zIndex={100} display="flex" justifyContent="space-between" alignItems={'center'}>
           <Box component={'img'} src={mode === "light" ? logo : logoDark} width={"150px"} height={"50px"}
-          sx={{objectFit: "contain"}}/>
+          sx={{objectFit: "contain", cursor: "pointer"}} onClick={() =>
+                        navigate("/")
+        }   />
           
           {/* Mobile Menu Icon */}
           <IconButton sx={{display: {xs: 'block', lg: "none"}}} onClick={() => setOpenDrawer(true)}>
@@ -86,28 +92,27 @@ const TermsOfUse = () => {
           <Box gap={7} alignItems={'center'} display={{xs: "none", lg: "flex"}}>
                 <Box display={'flex'} gap={3} alignItems={'center'}>
                     <Typography variant='body1' color='text.secondary' fontWeight={600}
-                    component={"a"} href='#features' sx={{textDecoration: 'none', cursor: 'pointer',
+                    sx={{textDecoration: 'none', cursor: 'pointer',
                         transition: "0.2s ease-in-out",
                         '&:hover': {
                             color: "primary.main"
                         }
-                    }}>
+                    }} onClick={() => handleFooterClick("features")}>
                         {t("landing.featuresNav")}
                     </Typography>
-                    <Typography variant='body1' color='text.secondary' fontWeight={600}
-                    component={"a"} href='#howItWorks' sx={{textDecoration: 'none', cursor: 'pointer',
+                    <Typography variant='body1' color='text.secondary' fontWeight={600} sx={{textDecoration: 'none', cursor: 'pointer',
                         transition: "0.2s ease-in-out",
                         '&:hover': {
                             color: "primary.main"
-                        }}}>
+                        }}} onClick={() => handleFooterClick("howItWorks")}>
                         {t("landing.howItWorks")}
                     </Typography>
                     <Typography variant='body1' color='text.secondary' fontWeight={600}
-                    component={"a"} href='#pricing' sx={{textDecoration: 'none', cursor: 'pointer',
+                    sx={{textDecoration: 'none', cursor: 'pointer',
                         transition: "0.2s ease-in-out",
                         '&:hover': {
                             color: "primary.main"
-                        }}}>
+                        }}} onClick={() => handleFooterClick("pricing")}>
                         {t("landing.pricingNav")}
                     </Typography>
                     <Typography variant='body1' color='text.secondary' fontWeight={600}
@@ -158,10 +163,10 @@ const TermsOfUse = () => {
                 <Box display={'flex'} gap={1} alignItems={'center'}>
                     <Button variant='outlined' 
                     color='success' sx={{height: "40px", width: "fit-content", px: 4}}
-                    onClick={() => navigate("login")} startIcon={<Login/>}>
+                    onClick={() => navigate("/login")} startIcon={<Login/>}>
                         {t("landing.login")}
                     </Button>
-                    <Button variant='contained' sx={{bgcolor: "success.main", color: "#fff", height: "40px", width: "150px", fontWeight: 700}} onClick={() => navigate("signup")} startIcon={<Start/>}>
+                    <Button variant='contained' sx={{bgcolor: "success.main", color: "#fff", height: "40px", width: "150px", fontWeight: 700}} onClick={() => navigate("/signup")} startIcon={<Start/>}>
                         {t("landing.register")}
                     </Button>
                 </Box>
@@ -181,7 +186,10 @@ const TermsOfUse = () => {
                           '&:hover': {
                               color: "primary.main"
                           }
-                      }} onClick={() => setOpenDrawer(false)} textAlign={'center'}>
+                      }} onClick={() => {
+                        setOpenDrawer(false);
+                        handleFooterClick("features");
+                      }} textAlign={'center'}>
                           {t("landing.featuresNav")}
                       </Typography>
                       <Typography variant='body1' color='text.secondary' fontWeight={600}
@@ -190,7 +198,10 @@ const TermsOfUse = () => {
                           '&:hover': {
                               color: "primary.main"
                           }
-                      }} onClick={() => setOpenDrawer(false)} textAlign={'center'}>
+                      }} onClick={() => {
+                        setOpenDrawer(false);
+                        handleFooterClick("howItWorks");
+                      }} textAlign={'center'}>
                           {t("landing.howItWorks")}
                       </Typography>
                       <Typography variant='body1' color='text.secondary' fontWeight={600}
@@ -199,7 +210,10 @@ const TermsOfUse = () => {
                           '&:hover': {
                               color: "primary.main"
                           }
-                      }} onClick={() => setOpenDrawer(false)} textAlign={'center'}>
+                      }} onClick={() => {
+                        setOpenDrawer(false);
+                        handleFooterClick("pricing");
+                      }} textAlign={'center'}>
                           {t("landing.pricingNav")}
                       </Typography>
                       <Typography variant='body1' color='text.secondary' fontWeight={600}
@@ -349,7 +363,9 @@ const TermsOfUse = () => {
                   <Box flex={1.1} display={'flex'} flexDirection={'column'} gap={2}
                   alignItems={{xs: 'center', md: "flex-start"}}>
                       <Box component={"img"} src={mode === "light" ? logo : logoDark} width={"200px"} height={"60px"}
-                      sx={{objectFit: "contain"}}/>
+                      sx={{objectFit: "contain", cursor: "pointer"}} onClick={() =>
+                        navigate("/")
+                      }/>
                       <Typography variant='body1' color='text.secondary' textAlign={{xs: "center", md: "left"}} width={{xs: "70%", md: "100%"}}>
                           {t("landing.footer.desc")}
                       </Typography>
@@ -373,11 +389,13 @@ const TermsOfUse = () => {
                               <Box display={'flex'} flexDirection={{xs: "row", md: "column"}} gap={3}
                               mt={2}>
                                   <Typography variant='body1' color='text.secondary'
-                                  component={"a"} href="#features" sx={{textDecoration: 'none'}}>
+                                  component={"a"} href="#features" sx={{textDecoration: 'none'}}
+                                  onClick={() => handleFooterClick("features")}>
                                       {t("landing.footer.features")}
                                   </Typography>
                                   <Typography variant='body1' color='text.secondary'
-                                  component={"a"} href="#pricing" sx={{textDecoration: 'none'}}>
+                                  component={"a"} href="#pricing" sx={{textDecoration: 'none'}}
+                                  onClick={() => handleFooterClick("pricing")}>
                                       {t("landing.footer.pricing")}
                                   </Typography>
                                   <Typography variant='body1' color='text.secondary'>
@@ -416,7 +434,7 @@ const TermsOfUse = () => {
                                   <Typography variant='body1' color='text.secondary'>
                                       {t("landing.footer.privacy")}
                                   </Typography>
-                                  <Typography variant='body1' color='text.secondary'>
+                                  <Typography variant='body1' color='primary.main' fontWeight={700}>
                                       {t("landing.footer.terms")}
                                   </Typography>
                               </Box>

@@ -488,162 +488,275 @@ const Home = () => {
 
     {/* pricing */}
     <Box id="pricing" py={10}>
-        <Container maxWidth="md">
+        <Container maxWidth="lg">
             <Typography variant='h4' fontWeight={700} textAlign={'center'}>
                 {t("landing.pricing.title")}
             </Typography>
-            <Stack flexDirection={{xs: "column", sm: "row"}} justifyContent={'center'} alignItems={'flex-start'} gap={4} mt={3}>
-                <Card sx={{width: {xs: "100%", md: "400px"}, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 2,
-                    boxShadow: (theme) =>
-                        `0px 6px 20px ${theme.palette.primary.main}60`
-                }}>
-                    <Typography variant='h5' fontWeight={700} textAlign={'center'} mt={5}>
-                        {t("landing.pricing.card.proPlan")}
-                    </Typography>
-                    <Typography variant='h3' fontWeight={700} textAlign={'center'}>
-                        7$ 
-                        <Typography display={'inline-block'} variant='body1' color='text.secondary'>
-                            {t("landing.pricing.card.perMonth")}
+            
+            <Grid container spacing={2} mt={5} alignItems={'flex-start'} justifyContent={'center'}>
+                <Grid size={{xs: 12, sm: 6, md: 4}}>
+                    <Card sx={{width: "100%", display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 2,
+                        boxShadow: (theme) =>
+                            `0px 6px 20px ${theme.palette.primary.main}60`,
+                        position: "relative"
+                    }}>
+                        <Typography variant='h5' fontWeight={700} textAlign={'center'} mt={5}>
+                            {t("landing.pricing.card.starterPlan")}
                         </Typography>
-                    </Typography>
-                    <Box display={'flex'} alignItems={'center'} gap={1}
-                    sx={{bgcolor: "primary.light", px: 2, py: 1, borderRadius: 2}}>
-                        <Star fontSize='12' sx={{color: mode === "light" ? "primary.main" : "#fff"}}/>
-                        <Typography variant='body1' sx={{color: mode === "light" ? "primary.main" : "#fff"}}>
-                            {t("landing.pricing.card.noCard")}
+                        <Box textAlign={'center'}>
+                            <Typography variant='h5' fontWeight={700} textAlign={'center'}>
+                                7$
+                                <Typography display={'inline-block'} variant='body1' color='text.secondary'>
+                                    {t("landing.pricing.card.perMonth")}
+                                </Typography>
+                            </Typography>
+                            <Typography variant='h5' color='text.secondary' fontWeight={700}>
+                                or
+                            </Typography>
+                            <Typography variant='h3' fontWeight={700} textAlign={'center'}>
+                                70$ 
+                                <Typography display={'inline-block'} variant='body1' color='text.secondary'>
+                                    {t("landing.pricing.card.perYear")}
+                                </Typography>
+                            </Typography>
+                        </Box>
+                        <Box display={'flex'} alignItems={'center'} gap={1}
+                        sx={{bgcolor: "primary.light", px: 2, py: 1, borderRadius: 2}}>
+                            <Star fontSize='12' sx={{color: mode === "light" ? "primary.main" : "#fff"}}/>
+                            <Typography variant='body1' sx={{color: mode === "light" ? "primary.main" : "#fff"}}>
+                                {t("landing.pricing.card.perYearLabel")} 
+                            </Typography>
+                        </Box>
+                        <Typography variant='body1' color='text.secondary' width={{xs: "80%", md: "95%"}}
+                            textAlign={'center'}>
+                            {t("landing.pricing.card.cancellation")} 
                         </Typography>
-                    </Box>
-                    <Typography variant='body1' color='text.secondary' width={{xs: "80%", md: "95%"}}
-                        textAlign={'center'}>
-                        {t("landing.pricing.card.cancellation")}
-                    </Typography>
-                    <Box width={"100%"} sx={{bgcolor: "background.default"}} mt={1} p={4}>
-                        <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
-                            <CheckCircle sx={{color: "success.main"}}/>
-                            <Typography variant='body1'>
-                                {t("landing.pricing.card.features.1")}
+                        <Box width={"100%"} sx={{bgcolor: "background.default"}} mt={1} p={4}>
+                            <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
+                                <CheckCircle sx={{color: "success.main"}}/>
+                                <Typography variant='body1'>
+                                    {t("landing.pricing.card.features.1starter")} 
+                                </Typography>
+                            </Box>
+                            <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
+                                <CheckCircle sx={{color: "success.main"}}/>
+                                <Typography variant='body1'>
+                                    {t("landing.pricing.card.features.2starter")} 
+                                </Typography>
+                            </Box>
+                            <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
+                                <CheckCircle sx={{color: "success.main"}}/>
+                                <Typography variant='body1'>                               
+                                    {t("landing.pricing.card.features.3")} 
+                                </Typography>
+                            </Box>
+                            <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
+                                <CheckCircle sx={{color: "success.main"}}/>
+                                <Typography variant='body1'>                               
+                                    {t("landing.pricing.card.features.4")} 
+                                </Typography>
+                            </Box>
+                            <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
+                                <CheckCircle sx={{color: "success.main"}}/>
+                                <Typography variant='body1'>                               
+                                    {t("landing.pricing.card.features.5")} 
+                                </Typography>
+                            </Box>
+                            <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
+                                <CheckCircle sx={{color: "success.main"}}/>
+                                <Typography variant='body1'>                               
+                                    {t("landing.pricing.card.features.6")} 
+                                </Typography>
+                            </Box>
+                            <Button variant='contained' sx={{height: "50px", bgcolor: "primary.main",
+                                color: "#fff", width: "100%", fontSize: 18, fontWeight: 600,
+                                boxShadow: (theme) =>
+                                `0px 6px 20px ${theme.palette.primary.main}80`,
+                                mt: 2
+                            }} onClick={() => navigate("signup")}>
+                                {t("landing.pricing.card.button")}
+                            </Button>
+                        </Box>
+                    </Card>
+                </Grid>
+                <Grid size={{xs: 12, sm: 6, md: 4}}>
+                    <Card sx={{width: "100%", display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 2,
+                        boxShadow: (theme) =>
+                            `0px 6px 20px ${theme.palette.primary.main}60`,
+                        position: "relative", transform: {xs: "translateY(0px)", md: "translateY(-20px)"}
+                    }}>
+                        <Box position={'absolute'} top={0} right={0} width={"100px"} height={"40px"}
+                        sx={{bgcolor: "primary.main", borderRadius: "0 0 0 30%"}} display={'flex'} justifyContent={'center'}
+                        alignItems={'center'}>
+                            <Typography variant='body2' fontSize={12} sx={{color: "#fff"}} fontWeight={700}>
+                                {t("landing.pricing.card.badge")}
                             </Typography>
                         </Box>
-                        <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
-                            <CheckCircle sx={{color: "success.main"}}/>
-                            <Typography variant='body1'>
-                                {t("landing.pricing.card.features.2")}
-                            </Typography>
-                        </Box>
-                        <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
-                            <CheckCircle sx={{color: "success.main"}}/>
-                            <Typography variant='body1'>                               
-                                {t("landing.pricing.card.features.3")}
-                            </Typography>
-                        </Box>
-                        <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
-                            <CheckCircle sx={{color: "success.main"}}/>
-                            <Typography variant='body1'>                               
-                                {t("landing.pricing.card.features.4")}
-                            </Typography>
-                        </Box>
-                        <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
-                            <CheckCircle sx={{color: "success.main"}}/>
-                            <Typography variant='body1'>                               
-                                {t("landing.pricing.card.features.5")}
-                            </Typography>
-                        </Box>
-                        <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
-                            <CheckCircle sx={{color: "success.main"}}/>
-                            <Typography variant='body1'>                               
-                                {t("landing.pricing.card.features.6")}
-                            </Typography>
-                        </Box>
-                        <Button variant='contained' sx={{height: "50px", bgcolor: "primary.main",
-                            color: "#fff", width: "100%", fontSize: 18, fontWeight: 600,
-                            boxShadow: (theme) =>
-                            `0px 6px 20px ${theme.palette.primary.main}80`,
-                            mt: 2
-                        }} onClick={() => navigate("signup")}>
-                            {t("landing.pricing.card.button")}
-                        </Button>
-                    </Box>
-                </Card>
-                <Card sx={{width: {xs: "100%", md: "400px"}, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 2,
-                    boxShadow: (theme) =>
-                        `0px 6px 20px ${theme.palette.primary.main}60`,
-                    position: "relative"
-                }}>
-                    <Box position={'absolute'} top={0} right={0} width={"100px"} height={"40px"}
-                    sx={{bgcolor: "primary.main", borderRadius: "0 0 0 30%"}} display={'flex'} justifyContent={'center'}
-                    alignItems={'center'}>
-                        <Typography variant='body2' fontSize={12} sx={{color: "#fff"}} fontWeight={700}>
-                            {t("landing.pricing.card.badge")}
+                        <Typography variant='h5' fontWeight={700} textAlign={'center'} mt={5}>
+                            {t("landing.pricing.card.proPlan")}
                         </Typography>
-                    </Box>
-                    <Typography variant='h5' fontWeight={700} textAlign={'center'} mt={5}>
-                        {t("landing.pricing.card.proPlan")}
-                    </Typography>
-                    <Typography variant='h3' fontWeight={700} textAlign={'center'}>
-                        70$ 
-                        <Typography display={'inline-block'} variant='body1' color='text.secondary'>
-                            {t("landing.pricing.card.perYear")}
+                        <Box textAlign={'center'}>
+                            <Typography variant='h5' fontWeight={700} textAlign={'center'}>
+                                12$
+                                <Typography display={'inline-block'} variant='body1' color='text.secondary'>
+                                    {t("landing.pricing.card.perMonth")}
+                                </Typography>
+                            </Typography>
+                            <Typography variant='h5' color='text.secondary' fontWeight={700}>
+                                or
+                            </Typography>
+                            <Typography variant='h3' fontWeight={700} textAlign={'center'}>
+                                120$ 
+                                <Typography display={'inline-block'} variant='body1' color='text.secondary'>
+                                    {t("landing.pricing.card.perYear")}
+                                </Typography>
+                            </Typography>
+                        </Box>
+                        <Box display={'flex'} alignItems={'center'} gap={1}
+                        sx={{bgcolor: "primary.light", px: 2, py: 1, borderRadius: 2}}>
+                            <Star fontSize='12' sx={{color: mode === "light" ? "primary.main" : "#fff"}}/>
+                            <Typography variant='body1' sx={{color: mode === "light" ? "primary.main" : "#fff"}}>
+                                {t("landing.pricing.card.perYearLabel")}
+                            </Typography>
+                        </Box>
+                        <Typography variant='body1' color='text.secondary' width={{xs: "80%", md: "95%"}}
+                            textAlign={'center'}>
+                            {t("landing.pricing.card.cancellation")}
                         </Typography>
-                    </Typography>
-                    <Box display={'flex'} alignItems={'center'} gap={1}
-                    sx={{bgcolor: "primary.light", px: 2, py: 1, borderRadius: 2}}>
-                        <Star fontSize='12' sx={{color: mode === "light" ? "primary.main" : "#fff"}}/>
-                        <Typography variant='body1' sx={{color: mode === "light" ? "primary.main" : "#fff"}}>
-                            {t("landing.pricing.card.perYearLabel")} 
+                        <Box width={"100%"} sx={{bgcolor: "background.default"}} mt={1} p={4}>
+                            <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
+                                <CheckCircle sx={{color: "success.main"}}/>
+                                <Typography variant='body1'>
+                                    {t("landing.pricing.card.features.1")}
+                                </Typography>
+                            </Box>
+                            <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
+                                <CheckCircle sx={{color: "success.main"}}/>
+                                <Typography variant='body1'>
+                                    {t("landing.pricing.card.features.2")}
+                                </Typography>
+                            </Box>
+                            <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
+                                <CheckCircle sx={{color: "success.main"}}/>
+                                <Typography variant='body1'>                               
+                                    {t("landing.pricing.card.features.3")}
+                                </Typography>
+                            </Box>
+                            <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
+                                <CheckCircle sx={{color: "success.main"}}/>
+                                <Typography variant='body1'>                               
+                                    {t("landing.pricing.card.features.4")}
+                                </Typography>
+                            </Box>
+                            <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
+                                <CheckCircle sx={{color: "success.main"}}/>
+                                <Typography variant='body1'>                               
+                                    {t("landing.pricing.card.features.5")}
+                                </Typography>
+                            </Box>
+                            <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
+                                <CheckCircle sx={{color: "success.main"}}/>
+                                <Typography variant='body1'>                               
+                                    {t("landing.pricing.card.features.6")}
+                                </Typography>
+                            </Box>
+                            <Button variant='contained' sx={{height: "50px", bgcolor: "primary.main",
+                                color: "#fff", width: "100%", fontSize: 18, fontWeight: 600,
+                                boxShadow: (theme) =>
+                                `0px 6px 20px ${theme.palette.primary.main}80`,
+                                mt: 2
+                            }} onClick={() => navigate("signup")}>
+                                {t("landing.pricing.card.button")}
+                            </Button>
+                        </Box>
+                    </Card>
+                </Grid>
+                <Grid size={{xs: 12, sm: 6, md: 4}}>
+                    <Card sx={{width: "100%", display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 2,
+                        boxShadow: (theme) =>
+                            `0px 6px 20px ${theme.palette.primary.main}60`,
+                        position: "relative"
+                    }}>
+                        <Typography variant='h5' fontWeight={700} textAlign={'center'} mt={5}>
+                            {t("landing.pricing.card.enterprisePlan")}
                         </Typography>
-                    </Box>
-                    <Typography variant='body1' color='text.secondary' width={{xs: "80%", md: "95%"}}
-                        textAlign={'center'}>
-                        {t("landing.pricing.card.cancellation")} 
-                    </Typography>
-                    <Box width={"100%"} sx={{bgcolor: "background.default"}} mt={1} p={4}>
-                        <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
-                            <CheckCircle sx={{color: "success.main"}}/>
-                            <Typography variant='body1'>
-                                {t("landing.pricing.card.features.1")} 
+                        <Box textAlign={'center'}>
+                            <Typography variant='h5' fontWeight={700} textAlign={'center'}>
+                                24$
+                                <Typography display={'inline-block'} variant='body1' color='text.secondary'>
+                                    {t("landing.pricing.card.perMonth")}
+                                </Typography>
+                            </Typography>
+                            <Typography variant='h5' color='text.secondary' fontWeight={700}>
+                                or
+                            </Typography>
+                            <Typography variant='h3' fontWeight={700} textAlign={'center'}>
+                                240$ 
+                                <Typography display={'inline-block'} variant='body1' color='text.secondary'>
+                                    {t("landing.pricing.card.perYear")}
+                                </Typography>
                             </Typography>
                         </Box>
-                        <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
-                            <CheckCircle sx={{color: "success.main"}}/>
-                            <Typography variant='body1'>
-                                {t("landing.pricing.card.features.2")} 
+                        <Box display={'flex'} alignItems={'center'} gap={1}
+                        sx={{bgcolor: "primary.light", px: 2, py: 1, borderRadius: 2}}>
+                            <Star fontSize='12' sx={{color: mode === "light" ? "primary.main" : "#fff"}}/>
+                            <Typography variant='body1' sx={{color: mode === "light" ? "primary.main" : "#fff"}}>
+                                {t("landing.pricing.card.perYearLabel")} 
                             </Typography>
                         </Box>
-                        <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
-                            <CheckCircle sx={{color: "success.main"}}/>
-                            <Typography variant='body1'>                               
-                                {t("landing.pricing.card.features.3")} 
-                            </Typography>
+                        <Typography variant='body1' color='text.secondary' width={{xs: "80%", md: "95%"}}
+                            textAlign={'center'}>
+                            {t("landing.pricing.card.cancellation")} 
+                        </Typography>
+                        <Box width={"100%"} sx={{bgcolor: "background.default"}} mt={1} p={4}>
+                            <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
+                                <CheckCircle sx={{color: "success.main"}}/>
+                                <Typography variant='body1'>
+                                    {t("landing.pricing.card.features.1enterprise")} 
+                                </Typography>
+                            </Box>
+                            <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
+                                <CheckCircle sx={{color: "success.main"}}/>
+                                <Typography variant='body1'>
+                                    {t("landing.pricing.card.features.2enterprise")} 
+                                </Typography>
+                            </Box>
+                            <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
+                                <CheckCircle sx={{color: "success.main"}}/>
+                                <Typography variant='body1'>                               
+                                    {t("landing.pricing.card.features.3")} 
+                                </Typography>
+                            </Box>
+                            <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
+                                <CheckCircle sx={{color: "success.main"}}/>
+                                <Typography variant='body1'>                               
+                                    {t("landing.pricing.card.features.4")} 
+                                </Typography>
+                            </Box>
+                            <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
+                                <CheckCircle sx={{color: "success.main"}}/>
+                                <Typography variant='body1'>                               
+                                    {t("landing.pricing.card.features.5")} 
+                                </Typography>
+                            </Box>
+                            <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
+                                <CheckCircle sx={{color: "success.main"}}/>
+                                <Typography variant='body1'>                               
+                                    {t("landing.pricing.card.features.6")} 
+                                </Typography>
+                            </Box>
+                            <Button variant='contained' sx={{height: "50px", bgcolor: "primary.main",
+                                color: "#fff", width: "100%", fontSize: 18, fontWeight: 600,
+                                boxShadow: (theme) =>
+                                `0px 6px 20px ${theme.palette.primary.main}80`,
+                                mt: 2
+                            }} onClick={() => navigate("signup")}>
+                                {t("landing.pricing.card.button")}
+                            </Button>
                         </Box>
-                        <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
-                            <CheckCircle sx={{color: "success.main"}}/>
-                            <Typography variant='body1'>                               
-                                {t("landing.pricing.card.features.4")} 
-                            </Typography>
-                        </Box>
-                        <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
-                            <CheckCircle sx={{color: "success.main"}}/>
-                            <Typography variant='body1'>                               
-                                {t("landing.pricing.card.features.5")} 
-                            </Typography>
-                        </Box>
-                        <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
-                            <CheckCircle sx={{color: "success.main"}}/>
-                            <Typography variant='body1'>                               
-                                {t("landing.pricing.card.features.6")} 
-                            </Typography>
-                        </Box>
-                        <Button variant='contained' sx={{height: "50px", bgcolor: "primary.main",
-                            color: "#fff", width: "100%", fontSize: 18, fontWeight: 600,
-                            boxShadow: (theme) =>
-                            `0px 6px 20px ${theme.palette.primary.main}80`,
-                            mt: 2
-                        }} onClick={() => navigate("signup")}>
-                            {t("landing.pricing.card.button")}
-                        </Button>
-                    </Box>
-                </Card>
-            </Stack>
+                    </Card>
+                </Grid>
+            </Grid>
             <Grid container spacing={2} mt={6}>
                 <Grid size={{xs: 12, md: 4}} sx={{ display: "flex" }}>
                     <Card sx={{width: "100%", display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2, py: 2, px: 4, flexGrow: 1}}>

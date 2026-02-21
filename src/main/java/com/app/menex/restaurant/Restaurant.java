@@ -44,6 +44,9 @@ public class Restaurant {
     @Column(nullable = false)
     private Integer views;
 
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
     @ManyToOne
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;

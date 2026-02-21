@@ -33,8 +33,12 @@ public class PaymentService {
     private final UserRepository userRepository;
     private final MailService mailService;
     private final PasswordEncoder passwordEncoder;
-    private static final BigDecimal PRICE_MONTHLY = new BigDecimal("7.00");
-    private static final BigDecimal PRICE_YEARLY = new BigDecimal("70.00");
+    private static final BigDecimal PRICE_MONTHLY_STARTER = new BigDecimal("7.00");
+    private static final BigDecimal PRICE_YEARLY_STARTER = new BigDecimal("70.00");
+    private static final BigDecimal PRICE_MONTHLY_PRO = new BigDecimal("12.00");
+    private static final BigDecimal PRICE_YEARLY_PRO = new BigDecimal("120.00");
+    private static final BigDecimal PRICE_MONTHLY_ENTERPRISE = new BigDecimal("24.00");
+    private static final BigDecimal PRICE_YEARLY_ENTERPRISE = new BigDecimal("240.00");
     private static final String intervalMonth = "month";
     private static final String intervalYear = "year";
 
@@ -44,13 +48,35 @@ public class PaymentService {
                 () -> new EntityNotFoundException("no user was found")
         );
         LocalDateTime now = LocalDateTime.now();
+        BigDecimal amount = new BigDecimal("0.00");
+        switch (request.getPlan()) {
+            case STARTER -> {
+                if (request.getDays() == 30)
+                    amount = PRICE_MONTHLY_STARTER;
+                else
+                    amount = PRICE_YEARLY_STARTER;
+            }
+            case PRO -> {
+                if (request.getDays() == 30)
+                    amount = PRICE_MONTHLY_PRO;
+                else
+                    amount = PRICE_YEARLY_PRO;
+            }
+            case ENTERPRISE -> {
+                if (request.getDays() == 30)
+                    amount = PRICE_MONTHLY_ENTERPRISE;
+                else
+                    amount = PRICE_YEARLY_ENTERPRISE;
+            }
+        }
         UserSubscription userSubscription = UserSubscription.builder()
                 .user(user)
                 .startDate(now)
                 .endDate(now.plusDays(request.getDays()))
                 .status(SubscriptionStatus.ACTIVE)
-                .amount(request.getDays() == 30 ? PRICE_MONTHLY : PRICE_YEARLY)
+                .amount(amount)
                 .interval(request.getDays() == 30 ? intervalMonth : intervalYear)
+                .plan(request.getPlan())
                 .build();
         user.setRole(Role.RESTAURANT_OWNER);
         repository.save(userSubscription);
@@ -106,6 +132,7 @@ public class PaymentService {
                 .amount(subscription.getAmount())
                 .status(subscription.getStatus())
                 .interval(subscription.getInterval())
+                .plan(subscription.getPlan())
                 .build();
     }
 
@@ -119,6 +146,7 @@ public class PaymentService {
                 .amount(subscription.getAmount())
                 .status(subscription.getStatus())
                 .interval(subscription.getInterval())
+                .plan(subscription.getPlan())
                 .build();
     }
 
@@ -127,6 +155,27 @@ public class PaymentService {
         UserSubscription subscription = repository.findTopByUserIdOrderByEndDateDesc(request.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("No subscription found to renew. Use 'Activate' for new users."));
 
+        BigDecimal amount = new BigDecimal("0.00");
+        switch (request.getPlan()) {
+            case STARTER -> {
+                if (request.getDays() == 30)
+                    amount = PRICE_MONTHLY_STARTER;
+                else
+                    amount = PRICE_YEARLY_STARTER;
+            }
+            case PRO -> {
+                if (request.getDays() == 30)
+                    amount = PRICE_MONTHLY_PRO;
+                else
+                    amount = PRICE_YEARLY_PRO;
+            }
+            case ENTERPRISE -> {
+                if (request.getDays() == 30)
+                    amount = PRICE_MONTHLY_ENTERPRISE;
+                else
+                    amount = PRICE_YEARLY_ENTERPRISE;
+            }
+        }
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime currentEnd = subscription.getEndDate();
         LocalDateTime newEnd;
@@ -141,7 +190,10 @@ public class PaymentService {
         subscription.setEndDate(newEnd);
         subscription.setStatus(SubscriptionStatus.ACTIVE);
         subscription.setInterval(request.getDays() > 30 ? intervalYear : intervalMonth);
-        subscription.setAmount(request.getDays() > 30 ? PRICE_YEARLY : PRICE_MONTHLY);
+        subscription.setAmount(amount);
+        if (request.getPlan() != subscription.getPlan()) {
+            subscription.setPlan(request.getPlan());
+        }
         repository.save(subscription);
         User user = subscription.getUser();
         user.setRole(Role.RESTAURANT_OWNER);

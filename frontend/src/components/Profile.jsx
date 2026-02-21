@@ -19,21 +19,17 @@ const Profile = () => {
         setMode((prev) => prev === "light" ? "dark" : "light");
     }
     const [open, setOpen] = useState(false);
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
     const [user, setUser] = useState({
         id: 1,
-        firstName: "",
-        lastName: "",
-        email: "",
         role: "",
         language: "en",
         isCustomer: false
     });
-    const [fixedName, setFixedName] = useState({
-        firstName: "",
-        lastName: ""
-    });
-    const firstname = fixedName.firstName;
-    const lastname = fixedName.lastName;
+    const [fixedName, setFixedName] = useState("");
+    
     const [editMode, setEditMode] = useState(false);
     const [loading, setLoading] = useState(true);
     const [openModal, setOpenModal] = useState(false);
@@ -59,20 +55,24 @@ const Profile = () => {
     async function handleUpdate() {
         try {
             const response = await api.put(`users/${user.id}`, {
-                firstname: user.firstName,
-                lastname: user.lastName,
-                email: user.email,
+                firstname: firstName,
+                lastname: lastName,
+                email: email,
                 role: user.role
             });
-            setFixedName(user);
             const userData = {
                 id: response.data.id,
-                firstName: response.data.firstName,
-                lastName: response.data.lastName,
-                email: response.data.email,
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
                 role: localStorage.getItem("role")
             };
-            setUser(userData);
+            setUser({
+                ...user,
+                id: response.data.id,
+                role: localStorage.getItem("role")
+            });
+            setFixedName(firstName + " " + lastName);
             setEditMode(false);
             Swal.fire({
                 icon: 'success',
@@ -232,15 +232,15 @@ const Profile = () => {
                 const response = await api.get("users/profile");
                 const userData = {
                     id: response.data.id,
-                    firstName: response.data.firstName,
-                    lastName: response.data.lastName,
-                    email: response.data.email,
                     role: localStorage.getItem("role"),
                     language: response.data.language,
                     isCustomer: response.data.customer ? true : false
                 };
+                setFirstName(response.data.firstName);
+                setLastName(response.data.lastName);
+                setEmail(response.data.email);
                 setUser(userData);
-                setFixedName(userData);
+                setFixedName(response.data.firstName + " " + response.data.lastName);
             } catch (error) {
                 console.error(error);
                 Swal.fire({
@@ -356,7 +356,7 @@ const Profile = () => {
                         ) : (
                             <>
                             <Typography variant='h4' color='text.primary' fontWeight={700} sx={{textTransform: 'capitalize'}}>
-                                {firstname + " " + lastname}
+                                {fixedName}
                             </Typography>
                             <Typography variant='h6' color='text.secondary' fontWeight={500}>
                                 ({user.role === 'RESTAURANT_OWNER' ? t("profile.restaurantOwner") : t("profile.superAdmin")})
@@ -379,19 +379,19 @@ const Profile = () => {
                     <Grid item size={{xs: 12, sm: 6}}>
                         <TextField label={t("profile.firstnameLabel")} fullWidth
                         inputProps={{readOnly: !editMode}} 
-                        value={user.firstName}
-                        onChange={(e) => setUser({ ...user, firstName: e.target.value })}
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
                         autoFocus={editMode}/>
                     </Grid>
                     <Grid item size={{xs: 12, sm: 6}}>
                         <TextField label={t("profile.lastnameLabel")} fullWidth inputProps={{readOnly: !editMode}}
-                        value={user.lastName}
-                        onChange={(e) => setUser({ ...user, lastName: e.target.value })}/>
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}/>
                     </Grid>
                     <Grid item size={{xs: 12, sm: 6}}>
                         <TextField label={t("profile.emailLabel")} fullWidth inputProps={{readOnly: !editMode}}
-                        value={user.email}
-                        onChange={(e) => setUser({ ...user, email: e.target.value })}/>
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}/>
                     </Grid>
                     <Grid item size={{xs: 12, sm: 6}}>
                         <TextField label={t("profile.role")} fullWidth inputProps={{readOnly: true}} 
@@ -467,7 +467,7 @@ const Profile = () => {
                             </Box>
                             <Box>
                                 <Typography variant='h5' fontWeight={600} color='text.primary'>
-                                    {t("profile.subscription.proPlan")}
+                                    {subscription?.plan === "PRO" ? t("profile.subscription.proPlan") : (subscription?.plan === "STARTER" ? t("profile.subscription.starterPlan") : t("profile.subscription.enterprisePlan"))}
                                 </Typography>
                                 <Typography variant='body1' color='text.secondary'>
                                     {t("profile.subscription.proPlanDesc")}

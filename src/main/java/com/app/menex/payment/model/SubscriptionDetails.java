@@ -18,4 +18,5 @@ public class SubscriptionDetails {
     private SubscriptionStatus status;
     private BigDecimal amount;
     private String interval;
+    private Plan plan;
 }

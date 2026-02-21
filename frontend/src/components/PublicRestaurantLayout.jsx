@@ -26,7 +26,7 @@ const PublicRestaurantLayout = ({restaurant}) => {
                     {restaurant?.name}
                 </Typography>
                 <Typography variant='body1' color='text.secondary' lineHeight={1.6} mt={2}>
-                    Authentic Turkish cuisine served with passion. Experience the finest grilled meats, fresh mezes, and traditional desserts in a warm atmosphere.
+                    {restaurant?.description}
                 </Typography>
             </Box>
             <Box display={'flex'} alignItems={'center'} mt={2} mb={4} flexDirection={{xs: 'column', sm: "row"}} gap={2}>

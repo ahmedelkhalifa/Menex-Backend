@@ -26,6 +26,7 @@ import java.util.List;
 public interface PublicAPIMapper {
 
     @Mapping(source = "logoUrl", target = "logoUrl")
+    @Mapping(source = "description", target = "description")
     PublicRestaurantDto toPublicRestaurant(Restaurant restaurant);
 
     @Mapping(source = "categories", target = "categories")

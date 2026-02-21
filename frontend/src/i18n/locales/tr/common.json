@@ -25,7 +25,7 @@
             },
             "feature3": {
                 "title": "Analitik Kontrol Paneli",
-                "desc": "Hangi öğelerin popüler olduğunu takip edin, tarama oranlarını izleyin ve menünüzün karlılığını optimize etmek için öngörüler elde edin."
+                "desc": "Hangi öğelerin popüler olduğunu takip edin, tarama oranlarını izleyin ve menünüzün getirisini optimize etmek için öngörüler elde edin."
             }
         },
         "getStarted": {
@@ -47,12 +47,18 @@
             "title": "Fiyatlarımız",
             "subtitle": "Dijital menülerinizi anında oluşturmaya başlamak için bir plan seçin.",
             "card": {
+                "starterPlan": "Başlangıç Planı",
                 "proPlan": "Pro Plan",
+                "enterprisePlan": "Kurumsal Plan",
                 "perMonth": "/ay",
                 "perYear": "/yıl",
                 "noCard": "Kredi kartı gerekmiyor",
                 "cancellation": "İstediğiniz zaman iptal edebilirsiniz. Gizli ücret yok.",
                 "features": {
+                    "1starter": "1 restoran oluşturma.",
+                    "2starter": "1 menü oluşturma.",
+                    "1enterprise": "sınırsız restoran oluşturma.",
+                    "2enterprise": "sınırsız menü oluşturma.",
                     "1": "3 restorana kadar açma olanağı.",
                     "2": "Sınırsız menü oluşturma.",
                     "3": "Sınırsız Menü Seçeneği ve Kategori",
@@ -61,7 +67,7 @@
                     "6": "Gelişmiş Analitik"
                 },
                 "button": "Hemen Başla",
-                "badge": "EN İYİ FİYAT",
+                "badge": "EN POPÜLER",
                 "perYearLabel": "Kredi kartı gerekmiyor - 2 ay tasarruflu"
             },
             "noCard": "Sorun mu yaşıyorsunuz? Hesabınızı almak ve restoranınız için Menex'in avantajlarını deneyimlemek için bizimle iletişime geçin.",
@@ -87,7 +93,7 @@
         },
         "account": {
             "firstname": "İlk adı",
-            "lastname": "Son adı",
+            "lastname": "Soy adı",
             "email": "E-posta",
             "password": "Şifre",
             "confirmPassword": "Şifreyi Onayla",
@@ -163,6 +169,7 @@
             "nameLabel": "İsim",
             "addressLabel": "Adres",
             "phoneLabel": "Telefon",
+            "description": "Açıklama (isteğe bağlı)",
             "logoLabel": "Logo Yükle (İsteğe bağlı)",
             "themeLabel": "Tema",
             "primaryColorLabel": "Birincil Renk",
@@ -194,6 +201,7 @@
             "slugLabel": "Slug",
             "addressLabel": "Adres",
             "phoneLabel": "Telefon",
+            "description": "Açıklama",
             "themeInfo": "Tema Bilgileri",
             "primaryColorLabel": "Birincil Renk",
             "secondaryColorLabel": "İkincil Renk",
@@ -274,6 +282,8 @@
             "title": "Abonelik",
             "description": "Aboneliğinizi yönetin",
             "proPlan": "Profesyonel Plan",
+            "starterPlan": "Başlangıç Planı",
+            "enterprisePlan": "Kurumsal Plan",
             "proPlanDesc": "Menü Yönetimi ve Analitik",
             "freeTrial": "1 Ay İlk Deneme",
             "monthly": "1 Ay Aboneliği",

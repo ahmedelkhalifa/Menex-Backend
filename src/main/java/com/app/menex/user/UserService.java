@@ -2,6 +2,7 @@ package com.app.menex.user;
 
 import com.app.menex.enums.Role;
 import com.app.menex.payment.repository.UserSubscriptionRespository;
+import com.app.menex.restaurant.Restaurant;
 import com.app.menex.security.config.AppUserDetails;
 import com.app.menex.security.verifcationToken.VerificationTokenRepository;
 import com.stripe.exception.StripeException;
@@ -11,15 +12,22 @@ import com.stripe.param.SubscriptionListParams;
 import com.stripe.param.SubscriptionUpdateParams;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.nio.file.AccessDeniedException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalTime;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +35,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final VerificationTokenRepository verificationTokenRepository;
     private final UserSubscriptionRespository userSubscriptionRespository;
+    @Value("${app.upload.dir}")
+    private String uploadDir;
 
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(
@@ -85,7 +95,7 @@ public class UserService {
     }
 
     @Transactional
-    public void deleteUser(Long userId) throws AccessDeniedException, StripeException {
+    public void deleteUser(Long userId) throws IOException, StripeException {
         User currentUser = getCurrentUser();
 
         boolean isAdmin = currentUser.getRole().equals(Role.SUPER_ADMIN);
@@ -104,7 +114,26 @@ public class UserService {
         verificationTokenRepository.deleteByUser(userToDelete);
         userSubscriptionRespository.deleteByUser(userToDelete);
 
+        Set<Restaurant> restaurants = userToDelete.getRestaurants();
+        for (Restaurant restaurant : restaurants) {
+            Path path = Paths.get(uploadDir, restaurant.getId().toString());
+            deleteDir(path);
+        }
+
         userRepository.delete(userToDelete);
+    }
+
+    private void deleteDir(Path path) throws IOException {
+        if (Files.notExists(path)) return;
+        Files.walk(path)
+                .sorted(Comparator.reverseOrder())
+                .forEach(p -> {
+                    try {
+                        Files.delete(p);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
     }
 
     public List<User> getAllAdmins() {

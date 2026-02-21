@@ -1,5 +1,10 @@
 package com.app.menex.restaurant;
 
+import com.app.menex.enums.Role;
+import com.app.menex.payment.model.Plan;
+import com.app.menex.payment.model.SubscriptionStatus;
+import com.app.menex.payment.model.UserSubscription;
+import com.app.menex.payment.repository.UserSubscriptionRespository;
 import com.app.menex.theme.Theme;
 import com.app.menex.user.User;
 import com.app.menex.user.UserRepository;
@@ -28,6 +33,8 @@ public class RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
     private final UserService userService;
+    private final UserSubscriptionRespository repository;
+    private final UserRepository userRepository;
 
     @Value("${app.upload.dir}")
     private String uploadDir;
@@ -43,12 +50,32 @@ public class RestaurantService {
                                        String background,
                                        String backgroundCard,
                                        String font,
-                                       MultipartFile logo) throws IOException {
+                                       MultipartFile logo,
+                                       Long userId,
+                                       String description) throws IOException {
 
-        User user = userService.getCurrentUser();
-        long currentCount = restaurantRepository.countByOwnerId(user.getId());
-        if (currentCount >= 3) {
-            throw new BadRequestException("You have reached the limit of 3 restaurants");
+        long currentCount = restaurantRepository.countByOwnerId(userId);
+        int max = 0;
+        UserSubscription sub = repository.findTopByUserIdAndStatusOrderByEndDateDesc(userId, SubscriptionStatus.ACTIVE).orElseThrow(
+                () -> new EntityNotFoundException("no active subscriptions")
+        );
+        Plan plan = sub.getPlan();
+        switch (plan) {
+            case STARTER -> {
+                max = 1;
+                break;
+            }
+            case PRO -> {
+                max = 3;
+                break;
+            }
+            case ENTERPRISE -> {
+                max = Integer.MAX_VALUE;
+                break;
+            }
+        }
+        if (currentCount >= max) {
+            throw new BadRequestException("You have reached the limit of %d restaurants".formatted(max));
         }
 
         Slugify slugify = new Slugify();
@@ -72,11 +99,12 @@ public class RestaurantService {
         Restaurant restaurant = Restaurant.builder()
                 .name(name.trim())
                 .slug(slug)
-                .owner(user)
+                .owner(userRepository.findById(userId).get())
                 .theme(theme)
                 .address(address)
                 .phone(phone)
                 .views(0)
+                .description(description)
                 .build();
         restaurantRepository.saveAndFlush(restaurant);
         Long id = restaurant.getId();
@@ -115,7 +143,8 @@ public class RestaurantService {
                                        String backgroundCard,
                                        String font,
                                        MultipartFile logo,
-                                       Long id) throws IOException {
+                                       Long id,
+                                       String description) throws IOException {
 
 
 
@@ -145,6 +174,7 @@ public class RestaurantService {
         restaurant.setTheme(theme);
         restaurant.setAddress(address);
         restaurant.setPhone(phone);
+        restaurant.setDescription(description);
 
         Path restaurantDir = Paths.get(uploadDir , id.toString());
         Files.createDirectories(restaurantDir);
@@ -164,7 +194,7 @@ public class RestaurantService {
                 () -> new EntityNotFoundException("Restaurant not found with id: " + id)
         );
         User user = userService.getCurrentUser();
-        if (restaurant.getOwner().getId().equals(user.getId())) {
+        if (restaurant.getOwner().getId().equals(user.getId()) || user.getRole().equals(Role.SUPER_ADMIN)) {
             restaurantRepository.deleteById(id);
             Path restuarantPath = Paths.get(uploadDir , id.toString());
             deleteDirectory(restuarantPath);
@@ -184,5 +214,9 @@ public class RestaurantService {
                         throw new UncheckedIOException(e);
                     }
                 });
+    }
+
+    public List<Restaurant> getAllRestaurants() {
+        return restaurantRepository.findAll();
     }
 }

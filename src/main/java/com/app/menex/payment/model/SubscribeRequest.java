@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class SubscribeRequest {
     private Long userId;
     private Integer days;
+    private Plan plan;
 }

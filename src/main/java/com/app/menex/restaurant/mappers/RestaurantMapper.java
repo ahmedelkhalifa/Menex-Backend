@@ -31,6 +31,7 @@ public interface RestaurantMapper {
     @Mapping(source = "theme", target = "theme")
     @Mapping(source = "address", target = "address")
     @Mapping(source = "phone", target = "phone")
+    @Mapping(source = "description", target = "description")
     RestaurantDto toDto(Restaurant restaurant);
 
     @Named("getOwnerEmail")

@@ -1,5 +1,5 @@
 import {AttachMoney, Category, Circle, Delete, DisabledByDefault, Edit, Event, Fastfood, Menu, MenuBook, Payments, Person, PersonOff, Restaurant, SentimentDissatisfied, SpaceDashboard, Subscriptions, SupervisorAccount, WorkspacePremium } from '@mui/icons-material'
-import { Autocomplete, Box, Button, Card, CircularProgress, Divider, Drawer, FormControl, IconButton, InputLabel, LinearProgress, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Modal, OutlinedInput, Paper, Skeleton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography, useTheme } from '@mui/material'
+import { Autocomplete, Box, Button, Card, CircularProgress, Divider, Drawer, FormControl, IconButton, InputLabel, LinearProgress, List, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem, Modal, OutlinedInput, Paper, Select, Skeleton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography, useTheme } from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import api from "../api"
@@ -34,6 +34,7 @@ const RestaurantOwners = () => {
   const [start, setStart] = useState(0);
   const [end, setEnd] = useState(0);
   const [today, setToday] = useState(0);
+  const [plan, setPlan] = useState("PRO");
 
   const totalDuration = end - start;
   const timeRemaining = end - today;
@@ -58,7 +59,8 @@ const RestaurantOwners = () => {
       setLoading(true);
       await api.put("payment/renewal", {
         userId: selectedOwner.id,
-        days: days
+        days: days,
+        plan: plan
       });
       setOpenSubscription(false);
       Swal.fire({
@@ -97,6 +99,7 @@ const RestaurantOwners = () => {
       setLoading(true);
       const response = await api.get(`payment/subscription/${ownerId}`);
       setSubscription(response.data);
+      setPlan(response.data.plan);
       const endDate = new Date(response.data.currentPeriodEnd * 1000);
       const today = new Date();
       const diffInMs = endDate - today;
@@ -159,7 +162,7 @@ const RestaurantOwners = () => {
           lastname,
           email,
           password,
-          role: "RESTAURANT_OWNER"
+          role: "UNSUBSCRIBER"
         }
       );
       setOwners(o => [...o, response.data]);
@@ -612,7 +615,9 @@ const RestaurantOwners = () => {
                               </Box>
                               <Box>
                                   <Typography variant='h5' fontWeight={600} color='text.primary'>
-                                      {t("profile.subscription.proPlan")}
+                                      {subscription?.plan === "PRO" ? t("profile.subscription.proPlan") : (
+                                        subscription?.plan === "STARTER" ? t("profile.subscription.starterPlan") : t("profile.subscription.enterprisePlan")
+                                      )}
                                   </Typography>
                                   <Typography variant='body1' color='text.secondary'>
                                       {t("profile.subscription.proPlanDesc")}
@@ -745,6 +750,12 @@ const RestaurantOwners = () => {
                   </>
                   )}
                   <Box display={'flex'} alignItems={'center'} gap={1} mt={3}>
+                    <Select onChange={(e) => setPlan(e.target.value)}
+                      value={plan} sx={{width: '150px'}}>
+                      <MenuItem value={"PRO"} disabled={plan === "ENTERPRISE"}>Pro</MenuItem>
+                      <MenuItem value={"STARTER"} disabled={plan === "ENTERPRISE" || plan === "PRO"}>Starter</MenuItem>
+                      <MenuItem value={"ENTERPRISE"}>Enterprise</MenuItem>
+                    </Select>
                     <Button variant='contained' sx={{height: "50px", width: "150px"}}
                     onClick={() => handleRenew(30)} disabled={loading}>
                       Renew 1 month

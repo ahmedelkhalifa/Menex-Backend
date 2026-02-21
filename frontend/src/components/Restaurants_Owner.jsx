@@ -7,9 +7,11 @@ import api from '../api'
 import Swal from 'sweetalert2'
 import { useTranslation } from 'react-i18next'
 import donerImage from "../assets/Beef-Doner-wrap-min-1024x683.jpg"
+import { useThemeMode } from '../main'
 
 const Restaurants_Owner = () => {
   const [open, setOpen] = useState(false);
+  const {mode, setMode} = useThemeMode();
   const [openCreate, setOpenCreate] = useState(false);
   const [openPicker, setOpenPicker] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -17,6 +19,7 @@ const Restaurants_Owner = () => {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
+  const [description, setDescription] = useState("");
   const [main, setMain] = useState("#6FBF73");
   const [secondary, setSecondary] = useState("#2E3A3A");
   const [textMain, setTextMain] = useState("#2E3A3A");
@@ -59,7 +62,8 @@ const Restaurants_Owner = () => {
           textSecondary: textSecondary,
           background: background,
           backgroundCard: backgroundCard,
-          font: font
+          font: font,
+          description: description
       };
       const jsonBlob = new Blob([JSON.stringify(restaurantData)], { type: "application/json" });
       formData.append("data", jsonBlob);
@@ -119,7 +123,8 @@ const Restaurants_Owner = () => {
           textSecondary: textSecondary,
           background: background,
           backgroundCard: backgroundCard,
-          font: font
+          font: font,
+          description: description
       };
       const jsonBlob = new Blob([JSON.stringify(restaurantData)], { type: "application/json" });
       formData.append("data", jsonBlob);
@@ -233,6 +238,7 @@ const Restaurants_Owner = () => {
     setFont("roboto");
     setLogo(null);
     setExceedSize(false);
+    setDescription("");
   };
 
   function handleCloseUpdate() {
@@ -250,6 +256,7 @@ const Restaurants_Owner = () => {
     setFont("roboto");
     setLogo(null);
     setExceedSize(false);
+    setDescription("");
   }
 
   useEffect(() => {
@@ -370,6 +377,7 @@ const Restaurants_Owner = () => {
                               setBackground(r.theme.background);
                               setBackgroundCard(r.theme.backgroundCard);
                               setFont(r.theme.font);
+                              setDescription(r.description);
                             }}>
                               <Edit sx={{color: "primary.dark"}}/>
                             </IconButton>
@@ -460,6 +468,16 @@ const Restaurants_Owner = () => {
                               inputProps={{ pattern: "[0-9+ ]*" }}
                               required/>
                             </FormControl>
+                            <FormControl fullWidth sx={{mt: 2}}>
+                              <InputLabel htmlFor='desc'>{t('restaurants.create.description')}</InputLabel>
+                              <OutlinedInput id="desc"
+                              label={t('restaurants.create.description')} fullWidth type='text'
+                              multiline rows={4}
+                              value={description}
+                              autoComplete='off'
+                              onChange={(e) => setDescription(e.target.value)}
+                              />
+                            </FormControl>
                             <Button variant='contained' fullWidth sx={{mt: 2, bgcolor: "secondary.main", color: "background.default", height: "50px"}} component="label">
                               {logo ? logo.name : t('restaurants.create.logoLabel')}
                               <input type="file"
@@ -467,7 +485,12 @@ const Restaurants_Owner = () => {
                               accept='image/*'
                               onChange={handleLogoChange} />
                             </Button>
-                            {exceedSize && <Alert icon={<Warning fontSize='inherit'/>} severity='error' sx={{width: '100%', mt: 2}}>
+                            {exceedSize && <Alert icon={<Warning fontSize='inherit'/>} severity="error" sx={{ my: 2,
+                            bgcolor: "error.light",
+                            color: mode === "dark" ? "#2c0b0a" : '#EF5350',
+                            '& .MuiAlert-icon': {
+                            color: mode === "dark" ? "#2c0b0a" : '#EF5350', // Keeps the icon the bright red you like
+                            }}}>
                               {t('restaurants.create.alert')}</Alert>}
                           </Box>
                           <Stack flexDirection={{xs: "column", md: "row"}} gap={2} alignItems={'flex-start'} flex={2}>
@@ -667,6 +690,15 @@ const Restaurants_Owner = () => {
                               inputProps={{ pattern: "[0-9+ ]*" }}
                               required/>
                             </FormControl>
+                            <FormControl fullWidth sx={{mt: 2}}>
+                              <InputLabel htmlFor='desc'>{t('restaurants.create.description')}</InputLabel>
+                              <OutlinedInput id="desc"
+                              label={t('restaurants.create.description')} fullWidth type='text'
+                              multiline rows={4}
+                              value={description}
+                              autoComplete='off'
+                              onChange={(e) => setDescription(e.target.value)}/>
+                            </FormControl>
                             <Button variant='contained' fullWidth sx={{mt: 2, bgcolor: "secondary.main", color: "background.default", height: "50px"}} component="label">
                               {logo ? logo.name : t('restaurants.create.logoLabel')}
                               <input type="file"
@@ -674,7 +706,12 @@ const Restaurants_Owner = () => {
                               accept='image/*'
                               onChange={handleLogoChange} />
                             </Button>
-                            {exceedSize && <Alert icon={<Warning fontSize='inherit'/>} severity='error' sx={{width: '100%', mt: 2}}>
+                            {exceedSize && <Alert icon={<Warning fontSize='inherit'/>} severity="error" sx={{ my: 2,
+                            bgcolor: "error.light",
+                            color: mode === "dark" ? "#2c0b0a" : '#EF5350',
+                            '& .MuiAlert-icon': {
+                            color: mode === "dark" ? "#2c0b0a" : '#EF5350', // Keeps the icon the bright red you like
+                            }}}>
                               {t('restaurants.create.alert')}</Alert>}
                           </Box>
                           <Stack flexDirection={{xs: "column", md: "row"}} gap={2} alignItems={'flex-start'} flex={2}>
@@ -861,6 +898,14 @@ const Restaurants_Owner = () => {
                     label={t('restaurants.details.phoneLabel')}
                     value={selectedRestaurant?.phone}
                     id='phone'/>
+                  </FormControl>
+                  <FormControl fullWidth sx={{mb: 2}}>
+                    <InputLabel htmlFor='desc'>{t('restaurants.details.description')}</InputLabel>
+                    <OutlinedInput readOnly
+                    label={t('restaurants.details.description')}
+                    value={selectedRestaurant?.description}
+                    id='desc'
+                    multiline rows={4}/>
                   </FormControl>
                 </Box>
                 <Box flex={1}>

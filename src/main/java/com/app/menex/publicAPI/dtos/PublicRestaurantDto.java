@@ -16,6 +16,7 @@ import java.util.List;
 @Builder
 public class PublicRestaurantDto {
     private String name;
+    private String description;
     private String address;
     private String phone;
     private List<MenuDto> menus;

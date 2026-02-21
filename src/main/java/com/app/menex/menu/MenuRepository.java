@@ -23,4 +23,6 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
     List<Menu> findAllByRestaurantOwnerId(Long id);
 
     Optional<Menu> findByIdAndRestaurantSlug(Long menuId, String restaurantSlug);
+
+    long countByRestaurantOwnerId(Long id);
 }

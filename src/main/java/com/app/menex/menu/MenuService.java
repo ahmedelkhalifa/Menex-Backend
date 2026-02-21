@@ -1,5 +1,9 @@
 package com.app.menex.menu;
 
+import com.app.menex.payment.model.Plan;
+import com.app.menex.payment.model.SubscriptionStatus;
+import com.app.menex.payment.model.UserSubscription;
+import com.app.menex.payment.repository.UserSubscriptionRespository;
 import com.app.menex.restaurant.Restaurant;
 import com.app.menex.restaurant.RestaurantRepository;
 import com.app.menex.restaurant.RestaurantService;
@@ -13,6 +17,7 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
@@ -33,6 +38,7 @@ import java.util.Set;
 public class MenuService {
 
     private final UserService userService;
+    private final UserSubscriptionRespository repository;
     private final RestaurantRepository restaurantRepository;
     private final MenuRepository menuRepository;
     @Value("${app.upload.dir}")
@@ -45,6 +51,29 @@ public class MenuService {
         User user = userService.getCurrentUser();
         if (!restaurant.getOwner().getId().equals(user.getId())) {
             throw new AccessDeniedException("You are not allowed to perform this action");
+        }
+        long currentCount = menuRepository.countByRestaurantOwnerId(user.getId());
+        int max = 0;
+        UserSubscription sub = repository.findTopByUserIdAndStatusOrderByEndDateDesc(user.getId(), SubscriptionStatus.ACTIVE).orElseThrow(
+                () -> new EntityNotFoundException("no active subscriptions")
+        );
+        Plan plan = sub.getPlan();
+        switch (plan) {
+            case STARTER -> {
+                max = 1;
+                break;
+            }
+            case PRO -> {
+                max = 5;
+                break;
+            }
+            case ENTERPRISE -> {
+                max = Integer.MAX_VALUE;
+                break;
+            }
+        }
+        if (currentCount >= max && plan != Plan.ENTERPRISE) {
+            throw new BadRequestException("You have reached the limit of %d menus".formatted(max));
         }
         Menu menu = Menu.builder()
                 .name(name)
@@ -68,7 +97,7 @@ public class MenuService {
             String menuPath = "menu-" + menu.getId();
             menu.setImageUrl(resId + "/" + menuPath + "/" + imageName);
         }
-        return menu;
+        return menuRepository.save(menu);
     }
 
     @Transactional

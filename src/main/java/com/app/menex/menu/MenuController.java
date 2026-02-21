@@ -6,6 +6,7 @@ import com.app.menex.menu.dtos.UpdateMenuRequest;
 import com.app.menex.menu.mappers.MenuMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,6 +28,8 @@ public class MenuController {
 
     private final MenuService menuService;
     private final MenuMapper menuMapper;
+    @Value("${menex.frontendURL}")
+    private String frontendURL;
 
     @PreAuthorize("hasRole('RESTAURANT_OWNER')")
     @PostMapping(value = "restaurants/{restaurantId}/menus", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -58,7 +61,7 @@ public class MenuController {
     @PreAuthorize("hasRole('RESTAURANT_OWNER')")
     @GetMapping("/{slug}/menus/{menuId}/download-QR-code")
     public ResponseEntity<byte[]> downloadMenuQRCode(@PathVariable String slug, @PathVariable Long menuId) throws Exception {
-        String menuUrl = "https://menex.my/" + slug + "/" + menuId;
+        String menuUrl = frontendURL + "/" + slug + "/" + menuId;
         byte[] QRImage = menuService.generateMenuQRCode(menuUrl);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                         "attachment; filename="+ slug + "-qr.png")
@@ -69,8 +72,7 @@ public class MenuController {
     @PreAuthorize("hasRole('RESTAURANT_OWNER')")
     @GetMapping("/{slug}/menus/{menuId}/get-QR-code")
     public ResponseEntity<byte[]> getMenuQRCode(@PathVariable String slug, @PathVariable Long menuId) throws Exception {
-        System.out.println("I'm here");
-        String menuUrl = "https://menex.my/" + slug + "/" + menuId;
+        String menuUrl = frontendURL + "/" + slug + "/" + menuId;
         byte[] QRImage = menuService.generateMenuQRCode(menuUrl);
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_PNG)
