@@ -1,15 +1,18 @@
 package com.app.menex.user;
 
 import com.app.menex.enums.Role;
+import com.app.menex.mailService.MailService;
 import com.app.menex.payment.repository.UserSubscriptionRespository;
 import com.app.menex.restaurant.Restaurant;
 import com.app.menex.security.config.AppUserDetails;
+import com.app.menex.security.verifcationToken.VerificationToken;
 import com.app.menex.security.verifcationToken.VerificationTokenRepository;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Subscription;
 import com.stripe.model.SubscriptionCollection;
 import com.stripe.param.SubscriptionListParams;
 import com.stripe.param.SubscriptionUpdateParams;
+import jakarta.mail.MessagingException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,10 +27,12 @@ import java.nio.file.AccessDeniedException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +42,7 @@ public class UserService {
     private final UserSubscriptionRespository userSubscriptionRespository;
     @Value("${app.upload.dir}")
     private String uploadDir;
+    private final MailService mailService;
 
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(
@@ -148,5 +154,20 @@ public class UserService {
         } else  {
             throw new AccessDeniedException("You don't have access");
         }
+    }
+
+    @Transactional
+    public void forgotPassword(String email) throws MessagingException {
+        User current =  userRepository.findByEmail(email).orElseThrow(
+                () -> new UsernameNotFoundException("User not found with email: " + email)
+        );
+        String token = UUID.randomUUID().toString();
+        VerificationToken vt = VerificationToken.builder()
+                .token(token)
+                .user(current)
+                .expiration(LocalDateTime.now().plusDays(1))
+                .build();
+        mailService.sendResetPasswordEmail(current.getEmail(), current.getFirstName(), token);
+        verificationTokenRepository.save(vt);
     }
 }

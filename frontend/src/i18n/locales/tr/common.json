@@ -104,11 +104,15 @@
             "loginLoading": "Giriş yapılıyor...",
             "forgotPassword": "Şifreni mi unuttun?",
             "dontHaveAccount": "Hesabın yok mu? Kaydol.",
-            "signup": "Kaydol"
+            "signup": "Kaydol",
+            "terms": "Okudum ve kabul ediyorum",
+            "termsLink": "Şartlar ve Koşullar",
+            "terms2": "ve",
+            "privacyLink": "Gizlilik Politikası"
         },
         "cta": {
             "title": "Menünüzü dijitalleştirmeye hazır mısınız?",
-            "desc": "MENEX ile zaman ve para kazanmaya başlayın. Ücretsiz deneme sürümünüzü şimdi başlatın."
+            "desc": "MENEX ile zaman ve para kazanmaya başlayın. şimdi başlatın."
         }
     },
     "ownerDashboard": {
@@ -261,7 +265,10 @@
             "changePasswordButton": "Şifreyi Değiştir",
             "changePasswordButtonLoading": "Şifreniz değiştiriliyor...",
             "passwordMismatchMessage": "Yeni şifre ve onaylama eşleşmiyor.",
+            "resetPassword": "Şifreyi Sıfırla",
+            "resetPasswordLoading": "Şifre sıfırlanıyor...",
             "logout": "Çıkış Yap",
+            "passwordLengthMessage": "Şifre en az 8 karakter uzunluğunda olmalıdır.",
             "errorAlert": {
                 "title": "Hata",
                 "message": "Şifre değiştirme sırasında bir hata oluştu. Lütfen tekrar deneyin."
@@ -408,7 +415,9 @@
             "deleteTitle": "Emin misin?",
             "deleteMessage": "Bunu geri alamayacaksınız!",
             "confirmDelete": "Evet, sil!",
-            "cancelDelete": "İptal"
+            "cancelDelete": "İptal",
+            "markUnavailable": "Ürünü Mevcut Değil Olarak İşaretle",
+            "markAvailable": "Ürünü Mevcut Olarak İşaretle"
         },
         "errorAlert": {
             "title": "Hata",
@@ -451,6 +460,7 @@
         "title": "E-postanızı Kontrol Edin",
         "desc1": "Aktivasyon bağlantısını şuraya gönderdik:",
         "desc2": "Hesabınızı doğrulamak için lütfen bağlantıya tıklayın.",
+        "desc3": "Şifrenizi değiştirmek için lütfen bağlantıya tıklayın.",
         "btn": "Yeniden Gönder",
         "emailNotRecieved": "E-posta almadınız mı?",
         "checkSpam": "Spam klasörünüzü kontrol edin."
@@ -552,6 +562,76 @@
         "changes": "Bu Koşulları herhangi bir zamanda değiştirme hakkımız saklıdır. Kullanıma devam edilmesi, değişikliklerin kabul edildiği anlamına gelir.",
         "contact": "<strong>Bize Ulaşın:</strong><br>E-posta: support@menex.com<br>Konum: Girne, KKTC"
         }
+    },
+    "forgotPassword": {
+        "title": "Şifremi Unuttum",
+        "desc": "Hesabınızın e-posta adresini girin, şifre sıfırlama talimatlarını içeren bir bağlantı göndereceğiz.",
+        "emailLabel": "E-posta",
+        "submitButton": "Sıfırlama Bağlantısı Gönder",
+        "submitButtonLoading": "Sıfırlama bağlantısı gönderiliyor...",
+        "successAlert": {
+            "title": "Başarılı!",
+            "message": "Eğer bu e-posta adresiyle bir hesap varsa, şifre sıfırlama talimatlarını içeren bir bağlantı gönderildi.",
+            "reset": "Şifreniz başarıyla sıfırlandı! Şimdi giriş yapabilirsiniz."
+        },
+        "errorAlert": {
+            "title": "Hata",
+            "message": "Sıfırlama bağlantısı gönderilirken bir hata oluştu. Lütfen tekrar deneyin.",
+            "invalidLink": "Geçersiz Bağlantı",
+            "invalidLinkDesc": "Geçersiz veya süresi dolmuş sıfırlama bağlantısı. Lütfen yeni bir sıfırlama talebi gönderin."
+        }
+    },
+    "privacyPolicy": {
+        "pageTitle": "Gizlilik Politikası",
+        "lastUpdated": "Son Güncelleme: 22 Şubat 2026",
+        "intro": {
+        "welcome": "<strong>MENEX Dijital Menü</strong> (\"MENEX\", \"biz\" veya \"bizim\") olarak gizliliğinizi korumaya kararlıyız. Bu Gizlilik Politikası, dijital menü SaaS platformumuzu ve ilgili hizmetlerimizi kullandığınızda bilgileri nasıl topladığımızı, kullandığımızı ve koruduğumuzu açıklar.",
+        "warning": "Bu politika hem <strong>Restoran Sahipleri</strong> (kayıtlı müşterilerimiz) hem de <strong>Son Kullanıcılar</strong> (dijital menüleri görüntüleyen restoran müşterileri) için geçerlidir."
+        },
+        "section1": {
+        "title": "1. Topladığımız Bilgiler",
+        "owners": "<strong>1.1. Restoran Sahiplerinden:</strong> Bir hesap için kayıt olduğunuzda, hizmetimizi sunmak için gerekli olan kişisel ve ticari bilgileri toplarız. Buna adınız, e-posta adresiniz, güvenli şifreniz ve restoranınızla ilgili ayrıntılar (restoranın fiziksel adresi ve genel telefon numarası gibi) dâhildir.",
+        "endUsers": "<strong>1.2. Son Kullanıcılardan (Menü Görüntüleyenler):</strong> Restoran müşterilerinin gizliliğine saygı duyuyoruz. QR kodlarını tarayan veya dijital menüleri görüntüleyen son kullanıcılardan <strong>hiçbir kişisel veri toplamıyoruz</strong>. IP adreslerini izlemiyoruz ve son kullanıcıların bir hesap oluşturmasını talep etmiyoruz.",
+        "analytics": "<strong>1.3. Menü Görüntüleme Sayıları:</strong> Basit ve anonim bir sayaç kullanarak menülerin popülerliğini takip ediyoruz. Bir menü yüklendiğinde, sistem toplam görüntüleme sayısına sadece \"+1\" ekler. Bu işlem, kullanıcıyı veya cihazını tanımlamaz."
+        },
+        "section2": {
+        "title": "2. Bilgilerinizi Nasıl Kullanıyoruz",
+        "purpose": "<strong>2.1. Hizmet Sunumu:</strong> Restoran Sahipleri tarafından sağlanan bilgileri; hesaplar oluşturmak ve yönetmek, dijital menüleri barındırmak ve restoranın iletişim bilgilerini (telefon ve adres) dijital menüsünde herkese açık olarak görüntülemek için kullanırız.",
+        "communications": "<strong>2.2. İletişim ve Pazarlama:</strong> E-posta adresinizi önemli sistem bildirimlerini (örn. şifre sıfırlamaları, hesap uyarıları) göndermek için kullanırız. Zaman zaman yeni özellikler, yükseltmeler veya özel tekliflerle ilgili promosyon e-postaları gönderebiliriz. Destek ekibiyle iletişime geçerek promosyon e-postaları almaktan vazgeçebilirsiniz.",
+        "payments": "<strong>2.3. Ödeme İşlemleri:</strong> MENEX, abonelik ödemelerini doğrudan banka havalesi yoluyla manuel olarak işler. Kredi kartı numaralarını veya hassas finansal verileri sunucularımızda toplamıyor, işlemiyor veya saklamıyoruz."
+        },
+        "section3": {
+        "title": "3. Veri Depolama ve Üçüncü Taraflar",
+        "hosting": "<strong>3.1. Altyapı:</strong> Platformumuz ve veritabanlarımız, bir bulut barındırma sağlayıcısı olan <strong>Render</strong> kullanılarak güvenli bir şekilde barındırılmaktadır. Menü metinleri ve görselleri dâhil olmak üzere verileriniz onların güvenli sunucularında saklanır.",
+        "sharing": "<strong>3.2. Veri Satışının Olmaması:</strong> Kişisel veya ticari verilerinizi hiçbir üçüncü tarafa satmıyor, kiralamıyor veya takas etmiyoruz. Veriler, yalnızca MENEX platformunu işletmek amacıyla barındırma sağlayıcımızla paylaşılır.",
+        "cookies": "<strong>3.3. Çerezler ve İzleme:</strong> Gösterge paneline giriş yapan Restoran Sahiplerinin kimlik doğrulaması ve güvenliği için kesinlikle gerekli çerezleri kullanıyoruz. Menüleri görüntüleyen Son Kullanıcılar üzerinde Google Analytics <strong>kullanmıyoruz</strong> veya izleme çerezleri bırakmıyoruz."
+        },
+        "section4": {
+        "title": "4. Veri Saklama ve Silme",
+        "retention": "<strong>4.1. Süresi Dolan Abonelikler:</strong> MENEX aboneliğinizin süresi ödeme yapılmaması nedeniyle dolarsa; yenileme üzerine hizmetinizi kolayca geri yükleyebilmeniz için hesap verilerinizi, menülerinizi ve görsellerinizi veritabanımızda saklarız. Bu süre zarfında menüye genel erişim devre dışı bırakılacaktır.",
+        "deletion": "<strong>4.2. Hesap Silme:</strong> Hesabınızı silmeyi açıkça talep ederseniz, <strong>ilişkili tüm veriler derhal ve kalıcı olarak silinir</strong>. Buna kişisel bilgileriniz, restoranlarınız, menüleriniz ve yüklenen görseller dâhildir. Bu işlem geri alınamaz."
+        },
+        "section5": {
+        "title": "5. Haklarınız",
+        "rights": "<strong>5.1. Verilerinizi Yönetme:</strong> Restoran Sahipleri, kişisel ve ticari bilgilerine MENEX gösterge paneli üzerinden diledikleri zaman erişme, bunları güncelleme veya düzeltme hakkına sahiptir.",
+        "removal": "<strong>5.2. Silme Hakkı:</strong> Destek ekibimizle iletişime geçerek hesabınızın ve verilerinizin tamamen silinmesini talep edebilirsiniz."
+        },
+        "footer": {
+        "changes": "Bu Gizlilik Politikasını herhangi bir zamanda güncelleme hakkımız saklıdır. Önemli değişiklikleri Restoran Sahiplerine e-posta yoluyla bildireceğiz.",
+        "contact": "<strong>Gizlilik Talepleri İçin Bize Ulaşın:</strong><br>E-posta: support@menex.com<br>Konum: KKTC"
+        }
+    },
+    "public": {
+        "ourMenus": "Menülerimiz",
+        "ourMenusDescription": "Göz atmaya başlamak için bir menü seçin.",
+        "viewMenu": "Menüyü Görüntüle",
+        "categories": "Kategoriler",
+        "items": "Ürünler",
+        "allCategories": "Tüm Kategoriler",
+        "active": "Aktif",
+        "inactive": "Pasif",
+        "available": "Mevcut",
+        "unavailable": "Mevcut Değil",
+        "viewItem": "Ürünü görüntüle"
     }
-
 }

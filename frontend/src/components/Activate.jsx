@@ -74,7 +74,7 @@ const Activate = () => {
         }}>
           <Box component={"img"}
           src={mode === "light" ? logo : logoDark} width={"200px"} height={"60px"}
-          sx={{objectFit: "contain"}}/>
+          sx={{objectFit: "contain", cursor: "pointer"}} onClick={() => navigate("/")}/>
           <Box display={'flex'} alignItems={"center"} gap={5}>
             <Box display={'flex'} alignItems={'center'} gap={2}>
               <IconButton onClick={handleChange} sx={{transition: "0.2s ease-in-out"}}>

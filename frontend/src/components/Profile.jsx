@@ -150,7 +150,7 @@ const Profile = () => {
             });
         } catch (error) {   
             console.error(error);
-            const message = error.response?.data?.message || t("profile.security.errorAlert.message");
+            const message = t("profile.security.errorAlert.message");
             Swal.fire({ 
                 icon: 'error',
                 title: t("profile.security.errorAlert.title"),
@@ -225,6 +225,11 @@ const Profile = () => {
             default: return "th";
         }
     };
+
+    function handleLogout() {
+        localStorage.clear();
+        window.location.href = "/"
+    }
 
     useEffect(() => {
         async function getProfile() {
@@ -389,7 +394,7 @@ const Profile = () => {
                         onChange={(e) => setLastName(e.target.value)}/>
                     </Grid>
                     <Grid item size={{xs: 12, sm: 6}}>
-                        <TextField label={t("profile.emailLabel")} fullWidth inputProps={{readOnly: !editMode}}
+                        <TextField label={t("profile.emailLabel")} fullWidth inputProps={{readOnly: true}}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}/>
                     </Grid>
@@ -435,7 +440,8 @@ const Profile = () => {
                         </Button>
                     </Grid>
                     <Grid item size={{xs: 12, sm: 6}}>
-                        <Button variant='contained' sx={{bgcolor: 'error.main', '&:hover': {bgcolor: 'error.dark'}, color: '#FFF', height: "40px", p: 3}} fullWidth>
+                        <Button variant='contained' sx={{bgcolor: 'error.main', '&:hover': {bgcolor: 'error.dark'}, color: '#FFF', height: "40px", p: 3}} fullWidth
+                        onClick={handleLogout}>
                             {t("profile.security.logout")}
                         </Button>
                     </Grid>
@@ -671,6 +677,7 @@ const Profile = () => {
                             value={oldPassword}
                             onChange={(e) => setOldPassword(e.target.value)}
                             required
+                            autoComplete='off'
                         />
                         <TextField
                             label={t("profile.security.newPasswordLabel")}
@@ -680,6 +687,7 @@ const Profile = () => {
                             value={newPassword}
                             onChange={(e) => setNewPassword(e.target.value)}
                             required
+                            autoComplete='off'
                         />
                         <TextField
                             label={t("profile.security.confirmNewPasswordLabel")}
@@ -689,6 +697,7 @@ const Profile = () => {
                             value={confirmNewPassword}
                             onChange={(e) => setConfirmNewPassword(e.target.value)}
                             required
+                            autoComplete='off'
                         />
                         {(newPassword !== confirmNewPassword && confirmNewPassword !== "") && (
                             <Alert severity="error" sx={{ my: 2,

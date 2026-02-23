@@ -108,6 +108,12 @@ public class AuthController {
        return  new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PutMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordRequest request, HttpServletResponse response) throws IOException {
+       authService.resetPassword(request);
+       return new ResponseEntity<>(HttpStatus.OK);
+    }
+
    @GetMapping("/validate")
    public String  validate() {
        return "valid";

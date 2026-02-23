@@ -12,7 +12,7 @@ import i18n from '../i18n';
 const Sidebar = ({view, subname, userId}) => {
     function handleLogout() {
         localStorage.clear();
-        window.location.href = "/login"
+        window.location.href = "/"
     }
     const navigate = useNavigate();
     const location = useLocation();

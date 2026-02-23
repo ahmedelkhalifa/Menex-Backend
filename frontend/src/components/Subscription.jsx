@@ -7,7 +7,7 @@ import api from '../api'
 import logo from "../assets/logo-png.png"
 import logoDark from "../assets/logo-dark-png.png"
 import i18n from '../i18n'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Subscription = () => {
 
@@ -68,7 +68,7 @@ const Subscription = () => {
             }}>
                 <Box component={"img"}
                 src={mode === "light" ? logo : logoDark} width={"200px"} height={"60px"}
-                sx={{objectFit: "contain"}}/>
+                sx={{objectFit: "contain", cursor: "pointer"}} onClick={() => navigate("/")}/>
                 <Box display={'flex'} alignItems={"center"} gap={5}>
                 <Box display={'flex'} alignItems={'center'} gap={2}>
                     <IconButton onClick={handleChange} sx={{transition: "0.2s ease-in-out"}}>
@@ -385,9 +385,6 @@ const Subscription = () => {
                                     sx={{cursor: 'pointer'}}>
                                         {t("landing.footer.pricing")}
                                     </Typography>
-                                    <Typography variant='body1' color='text.secondary'>
-                                        {t("landing.footer.blog")}
-                                    </Typography>
                                 </Box>
                             </Box>
                         </Box>
@@ -418,10 +415,22 @@ const Subscription = () => {
                                 </Typography>
                                 <Box display={'flex'} flexDirection={{xs: "row", md: "column"}} gap={3}
                                 mt={2}>
-                                    <Typography variant='body1' color='text.secondary'>
+                                    <Typography 
+                                    component={Link}
+                                    to="/privacy-policy"
+                                    variant="body1"
+                                    color="text.secondary"
+                                    sx={{ cursor: "pointer", textDecoration: "none" }}
+                                    onClick={() => window.scrollTo(0, 0)}>
                                         {t("landing.footer.privacy")}
                                     </Typography>
-                                    <Typography variant='body1' color='text.secondary'>
+                                    <Typography 
+                                    component={Link}
+                                    to="/terms"
+                                    variant="body1"
+                                    color="text.secondary"
+                                    sx={{ cursor: "pointer", textDecoration: "none" }}
+                                    onClick={() => window.scrollTo(0, 0)}>
                                         {t("landing.footer.terms")}
                                     </Typography>
                                 </Box>

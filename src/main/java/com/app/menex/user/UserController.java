@@ -1,20 +1,28 @@
 package com.app.menex.user;
 
+import com.app.menex.security.verifcationToken.VerificationToken;
+import com.app.menex.security.verifcationToken.VerificationTokenRepository;
 import com.app.menex.user.dtos.UpdateUserRequest;
 import com.app.menex.user.dtos.UserDto;
 import com.app.menex.user.mappers.UserMapper;
 import com.stripe.exception.StripeException;
+import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.BadRequestException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.net.http.HttpResponse;
 import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -23,6 +31,9 @@ public class UserController {
 
     private final UserService userService;
     private final UserMapper userMapper;
+    @Value("${menex.frontendURL}")
+    private String frontendURL;
+    private final VerificationTokenRepository verificationTokenRepository;
 
     @PreAuthorize("hasRole('SUPER_ADMIN')")
     @GetMapping("/users")
@@ -75,6 +86,25 @@ public class UserController {
     public ResponseEntity updateLanguage(@PathVariable Long userId, @RequestParam String language) throws AccessDeniedException {
         userService.updateLanguage(userId, language);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PutMapping("/reset-password")
+    public void forgotPassword(@RequestBody Map<String, String> request) throws IOException, MessagingException {
+        userService.forgotPassword(request.get("email"));
+    }
+
+    @GetMapping("verify-password-token")
+    public void verifyToken(HttpServletResponse response, @RequestParam String token) throws IOException {
+        System.out.println(token);
+        VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
+        if (verificationToken == null) {
+            throw new BadRequestException("Invalid token");
+        }
+
+        if (verificationToken.isExpired()) {
+            throw new BadRequestException("token is expired");
+        }
+        response.sendRedirect(frontendURL + "/reset-password?token=" + verificationToken.getToken());
     }
 
     @DeleteMapping("/users/{userId}")

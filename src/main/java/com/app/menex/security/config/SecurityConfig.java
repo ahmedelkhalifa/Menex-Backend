@@ -42,6 +42,9 @@ public class SecurityConfig {
                 authorizeRequests -> authorizeRequests
                         .requestMatchers("/api/auth/verify").permitAll()
                         .requestMatchers("/api/auth/resend-email").permitAll()
+                        .requestMatchers("/api/reset-password").permitAll()
+                        .requestMatchers("/api/verify-password-token").permitAll()
+                        .requestMatchers("/api/auth/reset-password").permitAll()
                         .requestMatchers("/api/auth/login").permitAll()
                         .requestMatchers("/api/auth/signup").permitAll()
                         .requestMatchers("/api/images/**").permitAll()

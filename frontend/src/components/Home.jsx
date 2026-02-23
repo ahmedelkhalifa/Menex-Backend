@@ -338,8 +338,9 @@ const Home = () => {
             <Grid container spacing={2} mt={5} alignItems={'stretch'}>
                 <Grid size={{xs: 12, md: 4}} sx={{ display: "flex" }}>
                     <Paper elevation={1} sx={{p: 4, "&:hover": {cursor: "pointer",
-                        boxShadow: 5
-                    }, flexGrow: 1 }}>
+                        boxShadow: (theme) => `0px 6px 20px ${theme.palette.primary.main}60`,
+                        transform: "translateY(-5px)"
+                    }, transition: "0.3s ease", flexGrow: 1 }}>
                         <Box sx={{bgcolor: "primary.light", color:"primary.main", width: "50px", height: "50px", borderRadius: 1, display: "flex", justifyContent: "center", alignItems: "center"}}>
                             <Restaurant/>
                         </Box>
@@ -353,8 +354,9 @@ const Home = () => {
                 </Grid>
                 <Grid size={{xs: 12, md: 4}} sx={{ display: "flex" }}>
                     <Paper elevation={1} sx={{p: 4, "&:hover": {cursor: "pointer",
-                        boxShadow: 5
-                    }, flexGrow: 1 }}>
+                        boxShadow: (theme) => `0px 6px 20px ${theme.palette.primary.main}60`,
+                        transform: "translateY(-5px)"
+                    }, transition: "0.3s ease", flexGrow: 1 }}>
                         <Box sx={{bgcolor: "rgb(219 234 254 / var(--tw-bg-opacity, 1));", color:"rgb(59 130 246 / var(--tw-text-opacity, 1));", width: "50px", height: "50px", borderRadius: 1, display: "flex", justifyContent: "center", alignItems: "center"}}>
                             <ChangeCircleOutlined sx={{fontSize: 30}}/>
                         </Box>
@@ -368,8 +370,9 @@ const Home = () => {
                 </Grid>
                 <Grid size={{xs: 12, md: 4}} sx={{ display: "flex" }}>
                     <Paper elevation={1} sx={{p: 4, "&:hover": {cursor: "pointer",
-                        boxShadow: 5
-                    }, flexGrow: 1 }}>
+                        boxShadow: (theme) => `0px 6px 20px ${theme.palette.primary.main}60`,
+                        transform: "translateY(-5px)"
+                    }, transition: "0.3s ease", flexGrow: 1 }}>
                         <Box sx={{bgcolor: "rgb(255 237 213 / var(--tw-bg-opacity, 1));", color:"rgb(249 115 22 / var(--tw-text-opacity, 1));", width: "50px", height: "50px", borderRadius: 1, display: "flex", justifyContent: "center", alignItems: "center"}}>
                             <Analytics/>
                         </Box>
@@ -394,8 +397,9 @@ const Home = () => {
             <Grid container spacing={5} mt={5} alignItems={'stretch'} sx={{position: "relative"}}>
                 <Grid size={{xs: 12, md: 4}} sx={{ display: "flex" }} zIndex={5}>
                     <Paper elevation={1} sx={{p: 4, "&:hover": {cursor: "pointer",
-                        boxShadow: 5
-                    }, flexGrow: 1, bgcolor: "background.paper", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
+                        boxShadow: (theme) => `0px 6px 20px ${theme.palette.primary.main}60`,
+                        transform: "translateY(-5px)"
+                    }, transition: "0.3s ease", flexGrow: 1, bgcolor: "background.paper", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
                         <Box sx={{bgcolor: "primary.main", color:"#fff", width: "60px", height: "60px", borderRadius: "50%", display: "flex", justifyContent: "center", alignItems: "center", boxShadow: (theme) =>
                         `0px 6px 20px ${theme.palette.primary.main}90`}}>
                             <Typography variant='h4' fontWeight={700}>
@@ -412,8 +416,9 @@ const Home = () => {
                 </Grid>
                 <Grid size={{xs: 12, md: 4}} sx={{ display: "flex" }} zIndex={5}>
                     <Paper elevation={1} sx={{p: 4, "&:hover": {cursor: "pointer",
-                        boxShadow: 5
-                    }, flexGrow: 1, bgcolor: "background.paper", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
+                        boxShadow: (theme) => `0px 6px 20px ${theme.palette.primary.main}60`,
+                        transform: "translateY(-5px)"
+                    }, transition: "0.3s ease", flexGrow: 1, bgcolor: "background.paper", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
                         <Box sx={{bgcolor: "primary.main", color:"#fff", width: "60px", height: "60px", borderRadius: "50%", display: "flex", justifyContent: "center", alignItems: "center", boxShadow: (theme) =>
                         `0px 6px 20px ${theme.palette.primary.main}90`}}>
                             <Typography variant='h4' fontWeight={700}>
@@ -430,8 +435,9 @@ const Home = () => {
                 </Grid>
                 <Grid size={{xs: 12, md: 4}} sx={{ display: "flex" }} zIndex={5}>
                     <Paper elevation={1} sx={{p: 4, "&:hover": {cursor: "pointer",
-                        boxShadow: 5
-                    }, flexGrow: 1, bgcolor: "background.paper", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
+                        boxShadow: (theme) => `0px 6px 20px ${theme.palette.primary.main}60`,
+                        transform: "translateY(-5px)"
+                    }, transition: "0.3s ease", flexGrow: 1, bgcolor: "background.paper", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
                         <Box sx={{bgcolor: "primary.main", color:"#fff", width: "60px", height: "60px", borderRadius: "50%", display: "flex", justifyContent: "center", alignItems: "center", boxShadow: (theme) =>
                         `0px 6px 20px ${theme.palette.primary.main}90`}}>
                             <Typography variant='h4' fontWeight={700}>
@@ -868,9 +874,6 @@ const Home = () => {
                                 component={"a"} href="#pricing" sx={{textDecoration: 'none'}}>
                                     {t("landing.footer.pricing")}
                                 </Typography>
-                                <Typography variant='body1' color='text.secondary'>
-                                    {t("landing.footer.blog")}
-                                </Typography>
                             </Box>
                         </Box>
                     </Box>
@@ -901,7 +904,12 @@ const Home = () => {
                             </Typography>
                             <Box display={'flex'} flexDirection={{xs: "row", md: "column"}} gap={3}
                             mt={2}>
-                                <Typography variant='body1' color='text.secondary'>
+                                <Typography component={Link}
+                                to="/privacy-policy"
+                                variant="body1"
+                                color="text.secondary"
+                                sx={{ cursor: "pointer", textDecoration: "none" }}
+                                onClick={() => window.scrollTo(0, 0)}>
                                     {t("landing.footer.privacy")}
                                 </Typography>
                                 <Typography

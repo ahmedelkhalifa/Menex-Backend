@@ -23,6 +23,9 @@ import Verification from "./components/Verification"
 import Success from "./components/Success"
 import Payment from "./components/Payment"
 import TermsOfUse from "./components/TermsOfUse"
+import ForgotPassword from "./components/ForgotPassword"
+import ResetPassword from "./components/ResetPassword"
+import LegalInfo from "./components/LegalInfo"
 
 function App() {
 
@@ -36,6 +39,9 @@ function App() {
         <Route path="/activate" element={<Activate/>}/>
         <Route path="/verification" element={<Verification/>}/>
         <Route path="/terms" element={<TermsOfUse/>}/>
+        <Route path="/privacy-policy" element={<LegalInfo/>}/>
+        <Route path="/forgot-password" element={<ForgotPassword/>}/>
+        <Route path="/reset-password" element={<ResetPassword/>}/>
         <Route path="/subscription" element={
           <ProtectedRoute allowedRole={"UNSUBSCRIBER"}>
             <Subscription/>

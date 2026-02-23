@@ -333,4 +333,13 @@ public class AuthService {
             """.formatted(fullName, link, link, "Click Here");
         mailService.sendHtmlMail(user.getEmail(),"Verify your email", emailContent);
     }
+
+    @Transactional
+    public void resetPassword(ResetPasswordRequest request) {
+        VerificationToken token = verificationTokenRepository.findByToken(request.getToken());
+        User user = token.getUser();
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        userRepository.save(user);
+        verificationTokenRepository.delete(token);
+    }
 }

@@ -26,11 +26,22 @@ const Restaurants_Owner = () => {
   const [background, setBackground] = useState("#F6F8F7");
   const [backgroundCard, setBackgroundCard] = useState("#FFFFFF");
   const [logo, setLogo] = useState(null);
-  const [font, setFont] = useState("roboto");
   const [restaurants, setRestaurants] = useState([]);
   const [exceedSize, setExceedSize] = useState(false);
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
-  const fonts = ["poppins", "roboto", "montserrat", "open sans", "oswald"];
+  const fonts = [
+    { name: 'Roboto', category: 'English & Türkçe' },
+    { name: 'Open Sans', category: 'English & Türkçe' },
+    { name: 'Montserrat', category: 'English & Türkçe' },
+    { name: 'Poppins', category: 'English & Türkçe' },
+    { name: 'Oswald', category: 'English & Türkçe' },
+    { name: 'Amiri', category: 'Arabic' },
+    { name: 'Cairo', category: 'Arabic' },
+    { name: 'Almarai', category: 'Arabic' },
+  ];
+  const [font, setFont] = useState(fonts[0].name);
+  const [fontBox, setFontBox] = useState(fonts[0]);
+  const sortedFonts = fonts.sort((a, b) => -b.category.localeCompare(a.category));
   const theme = useTheme();
   const [openUpdate, setOpenUpdate] = useState(false);
   const [openDetails, setOpenDetails] = useState(false);
@@ -104,7 +115,8 @@ const Restaurants_Owner = () => {
       setTextSecondary("#5F6F6F");
       setBackground("#F6F8F7");
       setBackgroundCard("#FFFFFF");
-      setFont("roboto");
+      setFont("Roboto");
+      setFontBox(fonts.find(f => f.name === "Roboto"))
       setLogo(null);
       setExceedSize(false);
     }
@@ -167,7 +179,8 @@ const Restaurants_Owner = () => {
       setTextSecondary("#5F6F6F");
       setBackground("#F6F8F7");
       setBackgroundCard("#FFFFFF");
-      setFont("roboto");
+      setFont("Roboto");
+      setFontBox(fonts.find(f => f.name === "Roboto"))
       setLogo(null);
       setExceedSize(false);
     }
@@ -237,7 +250,8 @@ const Restaurants_Owner = () => {
     setTextSecondary("#5F6F6F");
     setBackground("#F6F8F7");
     setBackgroundCard("#FFFFFF");
-    setFont("roboto");
+    setFont("Roboto");
+    setFontBox(fonts.find(f => f.name === "Roboto"));
     setLogo(null);
     setExceedSize(false);
     setDescription("");
@@ -255,7 +269,8 @@ const Restaurants_Owner = () => {
     setTextSecondary("#5F6F6F");
     setBackground("#F6F8F7");
     setBackgroundCard("#FFFFFF");
-    setFont("roboto");
+    setFont("Roboto");
+    setFontBox(fonts.find(f => f.name === "Roboto"))
     setLogo(null);
     setExceedSize(false);
     setDescription("");
@@ -395,6 +410,7 @@ const Restaurants_Owner = () => {
                               setBackground(r.theme.background);
                               setBackgroundCard(r.theme.backgroundCard);
                               setFont(r.theme.font);
+                              setFontBox(fonts.find(f => f.name === r.theme.font))
                               setDescription(r.description);
                             }}>
                               <Edit sx={{color: "primary.dark"}}/>
@@ -596,11 +612,19 @@ const Restaurants_Owner = () => {
                                 <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
                                   <Autocomplete
                                     disablePortal
-                                    options={fonts}
-                                    sx={{ width: "100%", flex:1 }}
-                                    value={font}
+                                    sx={{ width: "100%", flex: 1 }}
+                                    options={sortedFonts}
+                                    
+                                    // 1. Tell MUI what to display in the list
+                                    getOptionLabel={(option) => option.name} 
+                                    
+                                    // 2. Tell MUI how to group the sections
+                                    groupBy={(option) => option.category} 
+                                    
+                                    value={fontBox}
                                     onChange={(event, newValue) => {
-                                      setFont(newValue);
+                                      setFontBox(newValue);
+                                      setFont(newValue.name); 
                                     }}
                                     renderInput={(params) => <TextField {...params} label={t('restaurants.create.fontLabel')} />}
                                   />
@@ -813,11 +837,19 @@ const Restaurants_Owner = () => {
                                 <FormControl fullWidth sx={{mt: {xs: 3, md: 2}}}>
                                   <Autocomplete
                                     disablePortal
-                                    options={fonts}
-                                    sx={{ width: "100%", flex:1 }}
-                                    value={font}
+                                    sx={{ width: "100%", flex: 1 }}
+                                    options={sortedFonts}
+                                    
+                                    // 1. Tell MUI what to display in the list
+                                    getOptionLabel={(option) => option.name} 
+                                    
+                                    // 2. Tell MUI how to group the sections
+                                    groupBy={(option) => option.category} 
+                                    
+                                    value={fontBox}
                                     onChange={(event, newValue) => {
-                                      setFont(newValue);
+                                      setFontBox(newValue);
+                                      setFont(newValue.name); 
                                     }}
                                     renderInput={(params) => <TextField {...params} label={t('restaurants.create.fontLabel')} />}
                                   />

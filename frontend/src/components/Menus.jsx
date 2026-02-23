@@ -9,11 +9,13 @@ import Swal from 'sweetalert2';
 import { useTranslation } from 'react-i18next';
 import logo from '../assets/burger.webp';
 import { useThemeMode } from '../main';
+import { useLocation } from 'react-router-dom';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const Menus = () => {
+    const location = useLocation();
     const [open, setOpen] = useState(false);
-    const [openAddMenu, setOpenAddMenu] = useState(false);
+    const [openAddMenu, setOpenAddMenu] = useState(location.state?.openAdd || false);
     const [openAddCategory, setOpenAddCategory] = useState(false);
     const [openAddItem, setOpenAddItem] = useState(false);
     const [openUpdateItem, setOpenUpdateItem] = useState(false);
@@ -70,6 +72,13 @@ const Menus = () => {
     const [available, setAvailable] = useState(true);
     const {mode, setMode} = useThemeMode();
     const [deleteImg, setDeleteImg] = useState(false);
+
+
+    useEffect(() => {
+        if (location.state?.openAdd) {
+            window.history.replaceState({}, document.title);
+        }
+    }, [location])
 
 
     const handleImageChange = (e) => {
@@ -1708,7 +1717,7 @@ const Menus = () => {
                                                 onClick={unavailableItem} startIcon={loading ? <CircularProgress size={20} color='inherit'/> :
                                                 <EventBusy sx={{color: "background.default"}}/>}
                                                 disabled={loading}>
-                                                    List item as unavailable
+                                                    {t("menus.editItem.markUnavailable")}
                                                 </Button>}
                                                 {!available && 
                                                 <Button fullWidth variant='contained' color='success' sx={{mt:1, height: "40px",
@@ -1717,7 +1726,7 @@ const Menus = () => {
                                                 onClick={availableItem} startIcon={loading ? <CircularProgress size={20} color='inherit'/> :
                                                 <EventAvailable sx={{color: "background.default"}}/>}
                                                 disabled={loading}>
-                                                    List item as available
+                                                    {t("menus.editItem.markAvailable")}
                                                 </Button>}
                                         </Grid>
                                     </Grid>

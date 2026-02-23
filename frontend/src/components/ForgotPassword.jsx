@@ -1,26 +1,22 @@
 import { Box, Button, Card, CircularProgress, Container, IconButton, Menu, MenuItem, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import logo from "../assets/logo-png.png"
 import logoDark from "../assets/logo-dark-png.png"
-import { Navigate, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useThemeMode } from '../main'
-import { Bedtime, Check, Circle, Clear, Email, LabelImportant, Language, LightMode, Send, SupportAgent } from '@mui/icons-material'
+import { Bedtime, Email, Language, LightMode, Send, SupportAgent } from '@mui/icons-material'
 import { useTranslation } from 'react-i18next'
 import Swal from 'sweetalert2'
 import api from '../api'
 import i18n from '../i18n'
-import { I18n } from 'i18n'
 
 
-const Verification = () => {
+const ForgotPassword = () => {
   const {mode, setMode} = useThemeMode();
   const {t} = useTranslation();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [verified, setVerified] = useState(true);
-  const [error, setError] = useState("");
-
 
   const open = Boolean(anchorEl);
 
@@ -44,19 +40,31 @@ const Verification = () => {
     document.documentElement.dir = isRTL ? "rtl" : "ltr";
   }
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    i18n.changeLanguage(localStorage.getItem("lang") || "en");
-    
-    if (params.get('verified') === 'true') {
-        setVerified(true);
-    } 
-    else {
-        setVerified(false);
-        setError(params.get('error'))
+  async function resendEmail() {
+    try {
+      setLoading(true);
+      const response = await api.post("/auth/resend-email", {
+        email: sessionStorage.getItem("email")
+      });
+      Swal.fire({
+        title: "Success",
+        text: "Email sent, check your inbox",
+        icon: "success",
+        showCloseButton: true
+      })
+    } catch (error) {
+      console.error(error);
+      const message = error.response?.data?.message || "Can't resend email, try again";
+      Swal.fire({
+        title: "Oops...",
+        text: message,
+        icon: "error",
+        showCloseButton: true
+      })
+    } finally {
+      setLoading(false);
     }
-  }, []);
-
+  }
   return (
     <>
     <Box>
@@ -124,82 +132,30 @@ const Verification = () => {
           gap: 2,
           p: 4,
           width: {xs: "80vw", md: "600px"},
-          boxShadow: verified ? (theme) =>
-                        `0px 6px 20px ${theme.palette.primary.main}50` : (theme) =>
-                        `0px 6px 20px ${theme.palette.error.main}50`
+          boxShadow: (theme) =>
+                        `0px 6px 20px ${theme.palette.primary.main}50`
         }}>
           <Box width={"100px"} height={"100px"} borderRadius={"50%"}
           sx={{
-            bgcolor: verified ? "primary.main" : "error.main",
+            bgcolor: "primary.main",
             display: "flex",
             justifyContent: "center",
             alignItems: "center"
           }}>
-            {verified ? <Check fontSize='large' sx={{color: "background.default"}}/> :
-            <Clear fontSize='large' sx={{color: "background.default"}}/>}
+            <Email fontSize='large' sx={{color: "background.default"}}/>
           </Box>
           <Typography variant='h4' fontWeight={800} textAlign={"center"} mt={2}
-          color={verified ? "primary.dark" : "error.main"}>
-            {verified ? t("verification.verified") : (
-                error === "expired" ? t("verification.expired") : t("verification.invalidToken")
-            )}
+          color='primary.dark'>
+            {t("activate.title")}
           </Typography>
           <Typography variant='body1' color='text.secondary' textAlign={'center'}>
-            {verified ? t("verification.verifiedDesc") : (
-                error === "expired" ? t("verification.expiredDesc") : t("verification.invalidTokenDesc")
-            )}
+            {t("activate.desc1")} <br/>
+            <b>{sessionStorage.getItem("email")}</b><br/>
+            {t("activate.desc3")}
           </Typography>
-          {error === "invalid" && (
-            <>
-            <Box display={'flex'} flexDirection={"column"} gap={1} mt={2}>
-              <Box display={'flex'} alignItems={"center"} gap={1}>
-                <Circle sx={{color: "text.secondary", fontSize: 12}}/>
-                <Typography variant='body2' color='text.secondary'>
-                  {t("verification.reasons.1")}
-                </Typography>
-              </Box>
-              <Box display={'flex'} alignItems={"center"} gap={1}>
-                <Circle sx={{color: "text.secondary", fontSize: 12}}/>
-                <Typography variant='body2' color='text.secondary'>
-                  {t("verification.reasons.2")}
-                </Typography>
-              </Box>
-              <Box display={'flex'} alignItems={"center"} gap={1}>
-                <Circle sx={{color: "text.secondary", fontSize: 12}}/>
-                <Typography variant='body2' color='text.secondary'>
-                  {t("verification.reasons.3")}
-                </Typography>
-              </Box>
-              <Box display={'flex'} alignItems={"center"} gap={1}>
-                <Circle sx={{color: "text.secondary", fontSize: 12}}/>
-                <Typography variant='body2' color='text.secondary'>
-                  {t("verification.reasons.4")}
-                </Typography>
-              </Box>
-              <Box display={'flex'} alignItems={"center"} gap={1}>
-                <Circle sx={{color: "text.secondary", fontSize: 12}}/>
-                <Typography variant='body2' color='text.secondary'>
-                  {t("verification.reasons.5")}
-                </Typography>
-              </Box>
-            </Box>
-            </>
-          )}
-          {verified && (
-            <Button variant='contained' sx={{
-                bgcolor: "primary.main",
-                color: "background.default",
-                height: "50px",
-                py: 2,
-                px: 4,
-                width: "fit-content",
-                mt: 2,
-                fontSize: "18px"
-            }} startIcon={<LabelImportant/>}
-            onClick={() => navigate("/subscription")}>
-                {t("verification.subscribeNow")}
-            </Button>
-          )}
+          <Typography variant='body1' color='text.secondary' mt={2} textAlign={'center'}>
+            {t("activate.emailNotRecieved")} <b>{t("activate.checkSpam")}</b>
+          </Typography>
         </Card>
       </Box>
     </Box>
@@ -207,4 +163,4 @@ const Verification = () => {
   )
 }
 
-export default Verification
+export default ForgotPassword

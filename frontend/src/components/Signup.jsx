@@ -1,5 +1,5 @@
 import { Email, HowToReg, Lock, Person } from '@mui/icons-material'
-import { Alert, Box, Button, Card, CircularProgress, Divider, FormControl, InputLabel, OutlinedInput, Stack, Typography } from '@mui/material'
+import { Alert, Box, Button, Card, Checkbox, CircularProgress, Divider, FormControl, FormControlLabel, InputLabel, OutlinedInput, Stack, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import api from "../api"
 import Swal from 'sweetalert2'
@@ -19,6 +19,7 @@ const Signup = () => {
     const {t} = useTranslation();
     const {mode, setMode} = useThemeMode();
     const navigate = useNavigate();
+    const [checked, setChecked] = useState(false);
 
     async function handleSubmit(e) {
         try {
@@ -164,9 +165,26 @@ const Signup = () => {
                         </FormControl>
                     </Box>
                 </Stack>
+                <Box mt={2} display={'flex'} alignItems={'center'} justifyContent={'center'}>
+                    <Checkbox onChange={(e) => setChecked(e.target.checked)}/>
+                    <Typography variant='body1' color='text.primary'>
+                        {t("landing.account.terms")} &nbsp;
+                        <Typography color='primary.main' component={"a"}
+                        sx={{textDecoration: "none", cursor: "pointer"}} onClick={() => window.open("/terms", "_blank", "noopener,noreferrer")}
+                        variant='body1' fontWeight={700}>
+                            {t("landing.account.termsLink")} &nbsp;
+                        </Typography>
+                        {t("landing.account.terms2")} &nbsp;
+                        <Typography color='primary.main' component={"a"}
+                        sx={{textDecoration: "none", cursor: "pointer"}} onClick={() => window.open("/privacy-policy", "_blank", "noopener,noreferrer")}
+                        variant='body1' fontWeight={700}>
+                            {t("landing.account.privacyLink")}
+                        </Typography>
+                    </Typography>
+                </Box>
                 <Typography variant='body1' color='primary.main'
                 component={"label"} onClick={() => navigate("/login")}
-                sx={{textDecoration: "none", display: "inline-block", cursor: "pointer"}} mt={3}>
+                sx={{textDecoration: "none", display: "inline-block", cursor: "pointer"}} mt={2}>
                     {t("landing.account.haveAccount")}
                 </Typography>
                 {(password !== confirmPassword && confirmPassword !== "") && (
@@ -178,8 +196,8 @@ const Signup = () => {
                             }
                          }}>{t("profile.security.passwordMismatchMessage")}</Alert>
                 )}
-                <Button type="sumbit" variant='contained' sx={{mt: 2, height: "50px"}} fullWidth
-                disabled={loading || password !== confirmPassword || !password || !confirmPassword} startIcon={loading ? <CircularProgress size={20}/> : <HowToReg/>}>
+                <Button type="submit" variant='contained' sx={{mt: 2, height: "50px"}} fullWidth
+                disabled={loading || password !== confirmPassword || !password || !confirmPassword || !checked} startIcon={loading ? <CircularProgress size={20}/> : <HowToReg/>}>
                     {loading ? t("landing.account.createAccountLoading") : t("landing.account.createAccount")}
                 </Button>
             </form>

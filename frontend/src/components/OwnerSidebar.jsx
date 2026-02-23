@@ -13,7 +13,7 @@ import api from '../api';
 const OwnerSidebar = ({view, subname, userId}) => {
     function handleLogout() {
         localStorage.clear();
-        window.location.href = "/login"
+        window.location.href = "/"
     }
     const navigate = useNavigate();
     const location = useLocation();

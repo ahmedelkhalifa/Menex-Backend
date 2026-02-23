@@ -1,8 +1,6 @@
 import { 
   Box, Button, IconButton, Menu, MenuItem, Typography, 
-  Container, Paper, Divider, useTheme, 
-  Drawer,
-  Stack
+  Container, Paper, Divider, Drawer, Stack
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import React, { useState } from 'react';
@@ -15,16 +13,16 @@ import logoDark from "../assets/logo-dark-png.png";
 import { useTranslation } from 'react-i18next';
 
 // --- HELPER COMPONENT FOR SECTIONS ---
-const TermSection = ({ title, contentKeys, t }) => {
+const PolicySection = ({ title, contentKeys, t }) => {
   return (
     <Box mb={4}>
       <Typography variant="h5" component="h2" gutterBottom fontWeight={700} color="primary.main">
         {t(title)}
       </Typography>
       <Box sx={{
-        '& ul': { pl: 3, mb: 2 }, // Style the HTML <ul>
-        '& li': { mb: 1 },        // Style the HTML <li>
-        '& strong': { fontWeight: 600, color: 'text.primary' } // Ensure bold text uses theme color
+        '& ul': { pl: 3, mb: 2 }, 
+        '& li': { mb: 1 },        
+        '& strong': { fontWeight: 600, color: 'text.primary' } 
       }}>
         {contentKeys.map((key) => (
           <Typography 
@@ -32,7 +30,7 @@ const TermSection = ({ title, contentKeys, t }) => {
             variant="body1" 
             color="text.secondary" 
             paragraph
-            dangerouslySetInnerHTML={{ __html: t(key) }} // <--- This renders your HTML tags
+            dangerouslySetInnerHTML={{ __html: t(key) }} 
           />
         ))}
       </Box>
@@ -40,11 +38,11 @@ const TermSection = ({ title, contentKeys, t }) => {
   );
 };
 
-const TermsOfUse = () => {
+const LegalInfo = () => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const { mode, setMode } = useThemeMode();
-  const [openDrawer, setOpenDrawer] = useState(false); // Added missing state for mobile menu
+  const [openDrawer, setOpenDrawer] = useState(false); 
   const open = Boolean(anchorEl);
   const { t } = useTranslation();
 
@@ -75,7 +73,7 @@ const TermsOfUse = () => {
   return (
     <Box sx={{ bgcolor: "background.default", minHeight: "100vh" }}>
       
-      {/* --- NAVBAR (Your Existing Code) --- */}
+      {/* --- NAVBAR --- */}
       <Box width={"100%"} height={"100px"} position={"fixed"} top={0} left={0} sx={{
           bgcolor: "background.paper", px: {xs: 2, md: 10}, py: 2, borderBottom: 1, borderColor: "divider"
       }} zIndex={100} display="flex" justifyContent="space-between" alignItems={'center'}>
@@ -151,7 +149,7 @@ const TermsOfUse = () => {
                         }}
                         PaperProps={{
                             sx: {
-                            minWidth: anchorEl?.clientWidth, // ✅ use clientWidth
+                            minWidth: anchorEl?.clientWidth,
                             },
                         }}
                     >
@@ -253,7 +251,7 @@ const TermsOfUse = () => {
                               }}
                               PaperProps={{
                                   sx: {
-                                  minWidth: anchorEl?.clientWidth, // ✅ use clientWidth
+                                  minWidth: anchorEl?.clientWidth,
                                   },
                               }}
                           >
@@ -277,68 +275,59 @@ const TermsOfUse = () => {
           </Box>
       </Drawer>
 
-      {/* --- TERMS OF USE CONTENT START --- */}
+      {/* --- PRIVACY POLICY CONTENT START --- */}
       <Container maxWidth="md" sx={{ mt: 18, pb: 10 }}> 
         <Paper elevation={3} sx={{ p: { xs: 3, md: 6 }, borderRadius: 4 }}>
           
           {/* Header */}
           <Box textAlign="center" mb={6}>
             <Typography variant="h3" component="h1" fontWeight={800} gutterBottom>
-              {t('termsOfUse.pageTitle')}
+              {t('privacyPolicy.pageTitle')}
             </Typography>
             <Typography variant="subtitle1" color="text.secondary" sx={{ textTransform: 'uppercase', letterSpacing: 1 }}>
-              {t('termsOfUse.lastUpdated')}
+              {t('privacyPolicy.lastUpdated')}
             </Typography>
           </Box>
 
           {/* Intro */}
           <Box mb={4}>
-            <Typography variant="body1" paragraph dangerouslySetInnerHTML={{ __html: t('termsOfUse.intro.welcome') }} />
+            <Typography variant="body1" paragraph dangerouslySetInnerHTML={{ __html: t('privacyPolicy.intro.welcome') }} />
             <Box sx={{ 
-              bgcolor: 'error.light', 
-              color: 'error.dark', 
+              bgcolor: 'primary.light', 
+              color: 'primary.dark', 
               p: 2, 
               borderRadius: 2, 
               borderLeft: '4px solid', 
-              borderColor: 'error.main' 
+              borderColor: 'primary.main' 
             }}>
-              <Typography variant="body2" dangerouslySetInnerHTML={{ __html: t('termsOfUse.intro.warning') }} />
+              <Typography variant="body2" dangerouslySetInnerHTML={{ __html: t('privacyPolicy.intro.warning') }} />
             </Box>
           </Box>
 
           <Divider sx={{ my: 4 }} />
 
-          {/* Sections */}
-          <TermSection t={t} title="termsOfUse.section1.title" 
-            contentKeys={['termsOfUse.section1.entity', 'termsOfUse.section1.eligibility', 'termsOfUse.section1.jurisdiction']} />
+          {/* Sections mapped to the JSON keys */}
+          <PolicySection t={t} title="privacyPolicy.section1.title" 
+            contentKeys={['privacyPolicy.section1.owners', 'privacyPolicy.section1.endUsers', 'privacyPolicy.section1.analytics']} />
             
-          <TermSection t={t} title="termsOfUse.section2.title" 
-            contentKeys={['termsOfUse.section2.creation', 'termsOfUse.section2.privacy', 'termsOfUse.section2.security']} />
+          <PolicySection t={t} title="privacyPolicy.section2.title" 
+            contentKeys={['privacyPolicy.section2.purpose', 'privacyPolicy.section2.communications', 'privacyPolicy.section2.payments']} />
             
-          <TermSection t={t} title="termsOfUse.section3.title" 
-            contentKeys={['termsOfUse.section3.nature', 'termsOfUse.section3.ip', 'termsOfUse.section3.maintenance', 'termsOfUse.section3.pricing']} />
+          <PolicySection t={t} title="privacyPolicy.section3.title" 
+            contentKeys={['privacyPolicy.section3.hosting', 'privacyPolicy.section3.sharing', 'privacyPolicy.section3.cookies']} />
             
-          <TermSection t={t} title="termsOfUse.section4.title" 
-            contentKeys={['termsOfUse.section4.method', 'termsOfUse.section4.noRefund', 'termsOfUse.section4.cancellation']} />
+          <PolicySection t={t} title="privacyPolicy.section4.title" 
+            contentKeys={['privacyPolicy.section4.retention', 'privacyPolicy.section4.deletion']} />
             
-          <TermSection t={t} title="termsOfUse.section5.title" 
-            contentKeys={['termsOfUse.section5.ownership', 'termsOfUse.section5.monitoring', 'termsOfUse.section5.prohibited']} />
-            
-          <TermSection t={t} title="termsOfUse.section6.title" 
-            contentKeys={['termsOfUse.section6.accuracy', 'termsOfUse.section6.limitation', 'termsOfUse.section6.indemnification']} />
-            
-          <TermSection t={t} title="termsOfUse.section7.title" 
-            contentKeys={['termsOfUse.section7.rights', 'termsOfUse.section7.consequences']} />
-
-          <TermSection t={t} title="termsOfUse.section8.title" 
-            contentKeys={['termsOfUse.section8.amicable', 'termsOfUse.section8.jurisdiction']} />
+          <PolicySection t={t} title="privacyPolicy.section5.title" 
+            contentKeys={['privacyPolicy.section5.rights', 'privacyPolicy.section5.removal']} />
 
           <Divider sx={{ my: 4 }} />
 
-          {/* Footer */}
+          {/* Content Footer */}
           <Box textAlign="center" mt={4}>
             <Typography variant="body2" color="text.secondary" paragraph>
-              {t('termsOfUse.footer.changes')}
+              {t('privacyPolicy.footer.changes')}
             </Typography>
             <Box sx={{ 
               display: 'inline-block', 
@@ -349,13 +338,14 @@ const TermsOfUse = () => {
               textAlign: 'left' ,
               width: {xs: '100%', sm: '80%', md: '60%'}
             }}>
-              <Typography variant="body1" dangerouslySetInnerHTML={{ __html: t('termsOfUse.footer.contact') }} />
+              <Typography variant="body1" dangerouslySetInnerHTML={{ __html: t('privacyPolicy.footer.contact') }} />
             </Box>
           </Box>
 
         </Paper>
       </Container>
-      {/* footer */}
+
+      {/* --- FOOTER --- */}
       <Box sx={{bgcolor: "background.paper"}} py={10}>
           <Container maxWidth={"lg"}>
               <Stack flexDirection={{xs: "column", md:"row"}} gap={10} alignItems={{xs: "flex-start", md: "flex-start", p: {xs: 5, md: 0}}} mb={3}
@@ -428,16 +418,18 @@ const TermsOfUse = () => {
                               </Typography>
                               <Box display={'flex'} flexDirection={{xs: "row", md: "column"}} gap={3}
                               mt={2}>
-                                  <Typography
+                                  {/* Privacy is highlighted here since we are on the Privacy page */}
+                                  <Typography variant='body1' color='primary.main' fontWeight={700}>
+                                      {t("landing.footer.privacy")}
+                                  </Typography>
+                                  {/* Terms is now clickable to go back */}
+                                  <Typography 
                                     component={Link}
-                                    to="/privacy-policy"
+                                    to="/terms"
                                     variant="body1"
                                     color="text.secondary"
                                     sx={{ cursor: "pointer", textDecoration: "none" }}
                                     onClick={() => window.scrollTo(0, 0)}>
-                                      {t("landing.footer.privacy")}
-                                  </Typography>
-                                  <Typography variant='body1' color='primary.main' fontWeight={700}>
                                       {t("landing.footer.terms")}
                                   </Typography>
                               </Box>
@@ -456,4 +448,4 @@ const TermsOfUse = () => {
   );
 };
 
-export default TermsOfUse;
+export default LegalInfo

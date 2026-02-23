@@ -17,6 +17,8 @@ public class MailService {
     private final JavaMailSender mailSender;
     @Value("${menex.frontendURL}")
     private String frontendUrl;
+    @Value("${menex.baseURL}")
+    private String backendUrl;
 
     public MailService(JavaMailSender mailSender) {
         this.mailSender = mailSender;
@@ -63,6 +65,20 @@ public class MailService {
         helper.setText(htmlContent, true);
         helper.setTo(toEmail);
         helper.setSubject("✅ MENEX Subscription Renewed Successfully");
+        helper.setFrom("${spring.mail.username}");
+
+        mailSender.send(mimeMessage);
+    }
+
+    public void sendResetPasswordEmail(String toEmail, String username, String token) throws MessagingException {
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
+
+        String htmlContent = buildForgotPasswordEmail(username, token, backendUrl);
+
+        helper.setText(htmlContent, true);
+        helper.setTo(toEmail);
+        helper.setSubject("Reset Password");
         helper.setFrom("${spring.mail.username}");
 
         mailSender.send(mimeMessage);
@@ -278,6 +294,81 @@ public class MailService {
     </body>
     </html>
     """.formatted(name, planType, expiryDate, frontendUrl);
+    }
+
+    private String buildForgotPasswordEmail(String name, String token, String backendUrl) {
+        return """
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                body, table, td, a { -webkit-text-size-adjust: 100%%; -ms-text-size-adjust: 100%%; }
+                table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+                img { -ms-interpolation-mode: bicubic; }
+                body { font-family: 'Inter', 'Roboto', 'Helvetica', 'Arial', sans-serif; }
+            </style>
+        </head>
+        <body style="margin: 0; padding: 0; background-color: #F6F8F7; width: 100%%;">
+            <center>
+                <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%%" style="background-color: #F6F8F7;">
+                    <tr>
+                        <td align="center" style="padding: 40px 20px;">
+                            
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%%" style="max-width: 600px; background-color: #FFFFFF; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                                
+                                <tr>
+                                    <td align="center" style="padding: 40px 40px 30px 40px; border-bottom: 1px solid #E0E5E3;">
+                                        <h2 style="margin: 0; font-family: 'Inter', sans-serif; color: #6FBF73; font-weight: 700; font-size: 24px; letter-spacing: -0.5px;">
+                                            MENEX
+                                        </h2>
+                                        <span style="font-size: 12px; color: #5F6F6F; text-transform: uppercase; letter-spacing: 2px;">Digital Menus</span>
+                                    </td>
+                                </tr>
+        
+                                <tr>
+                                    <td style="padding: 40px; color: #2E3A3A; font-size: 16px; line-height: 1.6;">
+                                        <h3 style="margin-top: 0; margin-bottom: 20px; font-weight: 600; font-size: 20px; color: #2E3A3A;">Password Reset Request</h3>
+                                        
+                                        <p style="margin: 0 0 20px 0;">Hello <strong>%s</strong>,</p>
+                                        
+                                        <p style="margin: 0 0 20px 0;">
+                                            We received a request to reset the password for your MENEX account. Click the button below to securely choose a new password.
+                                        </p>
+                                        
+                                        <div style="background-color: #FFF3E0; border-left: 4px solid #FFB74D; padding: 15px; margin-bottom: 30px; border-radius: 4px;">
+                                            <p style="margin: 0; font-size: 14px; color: #E65100;">
+                                                <strong>Note:</strong> This password reset link is only valid for <strong>24 hours</strong>. If you did not request this change, you can safely ignore this email.
+                                            </p>
+                                        </div>
+        
+                                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%%">
+                                            <tr>
+                                                <td align="center">
+                                                    <a href="%s/api/verify-password-token?token=%s" target="_blank" style="display: inline-block; padding: 14px 32px; background-color: #6FBF73; color: #ffffff; text-decoration: none; border-radius: 10px; font-weight: 500; font-size: 16px; mso-padding-alt: 0;">
+                                                        <span style="mso-text-raise: 15pt;">Reset Password</span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td style="padding: 0 40px 30px 40px; text-align: center; color: #5F6F6F; font-size: 13px;">
+                                        <p style="margin: 0;">&copy; 2026 MENEX Digital Menus. All rights reserved.</p>
+                                    </td>
+                                </tr>
+        
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </center>
+        </body>
+        </html>
+        """.formatted(name, backendUrl, token);
     }
 
     private String buildRenewalEmail(String name, String expiryDate) {
