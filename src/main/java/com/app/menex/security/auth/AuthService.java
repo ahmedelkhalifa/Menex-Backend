@@ -13,6 +13,10 @@ import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -38,8 +42,10 @@ public class AuthService {
     private final VerificationTokenRepository verificationTokenRepository;
     @Value("${menex.baseURL}")
     private String baseURL;
+    @Value("${jwt.expirationMs}")
+    private long expirationMs;
 
-    public LoginResponse login(String email, String password) {
+    public ResponseEntity<LoginResponse> login(String email, String password) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(email.toLowerCase(), password)
         );
@@ -51,13 +57,21 @@ public class AuthService {
                 .map(Role::valueOf)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Invalid role"));
+        ResponseCookie jwtCookie = ResponseCookie.from("jwt", token)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(expirationMs / 1000)
+                .sameSite("None")
+                .build();
         LoginResponse response = LoginResponse.builder()
-                .token(token)
                 .email(userDetails.getUsername().toLowerCase())
                 .role(role)
                 .language(userDetails.getLanguage())
                 .build();
-        return response;
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                .body(response);
     }
 
     public User register(String firstname, String lastname, String email, String password, Role role) {
@@ -77,7 +91,7 @@ public class AuthService {
     }
 
     @Transactional
-    public RegisterResponse signup(String firstname, String lastname, String email, String password) throws MessagingException {
+    public ResponseEntity<RegisterResponse> signup(String firstname, String lastname, String email, String password) throws MessagingException {
 
         if (userRepository.existsByEmail(email)) {
             throw new IllegalArgumentException("Email already exists");
@@ -185,6 +199,13 @@ public class AuthService {
 
         //create token and assign it
         String token = jwtService.generateToken(user.getEmail());
+        ResponseCookie jwtCookie = ResponseCookie.from("jwt", token)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(expirationMs / 1000)
+                .sameSite("None")
+                .build();
         RegisterResponse response = RegisterResponse.builder()
                 .firstname(user.getFirstName())
                 .lastname(user.getLastName())
@@ -192,10 +213,11 @@ public class AuthService {
                 .id(user.getId())
                 .role(Role.UNSUBSCRIBER)
                 .createdAt(user.getCreatedAt())
-                .token(token)
                 .language(user.getLanguage())
                 .build();
-        return response;
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                .body(response);
     }
 
     public void disableUser(Long userId) {

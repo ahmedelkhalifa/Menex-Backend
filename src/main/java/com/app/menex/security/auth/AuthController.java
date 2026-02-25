@@ -11,7 +11,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -34,8 +36,7 @@ public class AuthController {
 
    @PostMapping("/login")
    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
-        LoginResponse response = authService.login(request.getEmail(), request.getPassword());
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return authService.login(request.getEmail(), request.getPassword());
    }
 
     @GetMapping("/verify")
@@ -73,10 +74,25 @@ public class AuthController {
 
    @PostMapping("/signup")
    public ResponseEntity<RegisterResponse> signup(@Valid @RequestBody RegisterRequest request) throws MessagingException {
-       RegisterResponse response = authService.signup(request.getFirstname(), request.getLastname(),
+       return authService.signup(request.getFirstname(), request.getLastname(),
                request.getEmail(), request.getPassword());
-       return new ResponseEntity<>(response, HttpStatus.CREATED);
    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout() {
+        // Overwrite the existing cookie with an empty one that expires instantly
+        ResponseCookie deleteCookie = ResponseCookie.from("jwt", "")
+                .httpOnly(true)
+                .secure(false)
+                .path("/")
+                .maxAge(0)
+                .sameSite("Lax")
+                .build();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, deleteCookie.toString())
+                .body("Logged out successfully");
+    }
 
    @PostMapping("/resend-email")
    public ResponseEntity<?> resendVerificationToken(@RequestBody Map<String, String> request) throws MessagingException {
