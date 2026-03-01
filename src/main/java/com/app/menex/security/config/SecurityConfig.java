@@ -90,22 +90,29 @@ public class SecurityConfig {
     }
     @Bean
     public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider(appUserDetailsService);
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setUserDetailsService(appUserDetailsService);
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         return daoAuthenticationProvider;
     }
     @Bean
     CommandLineRunner createAdmin() {
         return args -> {
-            if (!userRepository.existsByEmail("admin@menex.my")) {
-                User admin = User.builder()
-                        .email("admin@menex.my")
-                        .password(passwordEncoder().encode("admin123"))
-                        .role(Role.SUPER_ADMIN)
-                        .firstName("admin")
-                        .lastName("admin")
-                        .build();
-                userRepository.save(admin);
+            try {
+                if (!userRepository.existsByEmail("admin@menex.my")) {
+                    User admin = User.builder()
+                            .email("admin@menex.my")
+                            .password(passwordEncoder().encode("admin123"))
+                            .role(Role.SUPER_ADMIN)
+                            .firstName("admin")
+                            .lastName("admin")
+                            .language("en")
+                            .enabled(true)
+                            .build();
+                    userRepository.save(admin);
+                }
+            } catch (Exception ex) {
+                System.out.println("Could not create admin user: " + ex.getMessage());
             }
         };
     }
