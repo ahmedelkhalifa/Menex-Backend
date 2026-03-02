@@ -20,6 +20,7 @@ services:
     build: .
     image: menex-backend
     container_name: menex-backend
+    restart: always
     ports:
       - "8080:8080"
     depends_on:
