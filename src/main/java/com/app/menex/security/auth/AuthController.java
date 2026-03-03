@@ -82,7 +82,7 @@ public class AuthController {
     public ResponseEntity<String> logout() {
         // Overwrite the existing cookie with an empty one that expires instantly
         ResponseCookie deleteCookie = ResponseCookie.from("jwt", "")
-                .domain("./menex.my")
+                .domain("api.menex.my")
                 .httpOnly(true)
                 .secure(false)
                 .path("/")

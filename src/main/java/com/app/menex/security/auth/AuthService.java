@@ -58,7 +58,7 @@ public class AuthService {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Invalid role"));
         ResponseCookie jwtCookie = ResponseCookie.from("jwt", token)
-                .domain("./menex.my")
+                .domain("api.menex.my")
                 .httpOnly(true)
                 .secure(true)
                 .path("/")
@@ -201,7 +201,7 @@ public class AuthService {
         //create token and assign it
         String token = jwtService.generateToken(user.getEmail());
         ResponseCookie jwtCookie = ResponseCookie.from("jwt", token)
-                .domain("./menex.my")
+                .domain("api.menex.my")
                 .httpOnly(true)
                 .secure(true)
                 .path("/")
